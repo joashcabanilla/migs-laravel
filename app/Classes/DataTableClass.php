@@ -7,16 +7,18 @@ use App\Models\User;
 use App\Models\UsertypeModel;
 use App\Models\VotersModel;
 use App\Models\VerificationModel;
+use App\Models\PositionsModel;
 
 class DataTableClass
 {
-    protected $data, $userModel, $userTypeModel, $voterModel, $verificationModel;
+    protected $data, $userModel, $userTypeModel, $voterModel, $verificationModel, $positionsModel;
     function __construct()
     {
         $this->userModel = new User();
         $this->userTypeModel = new UsertypeModel();  
         $this->voterModel = new VotersModel();
         $this->verificationModel = new VerificationModel();
+        $this->positionsModel = new PositionsModel();
         $this->data = array();
     }
 
@@ -183,9 +185,7 @@ class DataTableClass
         $query = $this->voterModel->memberTable($var);
         
         $columns =[
-            ['db' => 'Id', 'dt' => 0, 'formatter' => function($d){
-                return $d;
-            }],
+            ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
 
             ['db' => 'Pbno', 'dt' => 1],
 
@@ -247,10 +247,9 @@ class DataTableClass
                 $verifiedList[$user->Id] = $user->FirstName . " " . $user->LastName;
             }
         }
+        
         $columns =[
-            ['db' => 'Id', 'dt' => 0, 'formatter' => function($d){
-                return $d;
-            }],
+            ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
 
             ['db' => 'VoterId', 'dt' => 1, 'formatter' => function($d) use($memberList) {
                 return !empty($memberList) ? $memberList[$d]["Pbno"] : "";
@@ -292,6 +291,35 @@ class DataTableClass
                 $memberId = !empty($memberList) ? $memberList[$voterId]["MemberId"] : "";
                 $name = !empty($memberList) ? $memberList[$voterId]["Name"] : "";
                 return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$id."' data-pbno='".$pbno."' data-memberid='".$memberId."' data-name='".$name."' data-status='".$row->Status."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+            }]
+        ];
+
+        $params = array(
+            "var" => $var,
+            "columns" => $columns,
+            "sql" => $query  
+        );
+        
+        return $this->processTable($params);
+    }
+
+    function positionTable($data){
+        $var = (object) $data;
+        $query = $this->positionsModel->dataTable($var);
+
+        $columns =[
+            ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
+
+            ['db' => 'PositionLevel', 'dt' => 1],
+
+            ['db' => 'Description', 'dt' => 2, 'formatter' => function($d){
+                return strtoupper($d);
+            }],
+
+            ['db' => 'VoteLimit', 'dt' => 3],
+
+            ['db' => 'Id', 'dt' => 4, 'formatter' => function($d){
+                return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
             }]
         ];
 

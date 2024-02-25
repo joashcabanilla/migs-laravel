@@ -18,6 +18,20 @@
                     </li>
 
                     <li class="nav-item mt-2">
+                        <a href="{{route("election.position")}}" class="nav-link nav-main-tab tabLink  font-weight-bold">
+                            <i class="nav-icon fas fa-cogs fa-lg"></i>
+                            <p>Election Positions</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item mt-2">
+                        <a href="{{route("election.candidate")}}" class="nav-link nav-main-tab tabLink  font-weight-bold">
+                            <i class="nav-icon fas fa-users fa-lg"></i>
+                            <p>Election Candidates</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item mt-2">
                         <a href="{{route("utility.dashboard")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
                             <i class="nav-icon fa fa-th-large fa-lg"></i>
                             <p>Utility Dashboard</p>

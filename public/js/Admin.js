@@ -676,4 +676,108 @@ const UtilityVerification = () => {
             }
         });
     });
-} 
+}
+
+const ElectionPositions = () => {
+    let dataTable = $('#dataTable').on('init.dt', function () {
+        $(".dataTables_wrapper").prepend("<div class='dataTables_processing card font-weight-bold d-none' role='status'>Loading Please Wait...<i class='fa fa-spinner fa-spin text-warning'></i></div>");
+    }).DataTable({
+        ordering: false,
+        serverSide: true,
+        dom: 'rtip',
+        columnDefs: [
+            { targets: 0, width: '1%', className: "text-center font-weight-bold p-2" },
+            { targets: 1, width: '30%', className: "text-center font-weight-bold p-2" },
+            { targets: 2, width: '30%', className: "text-left font-weight-bold p-2" },
+            { targets: 3, width: '30%', className: "text-center font-weight-bold p-2" },
+            { targets: 4, width: '9%', className: "text-center font-weight-bold p-2" },
+        ],
+        ajax: {
+            url: 'admin/ElectionPositionDataTable',
+            type: 'POST',
+            data: function (d) {
+                d.filterSearch = $("#filterSearch").val();
+            },
+            beforeSend: () => {
+                $(".dataTables_processing").removeClass("d-none");
+            },
+            complete: () => {
+                $(".dataTables_processing").addClass("d-none");
+            }
+        }
+    });
+
+    $("#filterSearch").keyup((e) => {
+        dataTable.draw();
+    });
+
+    $("#addBtn").click((e) => {
+        $("#addModal").modal("show");
+        setTimeout(() => {
+            $("#PositionLevel").trigger("focus");
+        }, 300);
+    });
+
+    $('#addModal').on('hidden.bs.modal', function (e) {
+        $("#addModalLabel").text("Add Position");
+        $("#addForm").find("input").val("");
+        $("#PositionLevel").attr("disabled", false);
+    });
+
+    $("#addForm").submit((e) => {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "admin/AddUpdateElectionPosition",
+            data: $(e.currentTarget).serializeArray(),
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                if (res.status == "success") {
+                    $("#addModal").modal("hide");
+                    Swal.fire({
+                        title: "Successfully Saved.",
+                        icon: "success",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then((result) => {
+                        dataTable.ajax.reload(null, false);
+                    });
+                } else {
+                    Swal.fire({
+                        title: "The position level has already been used.",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    });
+                }
+            }
+        });
+    });
+
+    $('#dataTable').on('click', '.editBtn', (e) => {
+        e.preventDefault();
+        let id = $(e.currentTarget).data("id");
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "admin/GetElectionPosition",
+            data: { id: id },
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                for (let key in res) {
+                    $("#" + key).val(res[key]);
+                }
+                $("#addModalLabel").text("Update Position");
+                $("#PositionLevel").attr("disabled", true);
+                $("#addForm").find("input[name='Id']").val(id);
+                $("#addModal").modal("show");
+                setTimeout(() => {
+                    $("#VoteLimit").trigger("focus");
+                }, 300);
+            }
+        });
+    });
+}

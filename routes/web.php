@@ -56,6 +56,10 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::get('/utility/member', [AdminController::class, 'UtilityMemberInfo'])->name('utility.member');
         Route::get('/utility/verification', [AdminController::class, 'UtilityVerification'])->name('utility.verification');
 
+        //Election Url
+        Route::get('/election/position', [AdminController::class, 'ElectionPosition'])->name('election.position');
+        Route::get('/election/candidate', [AdminController::class, 'ElectionCandidate'])->name('election.candidate');
+
         //post route
         //admin post route
         Route::post('Logout', [AdminController::class, 'PostLogout']);
@@ -75,6 +79,11 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::post('VerificationDataTable', [AdminController::class, 'VerificationDataTable']);
         Route::post('AddMemberVerification', [AdminController::class, 'AddMemberVerification']);
         Route::post('UpdateMemberVerification', [AdminController::class, 'UpdateMemberVerification']);
+
+        //election post route
+        Route::post('ElectionPositionDataTable', [AdminController::class, 'ElectionPositionDataTable']);
+        Route::post('GetElectionPosition', [AdminController::class, 'GetElectionPosition']);
+        Route::post('AddUpdateElectionPosition', [AdminController::class, 'AddUpdateElectionPosition']);
     }
 );
 

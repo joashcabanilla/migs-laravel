@@ -11,6 +11,7 @@ use App\Models\VotersModel;
 use App\Models\UsertypeModel;
 use App\Models\User;
 use App\Models\VerificationModel;
+use App\Models\PositionsModel;
 
 //Class
 use App\Classes\HelperClass;
@@ -18,7 +19,7 @@ use App\Classes\DataTableClass;
 
 class AdminController extends Controller
 {
-    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel;
+    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel;
 
     public function __construct()
     {
@@ -29,6 +30,7 @@ class AdminController extends Controller
         $this->datatable = new DataTableClass();
         $this->userModel = new User();
         $this->verificationModel = new VerificationModel();
+        $this->positionModel = new PositionsModel();
         $this->data = array();
     }
 
@@ -85,6 +87,15 @@ class AdminController extends Controller
         $this->data['branch'] = $this->votersModel->GetBranchList();
         $this->data['verificationStatus'] = ["Pending","Verified"];
         return view('Components.Admin.UtilityVerification', $this->data);
+    }
+
+    //for Election
+    function ElectionPosition(){
+        return view('Components.Admin.ElectionPositions', $this->data);
+    }
+
+    function ElectionCandidate(){
+        return view('Components.Admin.ElectionCandidates', $this->data);
     }
 
     //Post Method
@@ -158,5 +169,17 @@ class AdminController extends Controller
 
     function UpdateMemberVerification(Request $request){
         return $this->verificationModel->UpdateMember($request->all());
+    }
+
+    function ElectionPositionDataTable(Request $request){
+        return $this->datatable->positionTable($request->all());
+    }
+
+    function AddUpdateElectionPosition(Request $request){
+        return $this->positionModel->AddUpdatePosition($request->all());
+    }
+
+    function GetElectionPosition(Request $request){
+        return $this->positionModel->GetPosition($request->id);
     }
 }

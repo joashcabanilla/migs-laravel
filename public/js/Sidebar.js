@@ -17,27 +17,32 @@ $(".tabLink").click((e) => {
 
                 case "Maintenance":
                     MaintenanceTab();
-                break;
+                    break;
 
                 case "User Account":
                     UseraccountTab();
-                break;
+                    break;
 
                 case "Utility Dashboard":
                     UtilityDashboard();
-                break;
+                    break;
 
                 case "Member Information":
                     MemberInfoTab();
-                break;
+                    break;
 
                 case "Member Status":
                     MemberStatusTab();
-                break;
-                
+                    break;
+
                 case "Utility Verification":
                     UtilityVerification();
+                    break;
+
+                case "Election Positions":
+                    ElectionPositions();
                 break;
+
 
             }
             $.LoadingOverlay("hide");
