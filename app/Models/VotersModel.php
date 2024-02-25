@@ -129,4 +129,43 @@ class VotersModel extends Model
     function updateContact($id, $contact){
         $this->find($id)->update(["Contact" => $contact]);
     }
+
+    function GetMemberForVerification($filter,$idList){
+        $result = array();
+        if(!empty($idList)){
+            $memberList = $this->select(
+                "Id",
+                "Pbno",
+                "MemberId",
+                DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
+                "Branch",
+                "Contact",
+            )->whereIn("Id",$idList);
+
+            if(!empty($filter->filterSearch)){
+                $search = strtoupper(str_replace('ñ', 'Ñ', $filter->filterSearch));
+                $memberList->where(function($q) use($search){
+                    $q->orWhereRaw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) LIKE '%".$search."%'");
+                    $q->orWhere("Pbno", $search);
+                    $q->orWhere("MemberId", $search);
+                });
+            }
+
+            $memberList = !empty($filter->filterBranch) ? $memberList->where("Branch", $filter->filterBranch) : $memberList;
+            $memberList = $memberList->get();
+            if(!empty($memberList)){
+                foreach($memberList as $member){
+                    $result[$member->Id] = [
+                        "Pbno" => $member->Pbno,
+                        "MemberId" => $member->MemberId,
+                        "Name" => $member->Name,
+                        "Branch" => $member->Branch,
+                        "Contact" => $member->Contact
+                    ];
+                }
+            }
+        }
+
+        return $result;
+    }
 }

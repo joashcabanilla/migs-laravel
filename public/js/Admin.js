@@ -528,6 +528,8 @@ const UtilityVerification = () => {
             { targets: 4, width: '20%', className: "text-center font-weight-bold p-2" },
             { targets: 5, width: '15%', className: "text-center font-weight-bold p-2" },
             { targets: 6, width: '9%', className: "text-center font-weight-bold p-2" },
+            { targets: 7, width: '9%', className: "text-center font-weight-bold p-2" },
+            { targets: 8, width: '9%', className: "text-center font-weight-bold p-2" },
         ],
         ajax: {
             url: 'admin/VerificationDataTable',
@@ -544,5 +546,20 @@ const UtilityVerification = () => {
                 $(".dataTables_processing").addClass("d-none");
             }
         }
+    });
+
+    $("#clearFilter").click((e) => {
+        $("#filterSearch").val("");
+        $("#filterBranch").val("");
+        $("#filterStatus").val("");
+        memberTable.draw();
+    });
+
+    $("#filterSearch").keyup((e) => {
+        memberTable.draw();
+    });
+
+    $("#filterBranch,#filterStatus").change((e) => {
+        memberTable.draw();
     });
 } 

@@ -51,12 +51,15 @@ class VerificationModel extends Model
         return $result;
     }
 
-    function GetVerificationList($data = array()){
-        $var = (object) $data;
-        $result = $this;
-        if(!empty($var->filterStatus)){
-            $result = $result->where("Status", $var->filterStatus);
-        }
-        return $result->get();
+    function verificationTable($data){
+        $query = $this->select(
+            "Id",
+            "VoterId",
+            "Status",
+            "DateTime"
+        );
+
+        $query = !empty($data->filterStatus) ? $query->where("Status", $data->filterStatus) : $query;
+        return $query;
     }
 }

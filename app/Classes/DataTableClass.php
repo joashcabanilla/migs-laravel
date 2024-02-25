@@ -216,8 +216,74 @@ class DataTableClass
     }
 
     function verificationTable($data){
+        $memberList = array();
+
         $var = (object) $data;
-        $verificationList = $this->verificationModel->GetVerificationList($data);
+        $query = $this->verificationModel->verificationTable($var);
+        $forVerification = $query->get();
+
+        if(!empty($forVerification)){
+            $idList = array();
+            foreach($forVerification as $vMember){
+                $idList[] = $vMember->VoterId;
+            }
+
+            $memberList = $this->voterModel->GetMemberForVerification($var, $idList);
+
+            if(!empty($memberList)){
+                $query = $query->whereIn("VoterId", array_keys($memberList)); 
+            }else{
+                $query = $query->where("Id", 0);
+            }
+        }
+
+        $query = $query->orderBy("Id", "ASC");
+
+        $columns =[
+            ['db' => 'Id', 'dt' => 0, 'formatter' => function($d){
+                return $d;
+            }],
+
+            ['db' => 'VoterId', 'dt' => 1, 'formatter' => function($d) use($memberList) {
+                return !empty($memberList) ? $memberList[$d]["Pbno"] : "";
+            }],
+
+            ['db' => 'VoterId', 'dt' => 2, 'formatter' => function($d) use($memberList) {
+                return !empty($memberList) ? $memberList[$d]["MemberId"] : "";
+            }],
+
+            ['db' => 'VoterId', 'dt' => 3, 'formatter' => function($d) use($memberList) {
+                return !empty($memberList) ? $memberList[$d]["Name"] : "";
+            }],
+
+            ['db' => 'VoterId', 'dt' => 4, 'formatter' => function($d) use($memberList) {
+                return !empty($memberList) ? $memberList[$d]["Branch"] : "";
+            }],
+
+            ['db' => 'VoterId', 'dt' => 5, 'formatter' => function($d) use($memberList) {
+                return !empty($memberList) ? $memberList[$d]["Contact"] : "";
+            }],
+
+            ['db' => 'Status', 'dt' => 6,'formatter' => function($d){
+               $color = $d != "Verified" ? "border border-danger text-danger" : "border border-success text-success";
+               return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 ".$color."'>".strtoupper($d)."</p>";
+            }],
+
+            ['db' => 'DateTime', 'dt' => 7,'formatter' => function($d){
+                return !empty($d) ? date("m/d/Y h:i A", strtotime($d)) : "";
+            }],
+
+            ['db' => 'Id', 'dt' => 8, 'formatter' => function($d){
+                return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+            }]
+        ];
+
+        $params = array(
+            "var" => $var,
+            "columns" => $columns,
+            "sql" => $query  
+        );
         
+        return $this->processTable($params);
     }
 }
