@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class VerificationModel extends Model
 {
@@ -16,6 +17,7 @@ class VerificationModel extends Model
     protected $fillable = [
        'VoterId',
        'Status',
+       'VerifiedBy',
        'DateTime'
     ];
 
@@ -56,10 +58,20 @@ class VerificationModel extends Model
             "Id",
             "VoterId",
             "Status",
+            "VerifiedBy",
             "DateTime"
         );
 
         $query = !empty($data->filterStatus) ? $query->where("Status", $data->filterStatus) : $query;
         return $query;
+    }
+
+    function UpdateMember($data){
+        $var = (object) $data;
+        return $this->find($var->Id)->update([
+            "Status" => $var->Status,
+            "VerifiedBy" => Auth::user()->Id,
+            "DateTime" => Carbon::now()
+        ]);
     }
 }

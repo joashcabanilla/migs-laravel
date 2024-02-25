@@ -217,6 +217,8 @@ class DataTableClass
 
     function verificationTable($data){
         $memberList = array();
+        $userList = array();
+        $verifiedList = array();
 
         $var = (object) $data;
         $query = $this->verificationModel->verificationTable($var);
@@ -239,6 +241,12 @@ class DataTableClass
 
         $query = $query->orderBy("Id", "ASC");
 
+        $userList = $this->userModel->GetUserListNotMember();
+        if(!empty($userList)){
+            foreach($userList as $user){
+                $verifiedList[$user->Id] = $user->FirstName . " " . $user->LastName;
+            }
+        }
         $columns =[
             ['db' => 'Id', 'dt' => 0, 'formatter' => function($d){
                 return $d;
@@ -269,12 +277,21 @@ class DataTableClass
                return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 ".$color."'>".strtoupper($d)."</p>";
             }],
 
+            ['db' => 'VerifiedBy', 'dt' => 7,'formatter' => function($d) use($verifiedList){
+                return !empty($verifiedList) && isset($verifiedList[$d]) ? $verifiedList[$d] : "";
+            }],
+
             ['db' => 'DateTime', 'dt' => 7,'formatter' => function($d){
                 return !empty($d) ? date("m/d/Y h:i A", strtotime($d)) : "";
             }],
 
-            ['db' => 'Id', 'dt' => 8, 'formatter' => function($d){
-                return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+            ['db' => 'Id', 'dt' => 9, 'formatter' => function($d,$row) use($memberList){
+                $id = $row->Id;
+                $voterId = $row->VoterId;
+                $pbno = !empty($memberList) ? $memberList[$voterId]["Pbno"] : "";
+                $memberId = !empty($memberList) ? $memberList[$voterId]["MemberId"] : "";
+                $name = !empty($memberList) ? $memberList[$voterId]["Name"] : "";
+                return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$id."' data-pbno='".$pbno."' data-memberid='".$memberId."' data-name='".$name."' data-status='".$row->Status."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
             }]
         ];
 

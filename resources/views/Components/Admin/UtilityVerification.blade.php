@@ -34,6 +34,7 @@
                         <th>Branch</th>
                         <th>Contact No</th>
                         <th>Status</th>
+                        <th>Verified By</th>
                         <th>Date & Time</th>
                         <th>Action</th>
                     </tr>
@@ -42,3 +43,5 @@
         </div>
     </div>
 </div>
+@include('Components.Admin.AddVerificationModal')
+@include('Components.Admin.UpdateVerificationModal')

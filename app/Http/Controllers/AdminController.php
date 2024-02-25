@@ -151,4 +151,12 @@ class AdminController extends Controller
     function VerificationDataTable(Request $request){
         return $this->datatable->verificationTable($request->all());
     }
+    
+    function AddMemberVerification(Request $request){
+        return $this->verificationModel->AddMember($request->all());
+    }
+
+    function UpdateMemberVerification(Request $request){
+        return $this->verificationModel->UpdateMember($request->all());
+    }
 }

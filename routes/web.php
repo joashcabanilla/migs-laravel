@@ -73,6 +73,8 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::post('MemberStatusDataTable', [AdminController::class, 'MemberStatusDataTable']);
         Route::post('UpdateMemberStatus', [AdminController::class, 'UpdateMemberStatus']);
         Route::post('VerificationDataTable', [AdminController::class, 'VerificationDataTable']);
+        Route::post('AddMemberVerification', [AdminController::class, 'AddMemberVerification']);
+        Route::post('UpdateMemberVerification', [AdminController::class, 'UpdateMemberVerification']);
     }
 );
 

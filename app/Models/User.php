@@ -152,4 +152,8 @@ class User extends Authenticatable implements MustVerifyEmail
     function GetUser($id){
         return $this->find($id);
     }
+    
+    function GetUserListNotMember(){
+        return $this->where("UserType", "!=", "5")->get();
+    }
 }

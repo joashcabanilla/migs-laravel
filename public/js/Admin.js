@@ -524,12 +524,13 @@ const UtilityVerification = () => {
             { targets: 0, width: '1%', className: "text-center font-weight-bold p-2" },
             { targets: 1, width: '10%', className: "text-center font-weight-bold p-2" },
             { targets: 2, width: '10%', className: "text-center font-weight-bold p-2" },
-            { targets: 3, width: '35%', className: "text-left font-weight-bold p-2" },
-            { targets: 4, width: '20%', className: "text-center font-weight-bold p-2" },
-            { targets: 5, width: '15%', className: "text-center font-weight-bold p-2" },
-            { targets: 6, width: '9%', className: "text-center font-weight-bold p-2" },
-            { targets: 7, width: '9%', className: "text-center font-weight-bold p-2" },
-            { targets: 8, width: '9%', className: "text-center font-weight-bold p-2" },
+            { targets: 3, width: '20%', className: "text-left font-weight-bold p-2" },
+            { targets: 4, width: '10%', className: "text-center font-weight-bold p-2" },
+            { targets: 5, width: '10%', className: "text-center font-weight-bold p-2" },
+            { targets: 6, width: '10%', className: "text-center font-weight-bold p-2" },
+            { targets: 7, width: '15%', className: "text-center font-weight-bold p-2" },
+            { targets: 8, width: '10%', className: "text-center font-weight-bold p-2" },
+            { targets: 9, width: '5%', className: "text-center font-weight-bold p-2" },
         ],
         ajax: {
             url: 'admin/VerificationDataTable',
@@ -561,5 +562,118 @@ const UtilityVerification = () => {
 
     $("#filterBranch,#filterStatus").change((e) => {
         memberTable.draw();
+    });
+
+    $("#memberAddBtn").click((e) => {
+        $("#addModal").modal("show");
+        setTimeout(() => {
+            $("#findVoterId").trigger("focus");
+        }, 300);
+    });
+
+    $("#findVoterId").keyup((e) => {
+        $("#findVoterId").removeClass("is-invalid");
+    });
+
+    $("#findForm").submit((e) => {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "admin/GetMember",
+            data: { id: $("#findVoterId").val() },
+            success: (res) => {
+                $.LoadingOverlay("hide");
+
+                if (res != "") {
+                    $("#findForm").find("input").val("");
+                    $("#VoterId").val(res.Id);
+                    $("#Pbno").val(res.Pbno);
+                    $("#MemberId").val(res.MemberId);
+                    $("#Name").val(`${res.FirstName} ${res.MiddleName} ${res.LastName}`);
+                } else {
+                    $("#findVoterId").addClass("is-invalid").next().text("Member Not Found.");
+                    $("#addForm").find("input").val("");
+                }
+            }
+        });
+    });
+
+    $('#addModal').on('hidden.bs.modal', function (e) {
+        $("#findForm").find("input").val("").removeClass("is-invalid");
+        $("#addForm").find("input").val("");
+    });
+
+    $("#addForm").submit((e) => {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        let data = $(e.currentTarget).serializeArray();
+        $.ajax({
+            type: "POST",
+            url: "admin/AddMemberVerification",
+            data: data,
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                if (res.status == "success") {
+                    $('#addModal').modal("hide");
+                    Swal.fire({
+                        title: "REQUEST FOR MIGS STATUS VERIFICATION",
+                        text: res.message,
+                        icon: "success",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then((result) => {
+                        memberTable.ajax.reload(null, false);
+                    });
+                } else {
+                    Swal.fire({
+                        title: "REQUEST FOR MIGS STATUS VERIFICATION",
+                        text: res.message,
+                        icon: "warning",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    })
+                }
+            }
+        });
+    });
+
+    $('#memberTable').on('click', '.editBtn', (e) => {
+        let id = $(e.currentTarget).data("id");
+        let pbno = $(e.currentTarget).data("pbno");
+        let memberid = $(e.currentTarget).data("memberid");
+        let name = $(e.currentTarget).data("name");
+        let status = $(e.currentTarget).data("status");
+
+        $("#updateForm").find("input[name='Id']").val(id);
+        $("#updateForm").find("input[name='Pbno']").val(pbno);
+        $("#updateForm").find("input[name='MemberId']").val(memberid);
+        $("#updateForm").find("input[name='Name']").val(name);
+        $("#updateForm").find("select[name='Status']").val(status);
+        $("#updateModal").modal("show");
+    });
+
+    $("#updateForm").submit((e) => {
+        e.preventDefault();
+        $('#updateModal').modal("hide");
+        $.ajax({
+            type: "POST",
+            url: "admin/UpdateMemberVerification",
+            data: $(e.currentTarget).serializeArray(),
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                Swal.fire({
+                    title: "Successfully Saved.",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    memberTable.ajax.reload(null, false);
+                });
+            }
+        });
     });
 } 
