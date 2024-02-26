@@ -156,4 +156,88 @@ class User extends Authenticatable implements MustVerifyEmail
     function GetUserListNotMember(){
         return $this->where("UserType", "!=", "5")->get();
     }
+
+    private function MemberLogin($data,$memberData){
+        $result = array();
+        $result["status"] = "failed";
+        $result["message"] = "Incorrect Birthdate";
+
+        $member = $this->find($data->VoterId);
+        
+        if(!empty($member)){
+            if(Hash::check($data->Birthdate,$member->password)){
+                Auth::login($member,true);
+                $member->update([
+                    'LastLogin' => Carbon::now(),
+                    'LastIp' => $data->ip()    
+                ]);
+                $result["status"] = "success";
+                return $result;
+            }
+
+        }else{
+
+            if($memberData->Birthdate == $data->Birthdate){
+                $user = $this->create([
+                    "UserType" => 5,
+                    "FirstName" => $memberData->FirstName,
+                    "MiddleName" => $memberData->MiddleName,
+                    "LastName" => $memberData->LastName,
+                    "Branch" => $memberData->Branch,
+                    "username" => $data->VoterId."-".$memberData->FirstName,
+                    "password" => Hash::make($memberData->Birthdate),
+                ]);
+                Auth::login($user,true);
+                $user->update([
+                    'LastLogin' => Carbon::now(),
+                    'LastIp' => $data->ip()    
+                ]);
+                $result["status"] = "success";
+                return $result;
+            }
+        }
+
+        return $result;
+    }
+
+    function VoterLogin($data, $validation){
+        $result = array();
+        $forChecking = (object) $validation;
+
+        if($forChecking->electionStatus == "open"){
+            return $this->MemberLogin($data,$forChecking->memberData);
+        }
+
+        if($forChecking->f2fElectionStatus == "open"){
+            if(isset($data->authenticated) && $data->authenticated){
+                return $this->MemberLogin($data,$forChecking->memberData);
+            }else{
+                $result["status"] = "not authenticated";
+                $result["message"] = "face-to-face election needs to be authenticated by NOVADECI staff.";
+                return $result; 
+            }
+        }
+
+        $result["status"] = "election closed";
+        return $result;
+    }
+
+    function ElectionAuthentication($password){
+        $result = array();
+        $result["status"] = "failed";
+        $result["message"] = "Incorrect Password";
+        $admin = $this->whereIn("UserType",[1,2])->get();
+        
+        if(!empty($admin)){
+            foreach($admin as $user){
+                if(Hash::check($password,$user->password)){
+                    $result["status"] = "success";
+                    $result["message"] = "authenticated";
+                    return $result;
+                }
+            }
+        }
+
+        return $result;
+    }
 }

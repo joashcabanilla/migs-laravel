@@ -3,6 +3,7 @@
 namespace App\Classes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\SettingsModel;
 
 
 class HelperClass
@@ -25,18 +26,42 @@ class HelperClass
     }
 
     function CheckElectionStatus(){
-        $startDate = "2024-02-05";
-        $endDate = "2024-03-10";
-        $startTime = "7:00 AM";
-        $endTime = "05:00 PM";
+        $setting = SettingsModel::find(1);
+
+        $startDate = date("Y-m-d", strtotime($setting->startDateTime));
+        $endDate = date("Y-m-d", strtotime($setting->endDateTime));
+        $startTime = date("h:i A", strtotime($setting->startDateTime));
+        $endTime = date("h:i A", strtotime($setting->endDateTime));
+        
+        $currentDateTime = Carbon::now();
+
+        $day = $currentDateTime->format('Y-m-d');
+        $electionDayStatus = $startDate <= $day && $endDate >= $day;
+
+        $electionStartTime = Carbon::createFromFormat("Y-m-d h:i A",$day." ".$startTime);
+        $electionEndTime = Carbon::createFromFormat("Y-m-d h:i A",$day." ".$endTime);
+        $electionTimeStatus =  $electionStartTime <= $currentDateTime && $electionEndTime >= $currentDateTime;
+        $electionStatus = $electionDayStatus && $electionTimeStatus ? "open" : "closed";
+
+        return $electionStatus;
+    }
+
+    function f2fElectionStatus(){
+        $setting = SettingsModel::find(1);
+        
+        $f2fstartDate = date("Y-m-d", strtotime($setting->f2fStartDateTime));
+        $f2fendDate = date("Y-m-d", strtotime($setting->f2fEndDateTime));
+        $f2fstartTime = date("h:i A", strtotime($setting->f2fStartDateTime));
+        $f2fendTime = date("h:i A", strtotime($setting->f2fEndDateTime));
 
         $currentDateTime = Carbon::now();
 
         $day = $currentDateTime->format('Y-m-d');
-        $electionDayStatus = Carbon::parse($startDate) <= $day && Carbon::parse($endDate) >= $day;
 
-        $electionStartTime = Carbon::createFromFormat("Y-m-d h:i A",$day." ".$startTime);
-        $electionEndTime = Carbon::createFromFormat("Y-m-d h:i A",$day." ".$endTime);
+        $electionDayStatus = $f2fstartDate <= $day && $f2fendDate >= $day;
+
+        $electionStartTime = Carbon::createFromFormat("Y-m-d h:i A",$day." ".$f2fstartTime);
+        $electionEndTime = Carbon::createFromFormat("Y-m-d h:i A",$day." ".$f2fendTime);
         $electionTimeStatus =  $electionStartTime <= $currentDateTime && $electionEndTime >= $currentDateTime;
         $electionStatus = $electionDayStatus && $electionTimeStatus ? "open" : "closed";
 

@@ -22,12 +22,17 @@ Route::middleware(['guest'])->group(
         //get route
         Route::get('/', [GuestController::class, 'GetVerifier'])->name('migs.verifier');
         Route::get('/login', [GuestController::class, 'Login'])->name('admin.login');
+        Route::get('/voter', [GuestController::class, 'Voter'])->name('voter.login');
+        Route::get('/electionClosed', [GuestController::class, 'ElectionClosed'])->name('election.closed');
 
         //post route
         Route::post('Verifymember', [GuestController::class, 'VerifyMember']);
         Route::post('Verifymember', [GuestController::class, 'VerifyMember']);
         Route::post('Nonmigschangestatus', [GuestController::class, 'Nonmigschangestatus']);
         Route::post('Login', [GuestController::class, 'PostLogin']);
+        Route::post('SetVoterId', [GuestController::class, 'SetVoterId']);
+        Route::post('VoterLogin', [GuestController::class, 'VoterLogin']);
+        Route::post('ElectionAuthentication', [GuestController::class, 'ElectionAuthentication']);
     }
 );
 
