@@ -62,4 +62,8 @@ class PositionsModel extends Model
     function GetPosition($id){
         return $this->find($id);
     }
+
+    function GetPositionList(){
+        return $this->orderBy("PositionLevel")->get();
+    }
 }

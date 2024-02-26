@@ -12,6 +12,7 @@ use App\Models\UsertypeModel;
 use App\Models\User;
 use App\Models\VerificationModel;
 use App\Models\PositionsModel;
+use App\Models\CandidateModel;
 
 //Class
 use App\Classes\HelperClass;
@@ -19,7 +20,7 @@ use App\Classes\DataTableClass;
 
 class AdminController extends Controller
 {
-    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel;
+    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel, $candidateModel;
 
     public function __construct()
     {
@@ -31,6 +32,7 @@ class AdminController extends Controller
         $this->userModel = new User();
         $this->verificationModel = new VerificationModel();
         $this->positionModel = new PositionsModel();
+        $this->candidateModel = new CandidateModel();
         $this->data = array();
     }
 
@@ -95,6 +97,7 @@ class AdminController extends Controller
     }
 
     function ElectionCandidate(){
+        $this->data['position'] = $this->positionModel->GetPositionList();
         return view('Components.Admin.ElectionCandidates', $this->data);
     }
 
@@ -181,5 +184,17 @@ class AdminController extends Controller
 
     function GetElectionPosition(Request $request){
         return $this->positionModel->GetPosition($request->id);
+    }
+
+    function ElectionCandidateDataTable(Request $request){
+        return $this->datatable->candidateTable($request->all());
+    }
+
+    function AddUpdateElectionCandidate(Request $request){
+        return $this->candidateModel->AddUpdateCandidate($request);
+    }
+
+    function GetElectionCandidate(Request $request){
+        return $this->candidateModel->GetCandidate($request->id);
     }
 }

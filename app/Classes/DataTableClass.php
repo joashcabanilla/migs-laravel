@@ -8,10 +8,11 @@ use App\Models\UsertypeModel;
 use App\Models\VotersModel;
 use App\Models\VerificationModel;
 use App\Models\PositionsModel;
+use App\Models\CandidateModel;
 
 class DataTableClass
 {
-    protected $data, $userModel, $userTypeModel, $voterModel, $verificationModel, $positionsModel;
+    protected $data, $userModel, $userTypeModel, $voterModel, $verificationModel, $positionsModel, $candidateModel;
     function __construct()
     {
         $this->userModel = new User();
@@ -19,6 +20,7 @@ class DataTableClass
         $this->voterModel = new VotersModel();
         $this->verificationModel = new VerificationModel();
         $this->positionsModel = new PositionsModel();
+        $this->candidateModel = new CandidateModel();
         $this->data = array();
     }
 
@@ -327,6 +329,49 @@ class DataTableClass
             "var" => $var,
             "columns" => $columns,
             "sql" => $query  
+        );
+        
+        return $this->processTable($params);
+    }
+
+    function candidateTable($data){
+        $var = (object) $data;
+        $query = $this->candidateModel->dataTable($var);
+        $positionList = $this->positionsModel->GetPositionList();
+        $positionArray = array();
+        if(!empty($positionList)){
+            foreach($positionList as $position){
+                $positionArray[$position->Id] = $position->Description;
+            }
+        }
+       
+        $columns =[
+            ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
+
+            ['db' => 'Picture', 'dt' => 1, 'formatter' => function($d){
+                $picture = "data:image/jpeg;base64," . base64_encode($d);
+                return "<div class='img-fluid elevation-2 CandidatePictureTable float-center'>
+                <img class='picture'  src='".$picture."' alt='Picture' width='100' height='100'>
+                </div>";
+            }],
+
+            ['db' => 'Name', 'dt' => 2, 'formatter' => function($d){
+                return strtoupper($d);
+            }],
+
+            ['db' => 'Position', 'dt' => 3, 'formatter' => function($d) use($positionArray){
+                return isset($positionArray[$d]) && !empty($positionArray[$d]) ? $positionArray[$d] : "";
+            }],
+
+            ['db' => 'Id', 'dt' => 4, 'formatter' => function($d){
+                return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+            }]
+        ];
+
+        $params = array(
+            "var" => $var,
+            "columns" => $columns,
+            "sql" => $query,  
         );
         
         return $this->processTable($params);

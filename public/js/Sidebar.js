@@ -43,7 +43,9 @@ $(".tabLink").click((e) => {
                     ElectionPositions();
                 break;
 
-
+                case "Election Candidates":
+                    ELectionCandidates();
+                break;
             }
             $.LoadingOverlay("hide");
         }

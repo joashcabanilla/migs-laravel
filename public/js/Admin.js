@@ -781,3 +781,126 @@ const ElectionPositions = () => {
         });
     });
 }
+
+const ELectionCandidates = () => {
+    let dataTable = $('#dataTable').on('init.dt', function () {
+        $(".dataTables_wrapper").prepend("<div class='dataTables_processing card font-weight-bold d-none' role='status'>Loading Please Wait...<i class='fa fa-spinner fa-spin text-warning'></i></div>");
+    }).DataTable({
+        ordering: false,
+        serverSide: true,
+        dom: 'rtip',
+        pageLength: 5,
+        columnDefs: [
+            { targets: 0, width: '1%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 1, width: '1%'},
+            { targets: 2, width: '30%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 3, width: '30%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 4, width: '9%', className: "text-center align-middle font-weight-bold p-2" },
+        ],
+        ajax: {
+            url: 'admin/ElectionCandidateDataTable',
+            type: 'POST',
+            data: function (d) {
+                d.filterSearch = $("#filterSearch").val();
+                d.filterPosition = $("#filterPosition").val();
+            },
+            beforeSend: () => {
+                $(".dataTables_processing").removeClass("d-none");
+            },
+            complete: () => {
+                $(".dataTables_processing").addClass("d-none");
+            }
+        }
+    });
+
+    $("#filterSearch").keyup((e) => {
+        dataTable.draw();
+    });
+
+    $("#filterPosition").change((e) => {
+        dataTable.draw();
+    });
+
+    $("#addBtn").click((e) => {
+        $("#addModal").modal("show");
+    });
+
+    $('#addModal').on('hidden.bs.modal', function (e) {
+        $("#addForm").find("input").val("");
+        $("#addForm").find("select").val("");
+        $("#CandidatePicture").attr("src", defaultPicture).removeClass("picture");
+        $("#Picture").removeClass("is-invalid").next().text("Upload Picture");
+        $(".candidatePictureInvalid").text("").css("display", "none");
+        $("#Picture").attr("required", true);
+    });
+
+    $("#Picture").change((e) => {
+        $(e.currentTarget).removeClass("is-invalid").next().text("Upload Picture");
+        $(".candidatePictureInvalid").text("").css("display", "none");
+        let file = e.currentTarget.files[0];
+        let type = file.type.split("/");
+        if (type[1] == "jpeg" || type[1] == "png" || type[1] == "jpg") {
+            let reader = new FileReader();
+            reader.onload = (data) => {
+                $("#CandidatePicture").attr("src", data.target.result).addClass("picture");
+                $(e.currentTarget).next().text(file.name);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            $(e.currentTarget).val("");
+            $("#CandidatePicture").attr("src", defaultPicture).removeClass("picture");
+            $(e.currentTarget).next().text("Upload Picture");
+            $(e.currentTarget).addClass("is-invalid");
+            $(".candidatePictureInvalid").css("display", "block").text(`Invalid file type ${file.name}`);
+        }
+    });
+
+    $("#addForm").submit((e) => {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        let formData = new FormData(e.currentTarget);
+        $.ajax({
+            type: "POST",
+            url: "admin/AddUpdateElectionCandidate",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                $("#addModal").modal("hide");
+                Swal.fire({
+                    title: "Successfully Saved.",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    dataTable.ajax.reload(null, false);
+                });
+            }
+        });
+    });
+
+    $('#dataTable').on('click', '.editBtn', (e) => {
+        e.preventDefault();
+        let id = $(e.currentTarget).data("id");
+        $("#Picture").attr("required", false);
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "admin/GetElectionCandidate",
+            data: { id: id },
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                $("#CandidatePicture").attr("src", res.Picture).addClass("picture");
+                $("#FirstName").val(res.FirstName);
+                $("#MiddleName").val(res.MiddleName);
+                $("#LastName").val(res.LastName);
+                $("#Position").val(res.Position);
+                $("#addModalLabel").text("Update Candidate");
+                $("#addForm").find("input[name='Id']").val(id);
+                $("#addModal").modal("show");
+            }
+        });
+    });
+}

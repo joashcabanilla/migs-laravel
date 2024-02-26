@@ -84,6 +84,10 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::post('ElectionPositionDataTable', [AdminController::class, 'ElectionPositionDataTable']);
         Route::post('GetElectionPosition', [AdminController::class, 'GetElectionPosition']);
         Route::post('AddUpdateElectionPosition', [AdminController::class, 'AddUpdateElectionPosition']);
+
+        Route::post('ElectionCandidateDataTable', [AdminController::class, 'ElectionCandidateDataTable']);
+        Route::post('GetElectionCandidate', [AdminController::class, 'GetElectionCandidate']);
+        Route::post('AddUpdateElectionCandidate', [AdminController::class, 'AddUpdateElectionCandidate']);
     }
 );
 

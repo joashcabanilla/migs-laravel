@@ -216,6 +216,7 @@
         });
 
         var intervalId = {};
+        var defaultPicture = "{{asset('image/uploadicon.png')}}";
     </script>
     
     {{--script for page --}}
