@@ -9,13 +9,14 @@ use Illuminate\Support\Facades\Session;
 use App\Models\VotersModel;
 use App\Models\User;
 use App\Models\VerificationModel;
+use App\Models\VotesModel;
 
 //Class
 use App\Classes\HelperClass;
 
 class GuestController extends Controller
 {
-    protected $data, $helper, $votersModel, $userModel, $verificationModel;
+    protected $data, $helper, $votersModel, $userModel, $verificationModel, $votesModel;
 
     public function __construct()
     {
@@ -24,6 +25,7 @@ class GuestController extends Controller
         $this->userModel = new User();
         $this->helper = new HelperClass();
         $this->verificationModel = new VerificationModel();
+        $this->votesModel = new VotesModel();
         $this->data = array();
     }
 
@@ -106,6 +108,7 @@ class GuestController extends Controller
         $validation["electionStatus"] = $this->helper->CheckElectionStatus();
         $validation["f2fElectionStatus"] = $this->helper->f2fElectionStatus();
         $validation["memberData"] = $this->votersModel->GetMember($request->VoterId);
+        $validation["voteData"] = $this->votesModel->CheckVote($request->VoterId);
         return $this->userModel->VoterLogin($request, $validation);
     }
 

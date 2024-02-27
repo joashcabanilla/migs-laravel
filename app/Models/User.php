@@ -162,7 +162,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $result["status"] = "failed";
         $result["message"] = "Incorrect Birthdate";
 
-        $member = $this->find($data->VoterId);
+        $member = $this->where("username",$data->VoterId."-".$memberData->FirstName)->first();
         
         if(!empty($member)){
             if(Hash::check($data->Birthdate,$member->password)){
@@ -205,6 +205,11 @@ class User extends Authenticatable implements MustVerifyEmail
         $forChecking = (object) $validation;
 
         if($forChecking->electionStatus == "open"){
+            return $this->MemberLogin($data,$forChecking->memberData);
+        }
+
+        
+        if($forChecking->voteData > 0){
             return $this->MemberLogin($data,$forChecking->memberData);
         }
 

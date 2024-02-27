@@ -16,11 +16,14 @@ class MemberController extends Controller
 
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('member');
         $this->votersModel = new VotersModel();
         $this->helper = new HelperClass();
         $this->data = array();
     }
 
-    
+    function MemberPage(){
+        $this->data["TitlePage"] = "NOVADECI Member Voting";
+        return view('Components.Member.MemberVoting',$this->data);
+    }
 }
