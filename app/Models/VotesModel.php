@@ -26,14 +26,13 @@ class VotesModel extends Model
         $result = array();
         $result["status"] = "election closed";
         $result["message"] = "Election has already closed.";
-        $result["createTicket"] = "YES";
-
+        
         $forChecking = (object) $validation;
         
         if($forChecking->electionStatus == "open" || $forChecking->f2fElectionStatus == "open"){
-            $f2f = $forChecking->f2fElectionStatus == "open" ? "YES" : "NO";
+            $f2f = strtoupper(config('app.F2F_ELECTION'));
 
-            if(!empty($data)){
+            if(!empty($data) && count($data) > 1){
                 $var = (object) $data;
                 foreach($var->candidateId as $candidateId){
                     $this->create([
@@ -52,11 +51,12 @@ class VotesModel extends Model
 
             $result["status"] = "success";
             $result["message"] = "Successfully Voted.";
-            if($f2f == "YES"){
-                $result["createTicket"] = "NO";
-            }
         }
 
         return $result;
+    }
+
+    function GetVote($voterId){
+        return $this->where("VoterId", $voterId)->get();
     }
 }

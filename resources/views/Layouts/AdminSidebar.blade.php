@@ -94,12 +94,6 @@
                             <p>Election Voting</p>
                         </a>
                     </li>
-                    <li class="nav-item mt-2">
-                        <a href="{{route("member.voted")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
-                            <i class="nav-icon fas fa-poll-h fa-lg"></i>
-                            <p>Voted Candidates</p>
-                        </a>
-                    </li>
                 @break
             @endswitch
         </ul>

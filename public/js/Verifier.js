@@ -33,11 +33,7 @@ $("#verifierForm").submit((e) => {
                 } else {
                     membercard.find(".nonMigs").parent().removeClass("d-none").addClass("d-flex").children().first().css("color", "purple").next().css("color", "blue");
                 }
-
-                if (res.electionStatus == "closed" && res.f2felectionStatus == "closed") {
-                    membercard.find(".voteBtn").remove();
-                }
-
+                
                 membercard.find(".nonMigs").click((e) => {
                     $("#nonMigsForm").find(".nonmigs-membername").text(data.name);
                     $("#nonMigsForm").find("input[name='Id']").val(data.id);
@@ -116,76 +112,7 @@ $("#voterForm").submit((e) => {
         if (res.status == "election closed") {
             window.location.href = "/electionClosed";
         }
-
-        if (res.status == "not authenticated") {
-            bootbox.prompt({
-                title: '<b>NOVADECI STAFF AUTHENTICATION</b>',
-                size: "small",
-                inputType: 'password',
-                placeholder: "ENTER PASSWORD",
-                required: true,
-                buttons: {
-                    confirm: {
-                        label: 'Authenticate',
-                        className: 'btn-success btn-sm'
-                    },
-                    cancel: {
-                        label: 'Cancel',
-                        className: 'btn-danger btn-sm'
-                    }
-                },
-                callback: function (password) {
-                    if (password) {
-                        $.LoadingOverlay("show");
-                        $.ajax({
-                            type: "POST",
-                            url: "ElectionAuthentication",
-                            data: { password: password },
-                            success: (response) => {
-                                $.LoadingOverlay("hide");
-                                if (response.status == "success") {
-                                    $.LoadingOverlay("show");
-                                    data.push({
-                                        name:"authenticated",
-                                        value: true
-                                    });
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "VoterLogin",
-                                        data: data,
-                                        success: (res) => {
-                                            $.LoadingOverlay("hide");
-                                            if(res.status == "success"){
-                                                location.reload();
-                                            }else{
-                                                $(".error-text").text(res.message).removeClass("d-none");
-                                                setTimeout(() => {
-                                                    $(".error-text").addClass("d-none");
-                                                },5000);
-                                            }
-                                        }
-                                    })
-                                } else {
-                                    bootbox.alert({
-                                        title: '<b>AUTHENTICATION ERROR</b>',
-                                        message: "<p class='text-center font-weight-bold text-monospace text-danger m-0 p-0'>" + response.message + "</p>",
-                                        size: "small",
-                                        buttons: {
-                                            ok: {
-                                                label: 'OK',
-                                                className: 'btn-primary btn-sm'
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                    }
-
-                }
-            });
-        }
-
+        
         if(res.status == "failed"){
             $(".error-text").text(res.message).removeClass("d-none");
             setTimeout(() => {

@@ -1,5 +1,6 @@
 <div class="container-fluid">
     <form id="voteForm" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="voteConfirm" value="NO">
         @foreach ($candidateList as $position => $candidates)
             @php
                 shuffle($candidates);
@@ -46,3 +47,4 @@
         </div>
     </form>
 </div>
+@include('Components.Member.VotedModal')

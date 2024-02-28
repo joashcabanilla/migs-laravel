@@ -16,6 +16,8 @@ class SettingsModel extends Model
         'startDateTime',
         'endDateTime',
         'f2fStartDateTime',
-        'f2fEndDateTime'
+        'f2fEndDateTime',
+        'MeetingID',
+        'MeetingPass'
     ];
 }

@@ -12,6 +12,10 @@
                 </div>
                 <div class="col-12 d-flex justify-content-center">
                     <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MEMBERSHIP CUT OFF DATE:</h6>
+                    <h6 class="font-weight-bold m-0 bg-info rounded p-1">DECEMBER 29, 2023</h6>
+                </div>
+                <div class="col-12 d-flex justify-content-center mt-2">
+                    <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MIGS CUT OFF DATE:</h6>
                     <h6 class="font-weight-bold m-0 bg-info rounded p-1">MARCH 2, 2024</h6>
                 </div>
                 <div class="col-12">

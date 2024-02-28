@@ -95,13 +95,17 @@
             <nav class="main-header navbar navbar-expand navbar-white navbar-light elevation-3">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
-                    <li class="nav-item">
+                    <li class="nav-item memberPushmenu">
                         <a class="nav-link" data-widget="pushmenu" href="" role="button"><i class="fas fa-bars fa-lg"></i></a>
                     </li>
-
-                    <li class="nav-item">
-                        <h5 class="ml-lg-2 ml-md-2 ml-0 mt-2 font-weight-bold">NOVADECI ELECTION 2024</h5>
+                    
+                    <li class="nav-item memberNavLogo">
+                        <img class="ml-2" id="CandidatePicture" src="{{asset('image/logo.png')}}" alt="Picture" width="40" height="40">
                     </li>
+                    <li class="nav-item">
+                        <h5 class="ml-lg-2 ml-md-2 ml-2 mt-2 font-weight-bold">NOVADECI ELECTION 2024</h5>
+                    </li>
+
                 </ul>
 
                  <!-- Right navbar links -->

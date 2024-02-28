@@ -3,17 +3,20 @@ body, .content-wrapper{
 }
 
 body::-webkit-scrollbar,
-.modal-open .modal::-webkit-scrollbar {
+.modal-open .modal::-webkit-scrollbar,
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar {
     width: 5px;
 }
   
 body::-webkit-scrollbar-track,
-.modal-open .modal::-webkit-scrollbar-track{
+.modal-open .modal::-webkit-scrollbar-track,
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-track{
     background-color: transparent;
 }
 
 body::-webkit-scrollbar-thumb,
-.modal-open .modal::-webkit-scrollbar-thumb {
+.modal-open .modal::-webkit-scrollbar-thumb,
+.modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb{
     background-color: #343a40;
     border-radius: 10px;
 }
@@ -296,9 +299,30 @@ textarea{
     height: 100%;
 }
 
-@media (min-width: 320px) {}
+.ticketNoLabel{
+    position: absolute; 
+    bottom: 1%; 
+    right: 5%;
+}
 
-@media (min-width: 768px) {}
+
+@media (min-width: 320px) {
+    .memberPushmenu{
+        display: none;
+    }
+    .memberNavLogo{
+        display: list-item;
+    }
+}
+
+@media (min-width: 768px) {
+    .memberPushmenu{
+        display: list-item;
+    }
+    .memberNavLogo{
+        display: none;
+    }
+}
 
 @media (min-width: 992px) {}
 

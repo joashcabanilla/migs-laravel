@@ -205,31 +205,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $result = array();
         $forChecking = (object) $validation;
 
-        if($forChecking->electionStatus == "open"){
+        if($forChecking->electionStatus == "open" || $forChecking->f2fElectionStatus == "open" || $forChecking->voteData > 0){
             return $this->MemberLogin($data,$forChecking->memberData);
         }
-
         
-        if($forChecking->voteData > 0){
-            return $this->MemberLogin($data,$forChecking->memberData);
-        }
-
-        if($forChecking->f2fElectionStatus == "open"){
-            if($forChecking->memberData->Birthdate != $data->Birthdate){
-                $result["status"] = "failed";
-                $result["message"] = "Incorrect Birthdate";
-                return $result;
-            }else{
-                if(isset($data->authenticated) && $data->authenticated){
-                    return $this->MemberLogin($data,$forChecking->memberData);
-                }else{
-                    $result["status"] = "not authenticated";
-                    $result["message"] = "face-to-face election needs to be authenticated by NOVADECI staff.";
-                    return $result; 
-                }
-            }
-        }
-
         $result["status"] = "election closed";
         return $result;
     }

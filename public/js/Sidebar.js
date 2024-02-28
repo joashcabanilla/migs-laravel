@@ -50,10 +50,6 @@ $(".tabLink").click((e) => {
                 case "Election Voting":
                     MemberVoting();
                 break;
-
-                case "Voted Candidates":
-                    VotedCandidates();
-                break;
             }
             $.LoadingOverlay("hide");
         }

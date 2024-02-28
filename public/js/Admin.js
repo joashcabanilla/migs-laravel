@@ -909,40 +909,51 @@ const MemberVoting = () => {
     $("#voteForm").submit((e) => {
         e.preventDefault();
         let data = $(e.currentTarget).serializeArray();
-        $.LoadingOverlay("show");
-        $.ajax({
-            type: "POST",
-            url: "member/SubmitVote",
-            data: data,
-            success: (res) => {
-                $.LoadingOverlay("hide");
-                if (res.status == "election closed") {
-                    Swal.fire({
-                        title: "ELECTION CLOSED",
-                        text: res.message,
-                        icon: "error",
-                        confirmButtonText: "OK",
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                    }).then((result) => {
-                        $("#logout").trigger("click");
-                    });
-                }
 
-                if (res.status == "success") {
-                    Swal.fire({
-                        title: "VOTE",
-                        text: res.message,
-                        icon: "success",
-                        confirmButtonText: "OK",
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                    }).then((result) => {
-                        $(".tabLink.active").trigger("click");
-                    });
+        if ($("#voteForm").find("input[name='voteConfirm']").val() == "YES" || data.length == 1) {
+            $.LoadingOverlay("show");
+            $.ajax({
+                type: "POST",
+                url: "member/SubmitVote",
+                data: data,
+                success: (res) => {
+                    $.LoadingOverlay("hide");
+                    if (res.status == "election closed") {
+                        Swal.fire({
+                            title: "ELECTION CLOSED",
+                            text: res.message,
+                            icon: "error",
+                            confirmButtonText: "OK",
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then((result) => {
+                            $("#logout").trigger("click");
+                        });
+                    }
+
+                    if (res.status == "success") {
+                        Swal.fire({
+                            title: "VOTE",
+                            text: res.message,
+                            icon: "success",
+                            confirmButtonText: "OK",
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then((result) => {
+                            $(".tabLink.active").trigger("click");
+                        });
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            $("#voteForm").find("input[name='candidateId[]']").each((key, element) => {
+                if ($(element).is(":checked")) {
+                    let candidateId = $(element).val();
+                    $(`.candidateVoted-${candidateId}`).removeClass("d-none").parent().removeClass("d-none");
+                }
+            });
+            $("#voteModal").modal("show");
+        }
     });
 
     $("#voteForm").find("input[name='candidateId[]']").change((e) => {
@@ -971,8 +982,20 @@ const MemberVoting = () => {
             });
         }
     });
-}
 
+    $("#voteConfirmBtn").click((e) => {
+        $("#voteForm").find("input[name='voteConfirm']").val("YES");
+        $("#voteModal").modal("hide");
+        $("#voteForm").submit();
+    });
 
-const VotedCandidates = () => {
+    $(".copyBtn").click((e) => {
+        $(e.currentTarget).parent().find("input").select();
+        document.execCommand("copy");
+    });
+
+    $("#viewVote").click((e) => {
+        $(".showVotedCandidate").parent().removeClass("d-none");
+        $("#voteModal").modal("show");
+    });
 }
