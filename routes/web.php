@@ -39,7 +39,14 @@ Route::middleware(['guest'])->group(
 //member
 Route::prefix('member')->middleware(['authMember','member'])->group(
     function (){
+        //get route
         Route::get('/', [MemberController::class, 'MemberPage'])->name('member.index');
+        Route::get('/voting', [MemberController::class, 'Voting'])->name('member.voting');
+        Route::get('/votedcandidates', [MemberController::class, 'VotedCandidates'])->name('member.voted');
+
+        //post route
+        Route::post('Logout', [MemberController::class, 'PostLogout']);
+        Route::post('SubmitVote', [MemberController::class, 'SubmitVote']);
     }
 );
 

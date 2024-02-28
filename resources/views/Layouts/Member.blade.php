@@ -78,7 +78,10 @@
         <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/sc-2.1.1/datatables.min.js"></script>
         
         {{--css for page --}}
-        <link rel="stylesheet" href="{{asset('css/Member.css')}}" />
+        <link rel="stylesheet" href="{{asset('css/Admin.css')}}" />
+        
+        {{--script for page --}}
+        <script src="{{asset('js/Function.js')}}"></script>
     </head>
 
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
@@ -89,22 +92,64 @@
             </div>
 
             <!-- Navbar -->
-            <nav class="navbar navbar-expand navbar-white navbar-light elevation-3">
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light elevation-3">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <img src="{{asset('image/logo.png')}}" alt="logo" width="40" height="40" />
+                        <a class="nav-link" data-widget="pushmenu" href="" role="button"><i class="fas fa-bars fa-lg"></i></a>
                     </li>
+
                     <li class="nav-item">
-                        <h5 class="text-dark mt-1 ml-2 font-weight-bold">NOVADECI ELECTION 2024</h5>
+                        <h5 class="ml-lg-2 ml-md-2 ml-0 mt-2 font-weight-bold">NOVADECI ELECTION 2024</h5>
                     </li>
                 </ul>
 
-                <!-- Right navbar links -->
-                <ul class="navbar-nav ml-auto">
+                 <!-- Right navbar links -->
+                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <img src="{{asset('image/profile.png')}}" class="user-image img-circle elevation-1 m-auto navProfile" alt="User Image">
+                        </a>
+                    
+                        <ul class="dropdown-menu dropdown-menu dropdown-menu-right pt-0 pb-0">
+                            <div class="bg-primary dropdown-item">
+                                <a class="font-weight-bold text-center mt-0 mb-0">{{Auth::user()->FirstName . " " . Auth::user()->MiddleName . " " . Auth::user()->LastName}}</a>
+                                <p class="font-weight-bold text-monospace text-center m-0">{{Auth::user()->Branch}}</p>
+                            </div>
+                            <a class="dropdown-item" href="" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </ul>
+                    </li> 
                 </ul>
             </nav>
             <!-- /.navbar -->
+
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <!-- Brand Logo -->
+                <a href="{{route('admin.index')}}" class="d-flex justify-content-center align-items-center m-3 sidebar-logo">
+                  <img src="{{asset('image/logo.png')}}" alt="Logo" class="brand-image img-circle elevation-3">
+                  <span class="brand-text font-weight-bold d-none sidebar-logo-title">{{ config('app.name', 'Laravel') }}</span>
+                </a>
+  
+                <!-- Sidebar -->
+                @include('Layouts.AdminSidebar')
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                    <div class="row">
+                        <h1 class="m-0 font-weight-bold p-2 tabTitle"></h1>
+                    </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <section class="content">
+                    @yield('content')
+                </section>
+            </div>
         </div>
     </body>
 
@@ -127,6 +172,7 @@
 
      <!-- AdminLTE App -->
      <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+     <script src="{{asset('adminlte/dist/js/demo.js') }}"></script>
      <script src="{{asset('adminlte/plugins/fullcalendar/main.js') }}"></script>
     <!-- Select2 -->
     <script src="{{asset('adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
@@ -165,13 +211,19 @@
             e.preventDefault();
             $.ajax({
                 type:"POST",
-                url:"admin/Logout",
+                url:"member/Logout",
                 success: (res) => {
                     localStorage.clear();
                     location.reload();
                 }
             });
         });
+
+        var intervalId = {};
+        var defaultPicture = "{{asset('image/uploadicon.png')}}";
     </script>
+    
     {{--script for page --}}
+    <script src="{{asset('js/Admin.js')}}"></script>
+    <script src="{{asset('js/Sidebar.js')}}"></script>
 </html>

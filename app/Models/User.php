@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
        'UserType',
        'FirstName',
+       'MiddleName',
        'LastName',
        'Branch',
        'username',
@@ -214,12 +215,18 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         if($forChecking->f2fElectionStatus == "open"){
-            if(isset($data->authenticated) && $data->authenticated){
-                return $this->MemberLogin($data,$forChecking->memberData);
+            if($forChecking->memberData->Birthdate != $data->Birthdate){
+                $result["status"] = "failed";
+                $result["message"] = "Incorrect Birthdate";
+                return $result;
             }else{
-                $result["status"] = "not authenticated";
-                $result["message"] = "face-to-face election needs to be authenticated by NOVADECI staff.";
-                return $result; 
+                if(isset($data->authenticated) && $data->authenticated){
+                    return $this->MemberLogin($data,$forChecking->memberData);
+                }else{
+                    $result["status"] = "not authenticated";
+                    $result["message"] = "face-to-face election needs to be authenticated by NOVADECI staff.";
+                    return $result; 
+                }
             }
         }
 

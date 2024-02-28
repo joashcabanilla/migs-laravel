@@ -137,7 +137,7 @@
                 <div class="content-header">
                     <div class="container-fluid">
                     <div class="row">
-                        <h1 class="m-0 font-weight-bold p-2 text-dark tabTitle"></h1>
+                        <h1 class="m-0 font-weight-bold p-2 tabTitle"></h1>
                     </div><!-- /.row -->
                     </div><!-- /.container-fluid -->
                 </div>

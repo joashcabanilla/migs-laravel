@@ -61,30 +61,45 @@
                 @break
 
                 @case(3)
-                <li class="nav-item mt-2">
-                    <a href="{{route("utility.dashboard")}}" class="nav-link nav-main-tab tabLink active font-weight-bold">
-                        <i class="nav-icon fa fa-th-large fa-lg"></i>
-                        <p>Utility Dashboard</p>
-                    </a>
-                </li>
-                <li class="nav-item mt-2">
-                    <a href="{{route("utility.member")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
-                        <i class="nav-icon fas fa-users fa-lg"></i>
-                        <p>Member Information</p>
-                    </a>
-                </li>
-                <li class="nav-item mt-2">
-                    <a href="{{route("utility.status")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
-                        <i class="nav-icon fas fa-users fa-lg"></i>
-                        <p>Member Status</p>
-                    </a>
-                </li>
-                <li class="nav-item mt-2">
-                    <a href="{{route("utility.verification")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
-                        <i class="nav-icon fas fa-user-check fa-lg"></i>
-                        <p>Utility Verification</p>
-                    </a>
-                </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("utility.dashboard")}}" class="nav-link nav-main-tab tabLink active font-weight-bold">
+                            <i class="nav-icon fa fa-th-large fa-lg"></i>
+                            <p>Utility Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("utility.member")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-users fa-lg"></i>
+                            <p>Member Information</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("utility.status")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-users fa-lg"></i>
+                            <p>Member Status</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("utility.verification")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-user-check fa-lg"></i>
+                            <p>Utility Verification</p>
+                        </a>
+                    </li>
+                @break
+
+                @case(5)
+                    <li class="nav-item mt-2">
+                        <a href="{{route("member.voting")}}" class="nav-link nav-main-tab tabLink active font-weight-bold">
+                            <i class="nav-icon fas fa-vote-yea fa-lg"></i>
+                            <p>Election Voting</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("member.voted")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-poll-h fa-lg"></i>
+                            <p>Voted Candidates</p>
+                        </a>
+                    </li>
                 @break
             @endswitch
         </ul>

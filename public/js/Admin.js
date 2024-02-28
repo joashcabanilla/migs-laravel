@@ -792,7 +792,7 @@ const ELectionCandidates = () => {
         pageLength: 5,
         columnDefs: [
             { targets: 0, width: '1%', className: "text-center align-middle font-weight-bold p-2" },
-            { targets: 1, width: '1%'},
+            { targets: 1, width: '1%' },
             { targets: 2, width: '30%', className: "text-center align-middle font-weight-bold p-2" },
             { targets: 3, width: '30%', className: "text-center align-middle font-weight-bold p-2" },
             { targets: 4, width: '9%', className: "text-center align-middle font-weight-bold p-2" },
@@ -903,4 +903,76 @@ const ELectionCandidates = () => {
             }
         });
     });
+}
+
+const MemberVoting = () => {
+    $("#voteForm").submit((e) => {
+        e.preventDefault();
+        let data = $(e.currentTarget).serializeArray();
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "member/SubmitVote",
+            data: data,
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                if (res.status == "election closed") {
+                    Swal.fire({
+                        title: "ELECTION CLOSED",
+                        text: res.message,
+                        icon: "error",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then((result) => {
+                        $("#logout").trigger("click");
+                    });
+                }
+
+                if (res.status == "success") {
+                    Swal.fire({
+                        title: "VOTE",
+                        text: res.message,
+                        icon: "success",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then((result) => {
+                        $(".tabLink.active").trigger("click");
+                    });
+                }
+            }
+        });
+    });
+
+    $("#voteForm").find("input[name='candidateId[]']").change((e) => {
+        let currentPosition = $(e.currentTarget).data("position");
+        let votelimit = $(e.currentTarget).data("votelimit");
+        let currentLimit = 0;
+        $("#voteForm").find("input[name='candidateId[]']").each((key, element) => {
+            let position = $(element).data("position");
+            if (currentPosition == position) {
+                if ($(element).is(":checked")) {
+                    currentLimit++;
+                }
+            }
+        });
+
+        if (parseInt(votelimit) < currentLimit) {
+            Swal.fire({
+                title: "Voting exceeds the limit",
+                text: "You must not exceed choosing " + votelimit + " candidates for the " + currentPosition + ".",
+                icon: "warning",
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                $(e.currentTarget).prop("checked", false);
+            });
+        }
+    });
+}
+
+
+const VotedCandidates = () => {
 }

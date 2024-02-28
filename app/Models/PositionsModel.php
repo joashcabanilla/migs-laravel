@@ -64,6 +64,6 @@ class PositionsModel extends Model
     }
 
     function GetPositionList(){
-        return $this->orderBy("PositionLevel")->get();
+        return $this->orderBy("PositionLevel","ASC")->get();
     }
 }

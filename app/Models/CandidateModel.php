@@ -71,4 +71,20 @@ class CandidateModel extends Model
             "Position" => $candidate->Position
         ];
     }
+
+    function GetAllCandidate(){
+        $candidates = $this->get(); 
+        $candidateList = array();
+        foreach($candidates as $candidate){
+            $candidateList[] = [
+                "Id" => $candidate->Id,
+                "Picture" => "data:image/jpeg;base64," . base64_encode($candidate->Picture),
+                "FirstName" => $candidate->FirstName,
+                "MiddleName" => $candidate->MiddleName,
+                "LastName" => $candidate->LastName,
+                "Position" => $candidate->Position
+            ]; 
+        }
+        return $candidateList;
+    }
 }
