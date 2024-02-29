@@ -66,4 +66,8 @@ class VotesModel extends Model
         }
         return $this->select("VoterId")->groupBy("VoterId")->get();
     }
+
+    function GetAllVotePerCandidate(){
+        return $this->get();
+    }
 }

@@ -159,8 +159,70 @@ class AdminController extends Controller
     
     function GetElectionDashboardData(){
         $migs = $this->votersModel->GetTotalMember("MIGS");
-        $voted = count($this->votesModel->GetAllVotersVoted());
+        $votedVotersList = $this->votesModel->GetAllVotersVoted();
+        $voted = count($votedVotersList);
         $quorum = ($voted / $migs) * 100;
+        
+        $branchList = $this->votersModel->GetBranchList();
+        $positionList = $this->positionModel->GetPositionList();
+        $candidateList = $this->candidateModel->GetAllCandidate();
+
+        $branchArray = $positionArray = $candidateArray = $votePerBranchList = $memberList = array();
+        $voteCountPerBranch = $positionVoteCountPerBranch = array();
+
+        foreach($branchList as $branch){
+            $branchArray[] = $branch->Branch;
+        }
+
+        foreach($positionList as $position){
+            $positionArray[$position->Id] = strtoupper(str_replace(' ','',$position->Description));
+        }
+
+        foreach($candidateList as $candidate){
+            $candidateArray[$candidate["Position"]][$candidate["Id"]] = strtoupper(str_replace('ñ', 'Ñ',$candidate['FirstName']." ".$candidate["MiddleName"]." ".$candidate["LastName"]));
+        }
+
+        $voterList = array();
+        if(!empty($votedVotersList)){
+            foreach($votedVotersList as $voter){
+                $voterList[] = $voter->VoterId;
+            }
+            $memberList = $this->votersModel->GetMemberIDs($voterList);
+
+            foreach($memberList as $member){
+                $votePerBranchList[$member->Branch][] = $member->Id;
+            }
+
+            foreach($branchArray as $branch){
+                $voteCountPerBranch[] = isset($votePerBranchList[$branch]) ? count($votePerBranchList[$branch]) : 0;
+            }
+
+            $votePerCandidate = array();
+            $voteListCandidateArray = $this->votesModel->GetAllVotePerCandidate();
+            foreach( $voteListCandidateArray as $vote){
+                $votePerCandidate[$vote->Candidate][] = $vote->Id;
+            }
+            
+            foreach($candidateArray as $positionId => $positions){
+                foreach($positions as $candidateId => $candidate){
+                    $positionVoteCountPerBranch[$positionArray[$positionId]]["labels"][] = $candidate;
+                    $positionVoteCountPerBranch[$positionArray[$positionId]]["data"][] = isset($votePerCandidate[$candidateId]) ? count($votePerCandidate[$candidateId]) : 0;
+                }
+            }
+
+        }else{
+            foreach($branchArray as $branch){
+                $voteCountPerBranch[] = 0;
+            }
+
+            foreach($candidateArray as $positionId => $positions){
+                foreach($positions as $candidateId => $candidate){
+                    $positionVoteCountPerBranch[$positionArray[$positionId]]["labels"][] = $candidate;
+                    $positionVoteCountPerBranch[$positionArray[$positionId]]["data"][] = 0;
+                }
+            }
+        }
+
         $result = [
             "total" => [
                 "totalMembers" => number_format($this->votersModel->GetTotalMember()),
@@ -168,9 +230,16 @@ class AdminController extends Controller
                 "totalVoted" => number_format($voted),
                 "totalNonVoting" => number_format(count($this->votesModel->GetAllVotersVoted(true))),
                 "totalQuorum" => number_format($quorum,2),
-                "totalPositions" => number_format(count($this->positionModel->GetPositionList())),
-                "totalCandidates" => number_format(count($this->candidateModel->GetAllCandidate())),
-            ]
+                "totalPositions" => number_format(count($positionList)),
+                "totalCandidates" => number_format(count($candidateList)),
+            ],
+            "voteTally" => [
+                "branch" => [
+                    "labels" =>  $branchArray,
+                    "data" => $voteCountPerBranch
+                ],
+                "positions" => $positionVoteCountPerBranch,
+            ],
         ];
         return $result;
     }

@@ -680,6 +680,47 @@ const UtilityVerification = () => {
 }
 
 const ElectionDashboard = () => {
+    let charts = {};
+
+    const generateChart = (labels, voteData, classname, barThickness) => {
+        let sortedDataWithLabels = voteData.map((value, index) => ({ value, label: labels[index] })).filter(item => item.value !== null).sort((a, b) => b.value - a.value);
+
+        let sortedData = sortedDataWithLabels.map(item => item.value);
+        let sortedLabels = sortedDataWithLabels.map(item => item.label);
+
+        let dataSet = {
+            labels: sortedLabels,
+            datasets: [{
+                label: 'NUMBER OF VOTES',
+                data: sortedData,
+                backgroundColor: 'rgba(43,125,98, 0.6)',
+                borderColor: 'rgba(43,125,98, 1)',
+                borderWidth: 2,
+                barThickness: barThickness
+            }]
+        };
+
+        let options = {
+            legend: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }]
+            }
+        };
+
+        let chart = $("." + classname).get(0).getContext('2d');
+        charts[classname] = new Chart(chart, {
+            type: 'horizontalBar',
+            data: dataSet,
+            options: options
+        });
+    }
 
     const displayData = (data) => {
         let total = Object.entries(data.total);
@@ -694,6 +735,16 @@ const ElectionDashboard = () => {
         async: false,
         success: (res) => {
             displayData(res);
+            let labels = [];
+            let voteData = [];
+
+            labels = res.voteTally.branch.labels;
+            voteData = res.voteTally.branch.data;
+            generateChart(labels, voteData, "voteTallyBranch", 15);
+
+            for (let key in res.voteTally.positions) {
+                generateChart(res.voteTally.positions[key]["labels"], res.voteTally.positions[key]["data"], key, 25);
+            }
         }
     });
 
@@ -704,6 +755,35 @@ const ElectionDashboard = () => {
             async: false,
             success: (res) => {
                 displayData(res);
+
+                let labels = [];
+                let voteData = [];
+
+                labels = res.voteTally.branch.labels;
+                voteData = res.voteTally.branch.data;
+
+                let sortedDataWithLabels = voteData.map((value, index) => ({ value, label: labels[index] })).filter(item => item.value !== null).sort((a, b) => b.value - a.value);
+
+                let sortedData = sortedDataWithLabels.map(item => item.value);
+                let sortedLabels = sortedDataWithLabels.map(item => item.label);
+
+                charts["voteTallyBranch"].data.labels = sortedLabels;
+                charts["voteTallyBranch"].data.datasets[0].data = sortedData;
+                charts["voteTallyBranch"].update();
+
+                for (let key in res.voteTally.positions) {
+                    labels = res.voteTally.positions[key]["labels"];
+                    voteData = res.voteTally.positions[key]["data"];
+
+                    let sortedDataWithLabels = voteData.map((value, index) => ({ value, label: labels[index] })).filter(item => item.value !== null).sort((a, b) => b.value - a.value);
+
+                    let sortedData = sortedDataWithLabels.map(item => item.value);
+                    let sortedLabels = sortedDataWithLabels.map(item => item.label);
+
+                    charts[key].data.labels = sortedLabels;
+                    charts[key].data.datasets[0].data = sortedData;
+                    charts[key].update();
+                }
             }
         });
     }, 3000);
@@ -711,11 +791,6 @@ const ElectionDashboard = () => {
     intervalId.ElectionDashboard1 = setInterval(() => {
         $(".tabLink.active").trigger("click");
     }, 120000);
-
-    let voteTally = {};
-    $(".voteTally").find("canvas").each((key, element) => {
-        let classname = $(element).attr("class");
-    });
 }
 
 const ElectionPositions = () => {

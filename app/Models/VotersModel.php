@@ -171,4 +171,8 @@ class VotersModel extends Model
 
         return $result;
     }
+
+    function GetMemberIDs($data){
+        return $this->whereIn("Id", $data)->get();
+    }
 }

@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
 
 //Model
 use App\Models\VotersModel;
 use App\Models\User;
 use App\Models\VerificationModel;
 use App\Models\VotesModel;
+use App\Models\SettingsModel;
 
 //Class
 use App\Classes\HelperClass;
 
 class GuestController extends Controller
 {
-    protected $data, $helper, $votersModel, $userModel, $verificationModel, $votesModel;
+    protected $data, $helper, $votersModel, $userModel, $verificationModel, $votesModel, $settingModel;
 
     public function __construct()
     {
@@ -26,6 +28,7 @@ class GuestController extends Controller
         $this->helper = new HelperClass();
         $this->verificationModel = new VerificationModel();
         $this->votesModel = new VotesModel();
+        $this->settingModel = new SettingsModel();
         $this->data = array();
     }
 
@@ -38,6 +41,28 @@ class GuestController extends Controller
 
     function GetVerifier(){
         Session::forget('VoterId');
+        $setting = $this->settingModel->find(1);
+        $startDate = date("Y-m-d", strtotime($setting->startDateTime));
+        $endDate = date("Y-m-d", strtotime($setting->endDateTime));
+        $currentDateTime = Carbon::now();
+        $day = $currentDateTime->format('Y-m-d');
+        
+        if($setting->ElectionStatus == "CLOSED"){
+            $this->data["TitlePage"] = "NOVADECI";
+            return view('Components.Guest.ElectionClosed',$this->data);
+        }
+        
+        if(strtoupper(config('app.F2F_ELECTION')) == "NO"){
+            if($startDate <= $day && $endDate >= $day){
+                $this->data["branchContact"] = $this->helper->BranchContactList();
+                $this->data["TitlePage"] = "NOVADECI MIGS Verifier";
+                return view('Components.Guest.Verifier',$this->data);
+            }
+            else{
+                $this->data["TitlePage"] = "NOVADECI";
+                return view('Components.Guest.ElectionClosed',$this->data);
+            }
+        }
         $this->data["branchContact"] = $this->helper->BranchContactList();
         $this->data["TitlePage"] = "NOVADECI MIGS Verifier";
         return view('Components.Guest.Verifier',$this->data);
