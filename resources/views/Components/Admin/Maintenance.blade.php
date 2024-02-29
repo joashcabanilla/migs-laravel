@@ -15,7 +15,7 @@
                                         <select class="form-control" id="databaseTable" name="table" required>
                                             <option value="">-- Select Table --</option>
                                             @foreach($tables as $value)
-                                                <option value="{{$value->Tables_in_migs}}">{{$value->Tables_in_migs}}</option>
+                                                <option value="{{$value}}">{{$value}}</option>
                                             @endforeach
                                         </select>
                                     </div>

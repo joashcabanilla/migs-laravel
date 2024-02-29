@@ -59,8 +59,12 @@ class AdminController extends Controller
     }
 
     function Maintenance(){
-        $this->data["tables"] = $this->helper->getAllDatabaseTable();
-        dd($this->data["tables"]);
+        $tableArray = $this->helper->getAllDatabaseTable();
+        $tableList = array();
+        foreach($tableArray as $tableKey => $table){
+            $tableList[] = trim($table);
+        }
+        $this->data["tables"] = $tableList;
         return view('Components.Admin.Maintenance',$this->data);
     }
 
