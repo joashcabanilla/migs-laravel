@@ -42,6 +42,10 @@ class HelperClass
         $electionEndTime = Carbon::createFromFormat("Y-m-d h:i A",$day." ".$endTime);
         $electionTimeStatus =  $electionStartTime <= $currentDateTime && $electionEndTime >= $currentDateTime;
         $electionStatus = $electionDayStatus && $electionTimeStatus ? "open" : "closed";
+        
+        if($setting->ElectionStatus == "CLOSED"){
+            $electionStatus =  "closed";
+        }
 
         return $electionStatus;
     }
@@ -64,7 +68,10 @@ class HelperClass
         $electionEndTime = Carbon::createFromFormat("Y-m-d h:i A",$day." ".$f2fendTime);
         $electionTimeStatus =  $electionStartTime <= $currentDateTime && $electionEndTime >= $currentDateTime;
         $electionStatus = $electionDayStatus && $electionTimeStatus ? "open" : "closed";
-
+        
+        if($setting->ElectionStatus == "CLOSED"){
+            $electionStatus =  "closed";
+        }
         return $electionStatus;
     }
 

@@ -18,6 +18,7 @@ class SettingsModel extends Model
         'f2fStartDateTime',
         'f2fEndDateTime',
         'MeetingID',
-        'MeetingPass'
+        'MeetingPass',
+        'ElectionStatus'
     ];
 }
