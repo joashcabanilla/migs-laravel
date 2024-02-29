@@ -59,4 +59,11 @@ class VotesModel extends Model
     function GetVote($voterId){
         return $this->where("VoterId", $voterId)->get();
     }
+
+    function GetAllVotersVoted($nonVoting = false){
+        if($nonVoting){
+            return $this->select("VoterId")->where("Candidate", 0)->groupBy("VoterId")->get();
+        }
+        return $this->select("VoterId")->groupBy("VoterId")->get();
+    }
 }

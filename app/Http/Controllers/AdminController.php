@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\VerificationModel;
 use App\Models\PositionsModel;
 use App\Models\CandidateModel;
+use App\Models\VotesModel;
 
 //Class
 use App\Classes\HelperClass;
@@ -20,7 +21,7 @@ use App\Classes\DataTableClass;
 
 class AdminController extends Controller
 {
-    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel, $candidateModel;
+    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel, $candidateModel, $votesModel;
 
     public function __construct()
     {
@@ -33,6 +34,7 @@ class AdminController extends Controller
         $this->verificationModel = new VerificationModel();
         $this->positionModel = new PositionsModel();
         $this->candidateModel = new CandidateModel();
+        $this->votesModel = new VotesModel();
         $this->data = array();
     }
 
@@ -42,8 +44,14 @@ class AdminController extends Controller
             case 1:
                 $this->data["TitlePage"] = "NOVADECI ADMIN";
             break;
+            case 2:
+                $this->data["TitlePage"] = "NOVADECI ELECTION";
+            break;
             case 3:
                 $this->data["TitlePage"] = "NOVADECI UTILITY";
+            break;
+            case 4:
+                $this->data["TitlePage"] = "NOVADECI SUPPLIES";
             break;
         }
         $this->data['UserTypeList'] = $this->usertypeModel->getUserTypeArray();
@@ -92,6 +100,10 @@ class AdminController extends Controller
     }
 
     //for Election
+    function ElectionDashboard(){
+        return view('Components.Admin.ElectionDashboard', $this->data);
+    }
+
     function ElectionPosition(){
         return view('Components.Admin.ElectionPositions', $this->data);
     }
@@ -134,6 +146,24 @@ class AdminController extends Controller
             "verifiedStatus" => number_format($this->verificationModel->GetTotalVerification("Verified"))
         ];
         
+        return $result;
+    }
+    
+    function GetElectionDashboardData(){
+        $migs = $this->votersModel->GetTotalMember("MIGS");
+        $voted = count($this->votesModel->GetAllVotersVoted());
+        $quorum = ($voted / $migs) * 100;
+        $result = [
+            "total" => [
+                "totalMembers" => number_format($this->votersModel->GetTotalMember()),
+                "totalMigs" => number_format($migs),
+                "totalVoted" => number_format($voted),
+                "totalNonVoting" => number_format(count($this->votesModel->GetAllVotersVoted(true))),
+                "totalQuorum" => number_format($quorum,2),
+                "totalPositions" => number_format(count($this->positionModel->GetPositionList())),
+                "totalCandidates" => number_format(count($this->candidateModel->GetAllCandidate())),
+            ]
+        ];
         return $result;
     }
 

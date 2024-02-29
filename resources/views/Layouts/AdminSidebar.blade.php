@@ -3,6 +3,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             @switch(Auth::user()->UserType)
                 @case(1)
+                    {{-- SUPERADMIN TAB --}}
                     <li class="nav-item mt-2">
                         <a href="{{route("admin.user")}}" class="nav-link nav-main-tab active tabLink">
                             <i class="nav-icon fas fa-users fa-lg"></i>
@@ -16,14 +17,20 @@
                             <p>Maintenance</p>
                         </a>
                     </li>
-
+                    
+                    {{-- ELECTION TAB --}}
+                    <li class="nav-item mt-2">
+                        <a href="{{route("election.dashboard")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fa fa-th-large fa-lg"></i>
+                            <p>Election Dashboard</p>
+                        </a>
+                    </li>
                     <li class="nav-item mt-2">
                         <a href="{{route("election.position")}}" class="nav-link nav-main-tab tabLink  font-weight-bold">
                             <i class="nav-icon fas fa-cogs fa-lg"></i>
                             <p>Election Positions</p>
                         </a>
                     </li>
-
                     <li class="nav-item mt-2">
                         <a href="{{route("election.candidate")}}" class="nav-link nav-main-tab tabLink  font-weight-bold">
                             <i class="nav-icon fas fa-users fa-lg"></i>
@@ -31,6 +38,7 @@
                         </a>
                     </li>
 
+                    {{-- UTILITY TAB --}}
                     <li class="nav-item mt-2">
                         <a href="{{route("utility.dashboard")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
                             <i class="nav-icon fa fa-th-large fa-lg"></i>
@@ -58,6 +66,12 @@
                 @break
 
                 @case(2)
+                    <li class="nav-item mt-2">
+                        <a href="{{route("election.dashboard")}}" class="nav-link nav-main-tab tabLink active font-weight-bold">
+                            <i class="nav-icon fa fa-th-large fa-lg"></i>
+                            <p>Election Dashboard</p>
+                        </a>
+                    </li>
                 @break
 
                 @case(3)

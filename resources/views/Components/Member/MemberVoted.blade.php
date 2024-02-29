@@ -30,8 +30,8 @@
 
     <div class="row mt-3">
         <div class="col-12">
-            <p class="text-center text-purple text-monospace mb-0">Here's your <a class="text-purple text-monospace font-weight-bold">Zoom Credentials</a> for the 48th General Assembly Virtual Meeting to be held on</p>
-            <p class="text-center text-purple text-monospace font-weight-bold mb-1">{{$gaDate}}</p>
+            <p class="text-center text-indigo text-monospace mb-0">Here's your <a class="text-indigo text-monospace font-weight-bold">Zoom Credentials</a> for the 48th General Assembly Virtual Meeting to be held on</p>
+            <p class="text-center text-indigo text-monospace font-weight-bold mb-1">{{$gaDate}}</p>
             <p class="text-center text-monospace font-weight-bold mb-0">TIME</p>
             <p class="text-center text-monospace font-weight-bold">{{$gaTime}}</p>
         </div>

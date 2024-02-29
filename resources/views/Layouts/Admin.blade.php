@@ -76,6 +76,9 @@
         <link href="https://cdn.datatables.net/v/bs5/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/sc-2.1.1/datatables.min.css" rel="stylesheet"/>
 
         <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/af-2.5.3/b-2.3.6/b-colvis-2.3.6/fc-4.2.2/fh-3.3.2/kt-2.9.0/r-2.4.1/sc-2.1.1/datatables.min.js"></script>
+
+        <!-- ChartJS -->
+        <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
         
         {{--css for page --}}
         <link rel="stylesheet" href="{{asset('css/Admin.css')}}" />

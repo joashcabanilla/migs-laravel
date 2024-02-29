@@ -39,6 +39,10 @@ $(".tabLink").click((e) => {
                     UtilityVerification();
                     break;
 
+                case "Election Dashboard":
+                    ElectionDashboard();
+                break;
+                
                 case "Election Positions":
                     ElectionPositions();
                 break;

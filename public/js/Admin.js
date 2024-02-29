@@ -280,6 +280,7 @@ const UtilityDashboard = () => {
         $.ajax({
             type: "POST",
             url: "admin/GetUtilityDashboardData",
+            async: false,
             success: (res) => {
                 $(".totalMembers").text(res.totalMembers);
                 $(".totalBirthdate").text(res.updatedBirthdate);
@@ -676,6 +677,40 @@ const UtilityVerification = () => {
             }
         });
     });
+}
+
+const ElectionDashboard = () => {
+
+    const displayData = (data) => {
+        let total = Object.entries(data.total);
+        total.forEach((totalValue) => {
+            $(`.${totalValue[0]}`).text(totalValue[1]);
+        });
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "admin/GetElectionDashboardData",
+        async: false,
+        success: (res) => {
+            displayData(res);
+        }
+    });
+
+    intervalId.ElectionDashboard = setInterval(() => {
+        $.ajax({
+            type: "POST",
+            url: "admin/GetElectionDashboardData",
+            async: false,
+            success: (res) => {
+                displayData(res);
+            }
+        });
+    }, 3000);
+
+    intervalId.ElectionDashboard1 = setInterval(() => {
+        $(".tabLink.active").trigger("click");
+    },120000);
 }
 
 const ElectionPositions = () => {

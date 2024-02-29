@@ -40,7 +40,10 @@ class VotersModel extends Model
         return $this->select("Branch")->distinct()->orderBy("Branch", "ASC")->get();
     }
 
-    function GetTotalMember(){
+    function GetTotalMember($status = ""){
+        if(!empty($status)){
+            return $this->where("Status",$status)->count();
+        }
         return $this->count();
     }
 
