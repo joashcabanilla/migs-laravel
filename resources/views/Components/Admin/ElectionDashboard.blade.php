@@ -83,7 +83,7 @@
             <h4 class="font-weight-bold">VOTES TALLY</h4>
         </div>
     </div>
-    <div class="row">
+    <div class="row voteTally">
         <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="card card-primary card-outline elevation-2 p-2">
                 <div class="row">
@@ -92,38 +92,27 @@
                     </div>
                     <div class="col-12">
                         <div class="chart mt-3">
-                            <canvas id="voteTallyBranch" style="width: 100%; height: 300px;"></canvas>
+                            <canvas class="voteTallyBranch" style="width: 100%; height: 300px;"></canvas>
                         </div>
                     </div>
                 </div>
             </div> 
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="card card-primary card-outline elevation-2 p-2">
-                <div class="row">
-                    <div class="col-12">
-                        <h5 class="font-weight-bold">BOARD OF DIRECTORS</h5>
+        @foreach($positionList as $position)
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card card-primary card-outline elevation-2 p-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="font-weight-bold">{{strtoupper($position->Description)}}</h5>
+                        </div>
+                        <div class="col-12">
+                            <div class="chart mt-3">
+                                <canvas class="votePositionTally{{$position->Id}}" style="width: 100%; height: 300px;"></canvas>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div> 
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="card card-primary card-outline elevation-2 p-2">
-                <div class="row">
-                    <div class="col-12">
-                        <h5 class="font-weight-bold">AUDIT COMMITTEE</h5>
-                    </div>
-                </div>
-            </div>  
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <div class="card card-primary card-outline elevation-2 p-2">
-                <div class="row">
-                    <div class="col-12">
-                        <h5 class="font-weight-bold">ELECTION COMMITTEE</h5>
-                    </div>
-                </div>
+                </div> 
             </div>
-        </div>
+        @endforeach
     </div>
 </div>

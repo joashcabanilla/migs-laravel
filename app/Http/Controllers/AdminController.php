@@ -60,6 +60,7 @@ class AdminController extends Controller
 
     function Maintenance(){
         $this->data["tables"] = $this->helper->getAllDatabaseTable();
+        dd($this->data["tables"]);
         return view('Components.Admin.Maintenance',$this->data);
     }
 
@@ -101,6 +102,7 @@ class AdminController extends Controller
 
     //for Election
     function ElectionDashboard(){
+        $this->data["positionList"] = $this->positionModel->GetPositionList();
         return view('Components.Admin.ElectionDashboard', $this->data);
     }
 

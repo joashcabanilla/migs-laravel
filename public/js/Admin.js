@@ -710,7 +710,12 @@ const ElectionDashboard = () => {
 
     intervalId.ElectionDashboard1 = setInterval(() => {
         $(".tabLink.active").trigger("click");
-    },120000);
+    }, 120000);
+
+    let voteTally = {};
+    $(".voteTally").find("canvas").each((key, element) => {
+        let classname = $(element).attr("class");
+    });
 }
 
 const ElectionPositions = () => {
