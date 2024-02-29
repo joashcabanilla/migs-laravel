@@ -66,7 +66,6 @@ class AdminController extends Controller
                 $tableList[] = trim($tablename);
             }
         }
-        dd($tableList);
         $this->data["tables"] = $tableList;
         return view('Components.Admin.Maintenance',$this->data);
     }
