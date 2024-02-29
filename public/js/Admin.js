@@ -691,7 +691,7 @@ const ElectionDashboard = () => {
         let dataSet = {
             labels: sortedLabels,
             datasets: [{
-                label: 'NUMBER OF VOTES',
+                label: 'VOTES',
                 data: sortedData,
                 backgroundColor: 'rgba(43,125,98, 0.6)',
                 borderColor: 'rgba(43,125,98, 1)',
