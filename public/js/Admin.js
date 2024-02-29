@@ -300,10 +300,10 @@ const MemberInfoTab = () => {
         serverSide: true,
         dom: 'rtip',
         columnDefs: [
-            { targets: 0, width: '5%', className: "text-center font-weight-bold p-2" },
+            { targets: 0, width: '7%', className: "text-center font-weight-bold p-2" },
             { targets: 1, width: '10%', className: "text-center font-weight-bold p-2" },
             { targets: 2, width: '10%', className: "text-center font-weight-bold p-2" },
-            { targets: 3, width: '30%', className: "text-left font-weight-bold p-2" },
+            { targets: 3, width: '25%', className: "text-left font-weight-bold p-2" },
             { targets: 4, width: '15%', className: "text-center font-weight-bold p-2" },
             { targets: 5, width: '15%', className: "text-center font-weight-bold p-2" },
             { targets: 6, width: '10%', className: "text-center font-weight-bold p-2" },
