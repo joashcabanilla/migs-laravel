@@ -7,7 +7,7 @@
             </div>
             <div class="card-body">
                 <h1 class="font-weight-bold text-monospace text-center">The 48th GA Registration and Voting System</h1>
-                <h1 class="font-weight-bold text-monospace text-center" style="color:purple">OFFICIALLY CLOSED!</h1> 
+                <h1 class="font-weight-bold text-monospace text-center" style="color:purple">TEMPORARILY CLOSED!</h1> 
             </div>
         </div>
     </div>

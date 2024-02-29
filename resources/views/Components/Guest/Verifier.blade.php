@@ -32,7 +32,7 @@
                                 <input type="text" class="form-control form-control-lg" placeholder="Type here..." name="search" id="verifierSearch" autocomplete="true" required autofocus>
                             </div>
                             <div class="col-lg-2 col-md-12 col-sm-12 m-lg-0 m-md-1 m-1">
-                                <button class="font-weight-bold btn btn-success form-control form-control-lg"><i class="fas fa-search"></i> Verify</button>   
+                                <button class="font-weight-bold btn btn-success form-control form-control-lg" style="width: 150px;"><i class="fas fa-search"></i> Verify</button>   
                             </div>
                             <div class="col-12 mt-3">
                                 <h4 class="text-warning"><i class="text-light">Example format for</i> PB number "001234" no Dash(-), kapag may letra naman "N001234" <br /><i class="text-light">at kung</i> Member ID "0010000000123456",<br /><i class="text-light"> ang i lalagay lang ang</i> 123456</h4>
