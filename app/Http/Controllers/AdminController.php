@@ -62,6 +62,7 @@ class AdminController extends Controller
         $tableArray = $this->helper->getAllDatabaseTable();
         $tableList = array();
         foreach($tableArray as $tableKey => $table){
+            dd($table);
             $tableList[] = trim($table);
         }
         $this->data["tables"] = $tableList;
