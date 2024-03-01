@@ -152,6 +152,8 @@
         $(document).ajaxStop(function(){
             $.LoadingOverlay("hide");
         });
+
+        
     </script>
     
     {{--script for page --}}

@@ -58,6 +58,10 @@ $(".tabLink").click((e) => {
                 case "Tickets Printing":
                     ElectionTickets();
                 break;
+
+                case "Election Summary":
+                    ElectionSummary();
+                break;
             }
             $.LoadingOverlay("hide");
         }

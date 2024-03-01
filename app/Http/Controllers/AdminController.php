@@ -126,6 +126,12 @@ class AdminController extends Controller
         return view('Components.Admin.ElectionTickets', $this->data);
     }
 
+    function ElectionSummary(){
+        $this->data['candidates'] = $this->candidateModel->GetAllCandidate();
+        $this->data['positions'] = $this->positionModel->GetPositionList();
+        return view('Components.Admin.ElectionSummary', $this->data);
+    }
+
     //Post Method
     function PostLogout(Request $request){
         Auth::logout();

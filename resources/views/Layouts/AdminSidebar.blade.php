@@ -43,6 +43,12 @@
                             <p>Tickets Printing</p>
                         </a>
                     </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("election.summary")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-print fa-lg"></i>
+                            <p>Election Summary</p>
+                        </a>
+                    </li>
 
                     {{-- UTILITY TAB --}}
                     <li class="nav-item mt-2">
@@ -82,6 +88,12 @@
                         <a href="{{route("election.tickets")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
                             <i class="nav-icon fas fa-print fa-lg"></i>
                             <p>Tickets Printing</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("election.summary")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-print fa-lg"></i>
+                            <p>Election Summary</p>
                         </a>
                     </li>
                 @break

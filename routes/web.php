@@ -73,6 +73,7 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::get('/election/position', [AdminController::class, 'ElectionPosition'])->name('election.position');
         Route::get('/election/candidate', [AdminController::class, 'ElectionCandidate'])->name('election.candidate');
         Route::get('/election/tickets', [AdminController::class, 'ElectionTickets'])->name('election.tickets');
+        Route::get('/election/summary', [AdminController::class, 'ElectionSummary'])->name('election.summary');
 
         //post route
         //admin post route

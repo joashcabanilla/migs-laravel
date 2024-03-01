@@ -1173,3 +1173,6 @@ const MemberVoting = () => {
         $("#voteModal").modal("show");
     });
 }
+
+const ElectionSummary = () => {
+}

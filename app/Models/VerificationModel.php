@@ -27,7 +27,7 @@ class VerificationModel extends Model
 
     function CheckMemberVerified($id){
         $result = false; 
-        $member = $this->find($id);
+        $member = $this->where("VoterId",$id)->first();
         if(!empty($member) && $member->Status == "Verified"){
             $result = true;
         }

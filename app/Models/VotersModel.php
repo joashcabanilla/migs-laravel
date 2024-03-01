@@ -110,7 +110,7 @@ class VotersModel extends Model
         $result["status"] = "success";
         $var = (object) $data;
         $member = $this->find($var->Id);
-         
+                                                    
         if($member->Status != "MIGS" && $var->Status == "MIGS"){
             if($verified){
                 $member->update([
