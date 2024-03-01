@@ -62,6 +62,10 @@ $(".tabLink").click((e) => {
                 case "Election Summary":
                     ElectionSummary();
                 break;
+                
+                case "GA Items":
+                    Supplies();
+                break;
             }
             $.LoadingOverlay("hide");
         }

@@ -5,7 +5,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 //Model
 use App\Models\VotersModel;
 use App\Models\UsertypeModel;
@@ -14,6 +13,7 @@ use App\Models\VerificationModel;
 use App\Models\PositionsModel;
 use App\Models\CandidateModel;
 use App\Models\VotesModel;
+use App\Models\GaItemsModel;
 
 //Class
 use App\Classes\HelperClass;
@@ -21,7 +21,7 @@ use App\Classes\DataTableClass;
 
 class AdminController extends Controller
 {
-    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel, $candidateModel, $votesModel;
+    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel, $candidateModel, $votesModel, $gaItemsModel;
 
     public function __construct()
     {
@@ -35,6 +35,7 @@ class AdminController extends Controller
         $this->positionModel = new PositionsModel();
         $this->candidateModel = new CandidateModel();
         $this->votesModel = new VotesModel();
+        $this->gaItemsModel = new GaItemsModel();
         $this->data = array();
     }
 
@@ -130,6 +131,13 @@ class AdminController extends Controller
         $this->data['candidates'] = $this->candidateModel->GetAllCandidate();
         $this->data['positions'] = $this->positionModel->GetPositionList();
         return view('Components.Admin.ElectionSummary', $this->data);
+    }
+
+    //for Supplies
+    function Supplies(){
+        $this->data['branch'] = $this->votersModel->GetBranchList();
+        $this->data['counter'] = $this->gaItemsModel->getCounter(Auth::user()->Id);
+        return view('Components.Admin.Supplies', $this->data);
     }
 
     //Post Method
@@ -318,5 +326,29 @@ class AdminController extends Controller
 
     function ElectionTicketDataTable(Request $request){
         return $this->datatable->ticketTable($request->all());
+    }
+
+    function SuppliesDataTable(Request $request){
+        return $this->datatable->suppliesTable($request->all());
+    }
+
+    function GetMemberGaItems(Request $request){
+        $memberData = $this->votersModel->GetMember($request->id);
+        $voteData = $this->votesModel->GetVote($request->id);
+        $member = [
+            "VoterId" => $memberData->Id,
+            "Pbno" => $memberData->Pbno,
+            "MemberId" => $memberData->MemberId,
+            "Name" => $memberData->FirstName." ".$memberData->MiddleName." ".$memberData->LastName,
+            "Branch" => $memberData->Branch,
+            "VoteF2F" => strtoupper($voteData[0]->VoteF2F),
+        ];
+        
+        return $member;
+    }
+
+    function ReceivedGaItems(Request $request){
+        $this->gaItemsModel->RegisterMember($request->all());
+        return $this->gaItemsModel->getCounter(Auth::user()->Id);
     }
 }

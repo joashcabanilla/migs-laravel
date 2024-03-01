@@ -65,7 +65,7 @@
                         <th>Member ID</th>
                         <th>Name</th>
                         <th>Branch</th>
-                        <th>Date Time Voted</th>
+                        <th>Date & Time Voted</th>
                     </tr>
                 </thead>
             </table>

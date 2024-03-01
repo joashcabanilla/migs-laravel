@@ -70,4 +70,15 @@ class VotesModel extends Model
     function GetAllVotePerCandidate(){
         return $this->get();
     }
+
+    function GetAllVotePerVoteMethod($method){
+        $query = $this->select("VoterId","VoteF2F")->groupBy("VoterId","VoteF2F");
+        
+        if(!empty($method)){
+            $f2f = $method == "online" ? "NO" : "YES";
+            $query = $query->where("VoteF2F",$f2f);
+        } 
+        
+        return $query->get();
+    }
 }

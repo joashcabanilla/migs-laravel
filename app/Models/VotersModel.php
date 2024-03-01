@@ -175,4 +175,28 @@ class VotersModel extends Model
     function GetMemberIDs($data){
         return $this->whereIn("Id", $data)->get();
     }
+
+    function memberVotedTable($data,$voterIdList){
+        $query = $this->select(
+            "Id",
+            "Pbno",
+            "MemberId",
+            DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
+            "Branch",
+        );
+        
+        if(!empty($data->filterSearch)){
+            $search = strtoupper(str_replace('ñ', 'Ñ', $data->filterSearch));
+            $query->where(function($q) use($search){
+                $q->orWhereRaw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) LIKE '%".$search."%'");
+                $q->orWhere("Pbno", $search);
+                $q->orWhere("MemberId", $search);
+            });
+        }
+
+        $query = !empty($data->filterBranch) ? $query->where("Branch", $data->filterBranch) : $query;
+        $query = !empty($voterIdList) ? $query->whereIn("Id", $voterIdList) : $query;
+        $query = $query->orderBy("Id", "ASC");
+        return $query;
+    }
 }

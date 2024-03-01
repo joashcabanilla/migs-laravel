@@ -75,6 +75,14 @@
                             <p>Utility Verification</p>
                         </a>
                     </li>
+
+                    {{-- SUPPLIES TAB --}}
+                    <li class="nav-item mt-2">
+                        <a href="{{route("supplies.index")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-shopping-basket fa-lg"></i>
+                            <p>GA Items</p>
+                        </a>
+                    </li>
                 @break
 
                 @case(2)
@@ -121,6 +129,15 @@
                         <a href="{{route("utility.verification")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
                             <i class="nav-icon fas fa-user-check fa-lg"></i>
                             <p>Utility Verification</p>
+                        </a>
+                    </li>
+                @break
+
+                @case(4)
+                    <li class="nav-item mt-2">
+                        <a href="{{route("supplies.index")}}" class="nav-link nav-main-tab tabLink active font-weight-bold">
+                            <i class="nav-icon fas fa-shopping-basket fa-lg"></i>
+                            <p>GA Items</p>
                         </a>
                     </li>
                 @break

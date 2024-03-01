@@ -1060,7 +1060,7 @@ const ElectionTickets = () => {
     $("#filterBranch,#DateTimeFrom,#DateTimeTo").change((e) => {
         dataTable.draw();
     });
-    
+
     $("#clearFilter").click((e) => {
         $("#filterSearch").val("");
         $("#filterBranch").val("");
@@ -1175,4 +1175,108 @@ const MemberVoting = () => {
 }
 
 const ElectionSummary = () => {
+
+}
+
+const Supplies = () => {
+    let dataTable = $('#dataTable').on('init.dt', function () {
+        $(".dataTables_wrapper").prepend("<div class='dataTables_processing card font-weight-bold d-none' role='status'>Loading Please Wait...<i class='fa fa-spinner fa-spin text-warning'></i></div>");
+    }).DataTable({
+        ordering: false,
+        serverSide: true,
+        dom: 'rtip',
+        columnDefs: [
+            { targets: 0, width: '1%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 1, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 2, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 3, width: '30%', className: "text-left align-middle font-weight-bold p-2" },
+            { targets: 4, width: '20%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 5, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 6, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+        ],
+        ajax: {
+            url: 'admin/SuppliesDataTable',
+            type: 'POST',
+            data: function (d) {
+                d.filterSearch = $("#filterSearch").val();
+                d.filterBranch = $("#filterBranch").val();
+                d.filterVoteMethod = $("#filterVoteMethod").val();
+            },
+            beforeSend: () => {
+                $(".dataTables_processing").removeClass("d-none");
+            },
+            complete: () => {
+                $(".dataTables_processing").addClass("d-none");
+            }
+        }
+    });
+
+    $("#filterSearch").keyup((e) => {
+        dataTable.draw();
+    });
+
+    $("#filterBranch,#filterVoteMethod").change((e) => {
+        dataTable.draw();
+    });
+
+    $("#clearFilter").click((e) => {
+        $("#filterSearch").val("");
+        $("#filterBranch").val("");
+        $("#filterVoteMethod").val("");
+        dataTable.draw();
+    });
+
+
+    $('#dataTable').on('click', '.editBtn', (e) => {
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "admin/GetMemberGaItems",
+            data: { id: $(e.currentTarget).data("id") },
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                for (let key in res) {
+                    if(key != "VoteF2F"){
+                        $("#itemForm").find("input[name='" + key + "']").val(res[key]);
+                    }else{
+                        if(res[key] == "NO"){
+                            $(".itemsTicket").addClass("d-none");
+                        }else{
+                            $(".itemsTicket").removeClass("d-none");
+                        }
+                    }
+                    
+                }
+            }
+        });
+        $("#itemModal").modal("show");
+    });
+
+    $("#itemForm").find("input[type='checkbox']").change((e) => {
+        $(e.currentTarget).prop("checked", true);
+    });
+
+    $("#itemForm").submit((e) => {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "admin/ReceivedGaItems",
+            data: $(e.currentTarget).serializeArray(),
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                $('#itemModal').modal("hide");
+                Swal.fire({
+                    title: "Member successfully registered.",
+                    icon: res.status,
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    $(".gaCounter").text(res);
+                    dataTable.ajax.reload(null, false);
+                });
+            }
+        });       
+    });
 }

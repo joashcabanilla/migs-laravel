@@ -10,10 +10,12 @@ use App\Models\VerificationModel;
 use App\Models\PositionsModel;
 use App\Models\CandidateModel;
 use App\Models\TicketsModel;
+use App\Models\VotesModel;
+use App\Models\GaItemsModel;
 
 class DataTableClass
 {
-    protected $data, $userModel, $userTypeModel, $voterModel, $verificationModel, $positionsModel, $candidateModel, $ticketModel;
+    protected $data, $userModel, $userTypeModel, $voterModel, $verificationModel, $positionsModel, $candidateModel, $ticketModel, $votesModel, $gaItemsModel;
 
     function __construct()
     {
@@ -24,6 +26,8 @@ class DataTableClass
         $this->positionsModel = new PositionsModel();
         $this->candidateModel = new CandidateModel();
         $this->ticketModel = new TicketsModel();
+        $this->votesModel = new VotesModel();
+        $this->gaItemsModel = new GaItemsModel();
         $this->data = array();
     }
 
@@ -403,6 +407,65 @@ class DataTableClass
 
             ['db' => 'DateTime', 'dt' => 5, 'formatter' => function($d){
                 return date("m/d/Y h:i A", strtotime($d));
+            }]
+        ];
+
+        $params = array(
+            "var" => $var,
+            "columns" => $columns,
+            "sql" => $query,  
+        );
+        
+        return $this->processTable($params);
+    }
+
+    function suppliesTable($data){
+        $var = (object) $data;
+        $voterList = $this->votesModel->GetAllVotePerVoteMethod($var->filterVoteMethod);
+        $gaItemList = $this->gaItemsModel->getMemberReceivedItems();
+
+        $voterIdList = $voteMethodList = $memberReceivedList = array();
+        
+        foreach($voterList as $voter){
+            $voterIdList[] = $voter->VoterId;
+            $voteMethodList[$voter->VoterId] = $voter->VoteF2F == "NO" ? "ONLINE" : "FACE TO FACE";
+        }
+
+        foreach($gaItemList as $item){
+            $memberReceivedList[$item->VoterId] = "RECEIVED";
+        }
+
+        if(!empty($voterIdList)){
+            $query = $this->voterModel->memberVotedTable($var,$voterIdList);
+        }else{
+            $query = $this->voterModel->memberVotedTable($var,[0]);
+        }
+
+        $columns =[
+            ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
+
+            ['db' => 'Pbno', 'dt' => 1, 'formatter'],
+
+            ['db' => 'MemberId', 'dt' => 2, 'formatter'],
+
+            ['db' => 'Name', 'dt' => 3, 'formatter' => function($d){
+                return strtoupper($d);
+            }],
+
+            ['db' => 'Branch', 'dt' => 4, 'formatter' => function($d){
+                return strtoupper($d);
+            }],
+
+            ['db' => 'Id', 'dt' => 5, 'formatter' => function($d) use($voteMethodList){
+                return $voteMethodList[$d];
+            }],
+            
+            ['db' => 'Id', 'dt' => 6, 'formatter' => function($d) use($memberReceivedList){
+                if(isset($memberReceivedList[$d])){
+                    return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 border border-success text-success'>".strtoupper($memberReceivedList[$d])."</p>";
+                }else{
+                    return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+                }
             }]
         ];
 

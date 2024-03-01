@@ -75,6 +75,9 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::get('/election/tickets', [AdminController::class, 'ElectionTickets'])->name('election.tickets');
         Route::get('/election/summary', [AdminController::class, 'ElectionSummary'])->name('election.summary');
 
+        //Supplies Url
+        Route::get('/supplies', [AdminController::class, 'Supplies'])->name('supplies.index');
+
         //post route
         //admin post route
         Route::post('Logout', [AdminController::class, 'PostLogout']);
@@ -107,6 +110,11 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
 
         Route::post('ElectionTicketDataTable', [AdminController::class, 'ElectionTicketDataTable']);
         Route::post('PrintTickets', [ReportController::class, 'PrintTickets'])->name('print.ticket');
+
+        //supplies post route
+        Route::post('SuppliesDataTable', [AdminController::class, 'SuppliesDataTable']);
+        Route::post('ReceivedGaItems', [AdminController::class, 'ReceivedGaItems']);
+        Route::post('GetMemberGaItems', [AdminController::class, 'GetMemberGaItems']);
     }
 );
 
