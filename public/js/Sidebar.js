@@ -41,18 +41,22 @@ $(".tabLink").click((e) => {
 
                 case "Election Dashboard":
                     ElectionDashboard();
-                break;
-                
+                    break;
+
                 case "Election Positions":
                     ElectionPositions();
-                break;
+                    break;
 
                 case "Election Candidates":
                     ELectionCandidates();
-                break;
+                    break;
 
                 case "Election Voting":
                     MemberVoting();
+                    break;
+
+                case "Tickets Printing":
+                    ElectionTickets();
                 break;
             }
             $.LoadingOverlay("hide");

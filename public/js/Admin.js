@@ -1020,6 +1020,65 @@ const ELectionCandidates = () => {
     });
 }
 
+const ElectionTickets = () => {
+    let dataTable = $('#dataTable').on('init.dt', function () {
+        $(".dataTables_wrapper").prepend("<div class='dataTables_processing card font-weight-bold d-none' role='status'>Loading Please Wait...<i class='fa fa-spinner fa-spin text-warning'></i></div>");
+    }).DataTable({
+        ordering: false,
+        serverSide: true,
+        dom: 'rtip',
+        columnDefs: [
+            { targets: 0, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 1, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 2, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 3, width: '30%', className: "text-left align-middle font-weight-bold p-2" },
+            { targets: 4, width: '20%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 5, width: '20%', className: "text-center align-middle font-weight-bold p-2" },
+        ],
+        ajax: {
+            url: 'admin/ElectionTicketDataTable',
+            type: 'POST',
+            data: function (d) {
+                d.filterSearch = $("#filterSearch").val();
+                d.filterBranch = $("#filterBranch").val();
+                d.DateTimeFrom = $("#DateTimeFrom").val();
+                d.DateTimeTo = $("#DateTimeTo").val();
+            },
+            beforeSend: () => {
+                $(".dataTables_processing").removeClass("d-none");
+            },
+            complete: () => {
+                $(".dataTables_processing").addClass("d-none");
+            }
+        }
+    });
+
+    $("#filterSearch").keyup((e) => {
+        dataTable.draw();
+    });
+
+    $("#filterBranch,#DateTimeFrom,#DateTimeTo").change((e) => {
+        dataTable.draw();
+    });
+    
+    $("#clearFilter").click((e) => {
+        $("#filterSearch").val("");
+        $("#filterBranch").val("");
+        $("#DateTimeFrom").val("");
+        $("#DateTimeTo").val("");
+        dataTable.draw();
+    });
+
+    $("#printBtn").click((e) => {
+        $("#printTicketForm").find("input[name='filterBranch']").val($("#filterBranch").val());
+        $("#printTicketForm").find("input[name='DateTimeFrom']").val($("#DateTimeFrom").val());
+        $("#printTicketForm").find("input[name='DateTimeTo']").val($("#DateTimeTo").val());
+        $("#printTicketForm").find("input[name='filterSearch']").val($("#filterSearch").val());
+        $("#printTicketForm").submit();
+    });
+
+}
+
 const MemberVoting = () => {
     $("#voteForm").submit((e) => {
         e.preventDefault();

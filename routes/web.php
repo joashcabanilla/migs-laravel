@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,7 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::get('/election/dashboard', [AdminController::class, 'ElectionDashboard'])->name('election.dashboard');
         Route::get('/election/position', [AdminController::class, 'ElectionPosition'])->name('election.position');
         Route::get('/election/candidate', [AdminController::class, 'ElectionCandidate'])->name('election.candidate');
+        Route::get('/election/tickets', [AdminController::class, 'ElectionTickets'])->name('election.tickets');
 
         //post route
         //admin post route
@@ -101,6 +103,9 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::post('ElectionCandidateDataTable', [AdminController::class, 'ElectionCandidateDataTable']);
         Route::post('GetElectionCandidate', [AdminController::class, 'GetElectionCandidate']);
         Route::post('AddUpdateElectionCandidate', [AdminController::class, 'AddUpdateElectionCandidate']);
+
+        Route::post('ElectionTicketDataTable', [AdminController::class, 'ElectionTicketDataTable']);
+        Route::post('PrintTickets', [ReportController::class, 'PrintTickets'])->name('print.ticket');
     }
 );
 

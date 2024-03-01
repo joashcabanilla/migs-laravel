@@ -18,6 +18,13 @@
                     <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MIGS CUT OFF DATE:</h6>
                     <h6 class="font-weight-bold m-0 bg-info rounded p-1">MARCH 2, 2024</h6>
                 </div>
+                <div class="col-12 mt-4">
+                    <h5 class="font-weight-bold text-warning">PAALALA:</h5>
+                    <h5 class="text-light">PARA SA MGA KAMAY-ARI NA BUMOTO AT NAGPA-REHISTRO ONLINE ANG INYONG MGA <b class="text-warning">GA ITEMS</b> AY MAAARING I-CLAIM o KUHAIN HANGGANG <b class="text-warning">MARCH 15, 2024</b> LAMANG.</h5>
+                </div>
+                <div class="col-12 mt-4">
+                    <h5 class="text-light">PARA NAMAN SA MGA KASAPI NA NASA IBANG LUGAR O HINDI MAKAKAPUNTA, MAAARING IPAKUHA ANG INYONG MGA <b class="text-warning">GA ITEMS.</b> MAGDALA LAMANG NG <b class="text-warning">AUTHORIZATION LETTER</b> AT <b class="text-warning">PHOTO COPY</b> NG INYONG VALID ID. MAAARI DIN I-CLAIM HANGGANG <b class="text-warning">MARCH 15, 2024</b> LAMANG.</h5>
+                </div>
                 <div class="col-12">
                     <hr class="bg-light" />
                 </div>

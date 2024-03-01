@@ -9,10 +9,12 @@ use App\Models\VotersModel;
 use App\Models\VerificationModel;
 use App\Models\PositionsModel;
 use App\Models\CandidateModel;
+use App\Models\TicketsModel;
 
 class DataTableClass
 {
-    protected $data, $userModel, $userTypeModel, $voterModel, $verificationModel, $positionsModel, $candidateModel;
+    protected $data, $userModel, $userTypeModel, $voterModel, $verificationModel, $positionsModel, $candidateModel, $ticketModel;
+
     function __construct()
     {
         $this->userModel = new User();
@@ -21,6 +23,7 @@ class DataTableClass
         $this->verificationModel = new VerificationModel();
         $this->positionsModel = new PositionsModel();
         $this->candidateModel = new CandidateModel();
+        $this->ticketModel = new TicketsModel();
         $this->data = array();
     }
 
@@ -365,6 +368,41 @@ class DataTableClass
 
             ['db' => 'Id', 'dt' => 4, 'formatter' => function($d){
                 return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+            }]
+        ];
+
+        $params = array(
+            "var" => $var,
+            "columns" => $columns,
+            "sql" => $query,  
+        );
+        
+        return $this->processTable($params);
+    }
+
+    function ticketTable($data){
+        $var = (object) $data;
+        $query = $this->ticketModel->dataTable($var);
+
+        $columns =[
+            ['db' => 'ticketNo', 'dt' => 0,'formatter' => function($d){
+                return "ON-".sprintf('%04d', $d);
+            }],
+
+            ['db' => 'Pbno', 'dt' => 1, 'formatter'],
+
+            ['db' => 'MemberId', 'dt' => 2, 'formatter'],
+
+            ['db' => 'Name', 'dt' => 3, 'formatter' => function($d){
+                return strtoupper($d);
+            }],
+
+            ['db' => 'Branch', 'dt' => 4, 'formatter' => function($d){
+                return strtoupper($d);
+            }],
+
+            ['db' => 'DateTime', 'dt' => 5, 'formatter' => function($d){
+                return date("m/d/Y h:i A", strtotime($d));
             }]
         ];
 

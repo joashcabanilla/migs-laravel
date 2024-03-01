@@ -120,6 +120,11 @@ class AdminController extends Controller
         $this->data['position'] = $this->positionModel->GetPositionList();
         return view('Components.Admin.ElectionCandidates', $this->data);
     }
+    
+    function ElectionTickets(){
+        $this->data['branch'] = $this->votersModel->GetBranchList();
+        return view('Components.Admin.ElectionTickets', $this->data);
+    }
 
     //Post Method
     function PostLogout(Request $request){
@@ -303,5 +308,9 @@ class AdminController extends Controller
 
     function GetElectionCandidate(Request $request){
         return $this->candidateModel->GetCandidate($request->id);
+    }
+
+    function ElectionTicketDataTable(Request $request){
+        return $this->datatable->ticketTable($request->all());
     }
 }

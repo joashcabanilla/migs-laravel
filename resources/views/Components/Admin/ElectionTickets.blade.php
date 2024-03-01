@@ -1,0 +1,84 @@
+<div class="container-fluid">
+    <div class="card card-primary card-outline elevation-2 p-3">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label for="filterBranch">Branch</label>
+                    <select class="form-control" id="filterBranch" name="filterBranch">
+                        <option value=""> -- Select Branch -- </option>
+                        @foreach($branch as $value)
+                            <option value="{{$value->Branch}}">{{strtoupper($value->Branch)}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label for="DateTimeFrom">Date Time From</label>
+                    <input type="datetime-local" class="form-control" id="DateTimeFrom" name="DateTimeFrom">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label for="DateTimeTo">Date Time To</label>
+                    <input type="datetime-local" class="form-control" id="DateTimeTo" name="DateTimeTo">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <label for="clearFilter">&nbsp;</label>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary font-weight-bold" id="clearFilter">
+                        <i class="fas fa-filter"></i> Clear Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-primary card-outline elevation-2 p-3">
+        <div class="row mt-1">
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="form-group">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" id="filterSearch"  placeholder="Search">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default" id="userSearchBtn">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-lg btn-primary float-lg-right font-weight-bold" id="printBtn">
+                        <i class="fas fa-print"></i> Print Ticket
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="dataTable" class="table table-hover table-bordered dataTable">
+                <thead>
+                    <tr>
+                        <th>Ticket No</th>
+                        <th>Pb No</th>
+                        <th>Member ID</th>
+                        <th>Name</th>
+                        <th>Branch</th>
+                        <th>Date Time Voted</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+{{-- PRINT TICKETS FORM --}}
+<form method="POST" id="printTicketForm" target="_blank" action="{{route('print.ticket')}}">
+    @csrf
+    <input type="hidden" name="filterBranch">
+    <input type="hidden" name="DateTimeFrom">
+    <input type="hidden" name="DateTimeTo">
+    <input type="hidden" name="filterSearch">
+</form>
