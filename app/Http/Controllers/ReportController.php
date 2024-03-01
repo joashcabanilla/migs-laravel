@@ -24,7 +24,10 @@ class ReportController extends Controller
         $getAllTicket = $this->ticketModel->dataTable($var)->get();
 
         foreach($getAllTicket as $ticket){
-            $data["ticketList"][$ticket->Branch][$ticket->Name] = $ticket->ticketNo;
+            $data["ticketList"][] = [
+                "name" => $ticket->Name ." - ". $ticket->Branch,
+                "ticketNo" => "ON-".sprintf('%04d', $ticket->ticketNo)
+            ];
         }
 
         return response()->make(view('Report.PrintTicket',$data), '200', 
