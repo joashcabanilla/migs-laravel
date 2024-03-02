@@ -299,7 +299,9 @@ class DataTableClass
                 $pbno = !empty($memberList) ? $memberList[$voterId]["Pbno"] : "";
                 $memberId = !empty($memberList) ? $memberList[$voterId]["MemberId"] : "";
                 $name = !empty($memberList) ? $memberList[$voterId]["Name"] : "";
-                return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$id."' data-pbno='".$pbno."' data-memberid='".$memberId."' data-name='".$name."' data-status='".$row->Status."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+                if($row->Status != "Verified"){
+                    return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$id."' data-pbno='".$pbno."' data-memberid='".$memberId."' data-name='".$name."' data-status='".$row->Status."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+                }
             }]
         ];
 
