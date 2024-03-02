@@ -335,13 +335,15 @@ class AdminController extends Controller
     function GetMemberGaItems(Request $request){
         $memberData = $this->votersModel->GetMember($request->id);
         $voteData = $this->votesModel->GetVote($request->id);
+        $voteF2F = strtoupper($voteData[0]->VoteF2F);
         $member = [
             "VoterId" => $memberData->Id,
             "Pbno" => $memberData->Pbno,
             "MemberId" => $memberData->MemberId,
             "Name" => $memberData->FirstName." ".$memberData->MiddleName." ".$memberData->LastName,
             "Branch" => $memberData->Branch,
-            "VoteF2F" => strtoupper($voteData[0]->VoteF2F),
+            "VoteF2F" => $voteF2F,
+            "RegisterVoteMethod" => $voteF2F == "NO" ? "ONLINE" : "FACE TO FACE"
         ];
         
         return $member;

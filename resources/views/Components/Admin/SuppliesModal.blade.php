@@ -39,6 +39,13 @@
                             </div>
                         </div>
 
+                        <div class="col-12">
+                            <label for="RegisterVoteMethod">Vote Method</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control font-weight-bold" id="RegisterVoteMethod" name="RegisterVoteMethod" autocomplete="false" readonly>
+                            </div>
+                        </div>
+
                         <div class="col-6">
                             <div class="icheck-success">
                                 <input type="checkbox" id="foodStub" name="foodStub" checked>
