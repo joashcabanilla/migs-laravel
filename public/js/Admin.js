@@ -1280,4 +1280,5 @@ const Supplies = () => {
             }
         });
     });
+    console.log("tryyy");
 }
