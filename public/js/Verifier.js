@@ -33,7 +33,11 @@ $("#verifierForm").submit((e) => {
                 } else {
                     membercard.find(".nonMigs").parent().removeClass("d-none").addClass("d-flex").children().first().css("color", "purple").next().css("color", "blue");
                 }
-                
+
+                if(res.electionStatus != "open" || res.f2felectionStatus != "open"){
+                    membercard.find(".voteBtn").remove();
+                }
+
                 membercard.find(".nonMigs").click((e) => {
                     $("#nonMigsForm").find(".nonmigs-membername").text(data.name);
                     $("#nonMigsForm").find("input[name='Id']").val(data.id);
@@ -112,12 +116,12 @@ $("#voterForm").submit((e) => {
         if (res.status == "election closed") {
             window.location.href = "/electionClosed";
         }
-        
-        if(res.status == "failed"){
+
+        if (res.status == "failed") {
             $(".error-text").text(res.message).removeClass("d-none");
             setTimeout(() => {
                 $(".error-text").addClass("d-none");
-            },5000);
+            }, 5000);
         }
     });
 });

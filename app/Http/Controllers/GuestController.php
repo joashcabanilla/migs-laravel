@@ -42,10 +42,6 @@ class GuestController extends Controller
     function GetVerifier(){
         Session::forget('VoterId');
         $setting = $this->settingModel->find(1);
-        $startDate = date("Y-m-d", strtotime($setting->startDateTime));
-        $endDate = date("Y-m-d", strtotime($setting->endDateTime));
-        $currentDateTime = Carbon::now();
-        $day = $currentDateTime->format('Y-m-d');
         
         if($setting->ElectionStatus == "CLOSED"){
             $this->data["TitlePage"] = "NOVADECI";

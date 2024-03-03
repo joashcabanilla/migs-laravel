@@ -79,9 +79,7 @@
                 </div>
             </div>
 
-            <div class="search-container-verifier">
-
-            </div>
+            <div class="search-container-verifier"></div>
         </div>
     </div>
     @include('Components.Guest.NonmigsModal')
