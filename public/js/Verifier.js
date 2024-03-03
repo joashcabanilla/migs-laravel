@@ -33,7 +33,7 @@ $("#verifierForm").submit((e) => {
                 } else {
                     membercard.find(".nonMigs").parent().removeClass("d-none").addClass("d-flex").children().first().css("color", "purple").next().css("color", "blue");
                 }
-                console.log("working");
+                
                 if (res.electionStatus != "open" || res.f2felectionStatus != "open") {
                     membercard.find(".voteBtn").remove();
                 }
