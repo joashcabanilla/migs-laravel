@@ -5,6 +5,7 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,3 +119,5 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
     }
 );
 
+Route::get('/js/{filename}', [FileController::class, 'getFile'])->name('getFileJs');
+Route::get('/css/{filename}', [FileController::class, 'getFile'])->name('getFileCss');
