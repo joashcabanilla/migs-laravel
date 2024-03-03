@@ -60,7 +60,11 @@
                     <h3 class="font-weight-bold memberID"></h3>
                 </div>
                 <h3 class=" text-center font-weight-bold status"></h3>
-                <h3 class='text-center font-weight-bold voteBtn d-none'>>>> Click here to VOTE <<<</h3>
+                
+                @if($electionStatus == "open" || $f2felectionStatus == "open")
+                    <h3 class='text-center font-weight-bold voteBtn d-none'>>>> Click here to VOTE <<<</h3>
+                @endif
+
                 <div class="d-none justify-content-center">
                     <h5 class="font-weight-bold mr-2">Makipag ugnayan sa inyong account officer(AO)</h5>
                     <h5 class="font-weight-bold nonMigs">>> Please click here <<</h5>

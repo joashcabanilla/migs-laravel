@@ -42,6 +42,8 @@ class GuestController extends Controller
     function GetVerifier(){
         Session::forget('VoterId');
         $setting = $this->settingModel->find(1);
+        $this->data["electionStatus"] = $this->helper->CheckElectionStatus();
+        $this->data["f2felectionStatus"] = $this->helper->f2fElectionStatus();
         
         if($setting->ElectionStatus == "CLOSED"){
             $this->data["TitlePage"] = "NOVADECI";
