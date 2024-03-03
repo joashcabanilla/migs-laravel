@@ -223,6 +223,6 @@
     </script>
     
     {{--script for page --}}
-    <script src="{{URL::asset('js/Admin.js')}}"></script>
-    <script src="{{URL::asset('js/Sidebar.js')}}"></script>
+    <script src="{{asset('js/Admin.js?123')}}"></script>
+    <script src="{{asset('js/Sidebar.js?123')}}"></script>
 </html>
