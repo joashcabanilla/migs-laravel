@@ -81,7 +81,7 @@
         <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
         
         {{--css for page --}}
-        <link rel="stylesheet" href="{{asset('css/Admin.css')}}" />
+        <link rel="stylesheet" href="{{asset('css/Admin.css')}}?{{ filemtime(public_path('css/Admin.css'))}}" />
         
         {{--script for page --}}
         <script src="{{asset('js/Function.js')}}"></script>
@@ -222,7 +222,7 @@
         </script>
         
         {{--script for page --}}
-        <script src="{{asset('js/Admin.js')}}"></script>
-        <script src="{{asset('js/Sidebar.js')}}"></script>
+        <script src="{{asset('js/Admin.js')}}?{{ filemtime(public_path('js/Admin.js'))}}"></script>
+        <script src="{{asset('js/Sidebar.js')}}?{{ filemtime(public_path('js/Admin.js'))}}"></script>
     </body>
 </html>
