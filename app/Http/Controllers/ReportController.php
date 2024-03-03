@@ -22,21 +22,17 @@ class ReportController extends Controller
         $var = (object) $request->all();
         $data = array();
         $getAllTicket = $this->ticketModel->dataTable($var)->get();
-        $batch = 1;
-        $ctr = 0;
+
         foreach($getAllTicket as $ticket){
-            $ctr++;
-            if($ctr <= 10){
-                $data["ticketList"]["batch".$batch][] = [
-                    "pbno" => $ticket->Pbno." / ".$ticket->MemberId,
-                    "name" => $ticket->Name ." - ". $ticket->Branch,
-                    "ticketNo" => "ON-".sprintf('%04d', $ticket->ticketNo),
-                    "contact" => $ticket->Contact
-                ];
-            }else{
-                $ctr = 0;
-                $batch++;
-            }
+            $memId = !empty($ticket->MemberId) ? $ticket->MemberId : "NO MEM ID";
+            $pbno = !empty($ticket->Pbno) ? $ticket->Pbno : "NO PB#";
+
+            $data["ticketList"][] = [
+                "pbno" => $memId ." / ". $pbno,
+                "name" => $ticket->Name,
+                "ticketNo" => "ON-".sprintf('%04d', $ticket->ticketNo),
+                "contact" => $ticket->Contact
+            ];
         }
 
         return response()->make(view('Report.PrintTicket',$data), '200', 
