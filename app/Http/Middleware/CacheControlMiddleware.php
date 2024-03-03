@@ -9,8 +9,10 @@ class CacheControlMiddleware
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-
-        $response->header('Cache-Control','nocache, no-store, max-age=0, must-revalidate');
+        if ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
+            $response->headers->set('Cache-Control', 'must-revalidate');
+        }
+        $response->header('Cache-Control','must-revalidate');
 
         return $response;
     }
