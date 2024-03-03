@@ -425,16 +425,25 @@ class DataTableClass
         $var = (object) $data;
         $voterList = $this->votesModel->GetAllVotePerVoteMethod($var->filterVoteMethod);
         $gaItemList = $this->gaItemsModel->getMemberReceivedItems();
+        $users = $this->userModel->GetUserListNotMember();
 
-        $voterIdList = $voteMethodList = $memberReceivedList = array();
+        $userList = $voterIdList = $voteMethodList = $memberReceivedList = array();
         
+        foreach($users as $user){
+            $userList[$user->Id] = strtoupper(str_replace('ñ', 'Ñ', $user->FirstName . " " . $user->LastName)); 
+        }
+
         foreach($voterList as $voter){
             $voterIdList[] = $voter->VoterId;
             $voteMethodList[$voter->VoterId] = $voter->VoteF2F == "NO" ? "ONLINE" : "FACE TO FACE";
         }
 
         foreach($gaItemList as $item){
-            $memberReceivedList[$item->VoterId] = "RECEIVED";
+            $memberReceivedList[$item->VoterId] = [
+                "status" => "RECEIVED",
+                "registerBy" => $userList[$item->RegisterBy],
+                "date" => date("m/d/Y", strtotime($item->Register))
+            ];
         }
 
         if(!empty($voterIdList)){
@@ -454,17 +463,26 @@ class DataTableClass
                 return strtoupper($d);
             }],
 
-            ['db' => 'Branch', 'dt' => 4, 'formatter' => function($d){
-                return strtoupper($d);
+            ['db' => 'Id', 'dt' => 4, 'formatter' => function($d) use($memberReceivedList){
+                if(isset($memberReceivedList[$d])){
+                    return $memberReceivedList[$d]["registerBy"];
+                }
+
             }],
 
-            ['db' => 'Id', 'dt' => 5, 'formatter' => function($d) use($voteMethodList){
+            ['db' => 'Id', 'dt' => 5, 'formatter' => function($d) use($memberReceivedList){
+                if(isset($memberReceivedList[$d])){
+                    return $memberReceivedList[$d]["date"];
+                }
+            }],
+
+            ['db' => 'Id', 'dt' => 6, 'formatter' => function($d) use($voteMethodList){
                 return $voteMethodList[$d];
             }],
             
-            ['db' => 'Id', 'dt' => 6, 'formatter' => function($d) use($memberReceivedList){
-                if(isset($memberReceivedList[$d])){
-                    return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 border border-success text-success'>".strtoupper($memberReceivedList[$d])."</p>";
+            ['db' => 'Id', 'dt' => 7, 'formatter' => function($d) use($memberReceivedList){
+                if(isset($memberReceivedList[$d]) && $memberReceivedList[$d]["status"] == "RECEIVED"){
+                    return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 border border-success text-success'>".strtoupper($memberReceivedList[$d]["status"])."</p>";
                 }else{
                     return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
                 }

@@ -27,7 +27,8 @@
                         <th>Pb No</th>
                         <th>Member ID</th>
                         <th>Name</th>
-                        <th>Branch</th>
+                        <th>Registered By</th>
+                        <th>Date</th>
                         <th>Vote Method</th>
                         <th>Action</th>
                     </tr>

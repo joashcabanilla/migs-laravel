@@ -1189,10 +1189,11 @@ const Supplies = () => {
             { targets: 0, width: '1%', className: "text-center align-middle font-weight-bold p-2" },
             { targets: 1, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
             { targets: 2, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
-            { targets: 3, width: '30%', className: "text-left align-middle font-weight-bold p-2" },
-            { targets: 4, width: '20%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 3, width: '25%', className: "text-left align-middle font-weight-bold p-2" },
+            { targets: 4, width: '15%', className: "text-center align-middle font-weight-bold p-2" },
             { targets: 5, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
             { targets: 6, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 7, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
         ],
         ajax: {
             url: 'admin/SuppliesDataTable',
@@ -1236,16 +1237,16 @@ const Supplies = () => {
             success: (res) => {
                 $.LoadingOverlay("hide");
                 for (let key in res) {
-                    if(key != "VoteF2F"){
+                    if (key != "VoteF2F") {
                         $("#itemForm").find("input[name='" + key + "']").val(res[key]);
-                    }else{
-                        if(res[key] == "NO"){
+                    } else {
+                        if (res[key] == "NO") {
                             $(".itemsTicket").addClass("d-none");
-                        }else{
+                        } else {
                             $(".itemsTicket").removeClass("d-none");
                         }
                     }
-                    
+
                 }
             }
         });
@@ -1277,6 +1278,6 @@ const Supplies = () => {
                     dataTable.ajax.reload(null, false);
                 });
             }
-        });       
+        });
     });
 }
