@@ -222,7 +222,7 @@
         </script>
         
         {{--script for page --}}
-        <script src="{{url('js/Admin.js')}}"></script>
-        <script src="{{url('js/Sidebar.js')}}"></script>
+        <script src="{{asset('js/Admin.js')}}"></script>
+        <script src="{{asset('js/Sidebar.js')}}"></script>
     </body>
 </html>
