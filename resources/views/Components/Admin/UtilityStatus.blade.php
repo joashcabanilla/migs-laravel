@@ -34,3 +34,8 @@
     </div>
 </div>
 @include('Components.Admin.UtilityStatusModal')
+
+@push('scripts')
+    <script src="{{asset('js/Admin.js')}}"></script>
+    <script src="{{asset('js/Sidebar.js')}}"></script>
+@endpush

@@ -116,3 +116,8 @@
         @endforeach
     </div>
 </div>
+
+@push('scripts')
+    <script src="{{asset('js/Admin.js')}}"></script>
+    <script src="{{asset('js/Sidebar.js')}}"></script>
+@endpush
