@@ -10,7 +10,7 @@ class CacheControlMiddleware
     {
         $response = $next($request);
 
-        $response->header('Cache-Control', 'must-revalidate');
+        $response->header('Cache-Control','nocache, no-store, max-age=0, must-revalidate');
 
         return $response;
     }
