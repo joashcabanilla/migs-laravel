@@ -118,6 +118,3 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::post('GetMemberGaItems', [AdminController::class, 'GetMemberGaItems']);
     }
 );
-
-Route::get('/js/{filename}', [FileController::class, 'getFile'])->name('getFileJs');
-Route::get('/css/{filename}', [FileController::class, 'getFile'])->name('getFileCss');
