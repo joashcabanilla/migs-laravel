@@ -223,6 +223,5 @@
     </script>
     
     {{--script for page --}}
-    <script src="{{asset('js/Admin.js')}}"></script>
-    <script src="{{asset('js/Sidebar.js')}}"></script>
+    @stack('scripts')
 </html>
