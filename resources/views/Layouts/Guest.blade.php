@@ -80,7 +80,7 @@
         <script src="{{asset('bootbox/bootbox.all.min.js')}}"></script>
         
         {{--css for page --}}
-        <link rel="stylesheet" href="{{asset('css/app.css')}}?{{ filemtime(public_path('js/app.css'))}}" />
+        <link rel="stylesheet" href="{{asset('css/app.css')}}?{{ filemtime(public_path('css/app.css'))}}" />
 
         {{--script for page --}}
         <script src="{{asset('js/Function.js')}}?{{ filemtime(public_path('js/Function.js'))}}"></script>
