@@ -61,9 +61,9 @@
                 </div>
                 <h3 class=" text-center font-weight-bold status"></h3>
                 
-                @if($electionStatus == "open" || $f2felectionStatus == "open")
+                {{-- @if($electionStatus == "open" || $f2felectionStatus == "open") --}}
                     <h3 class='text-center font-weight-bold voteBtn d-none'>>>> Click here to VOTE <<<</h3>
-                @endif
+                {{-- @endif --}}
 
                 <div class="d-none justify-content-center">
                     <h5 class="font-weight-bold mr-2">Makipag ugnayan sa inyong account officer(AO)</h5>
