@@ -63,12 +63,10 @@ class MemberController extends Controller
             $this->data["currentPage"] = "voted";
             $this->data["ticketNo"] = $this->ticketsModel->GetTicketNo($voterId);
             $setting = $this->settingModel->first();
-            $gaStartDateTime = $setting->f2fStartDateTime;
-            $gaEndDateTime = $setting->f2fEndDateTime;
-            $this->data["gaTime"] = "( ". date("h:i A", strtotime($gaStartDateTime)). " - " . date("h:i A", strtotime($gaEndDateTime)) ." )";
+            $this->data["gaSched"] = "( ".$setting->MeetingSched." )";
             $this->data["meetingID"] = $setting->MeetingID;
             $this->data["meetingPass"] = $setting->MeetingPass;
-            $this->data["gaDate"] = date("F j, Y", strtotime($gaEndDateTime));
+            $this->data["gaDate"] = date("F j, Y", strtotime($setting->f2fEndDateTime));
             
             $votedCandidates = $this->votesModel->GetVote($voterId);
             $votedCandidatesList = array();

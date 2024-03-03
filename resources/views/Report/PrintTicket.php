@@ -4,38 +4,58 @@
     $defaultFont = base_path("app/Includes/fonts/Calibri.afm"); 
     $h = $pdf->ez['pageHeight'];
     $w = $pdf->ez['pageWidth'];
-    $fontSize = 15;
-    $margin = $pdf->C2P(0.5);
-    $row = $pdf->C2P(0.5);
-    $hT = $h-$margin;
-    $wT = $w-($margin*2);
+    $fontSize = 11;
+    $startW = $pdf->C2P(1);
+    $startH = $h-$startW;
+
     $pdf->addInfo('Title',strtoupper("TICKETS PRINTING"));
     $pdf->selectFont($defaultFont);
 
-    $ticketCtr = 0;
+    function generateLine($pdf, $top, $col, $w1, $w2, $h1, $h2){
+        $extend = $pdf->C2P(0.015);
 
-    foreach($ticketList as $ticket){
-        $ticketCtr++;
-        $pdf->setColor(0.00,0.00,0.00);
-        if($ticketCtr <= 3){
-            $hT-=$row;
-            $pdf->addTextWrap($margin, $hT, $wT, $fontSize, "<b>".$ticket["name"]."</b>",'center');
-            $hT-=$row+$pdf->C2P(9);
-            $pdf->addJpegFromFile(base_path("public/image/ticketborder.jpeg"),$margin*4,$hT,$wT-($margin*5.6),$pdf->C2P(9.3));
-            $pdf->setColor(0.70,0.00,0.00);
-            $pdf->addTextWrap($margin, $hT+$pdf->C2P(0.4), $wT-$pdf->C2P(2), $fontSize, "<b>".$ticket["ticketNo"]."</b>",'right');
-        }else{
-            $ticketCtr = 0;
-            $pdf->ezNewPage();
-            $hT = $h-$margin;
-            $hT-=$row;
-            $pdf->addTextWrap($margin, $hT, $wT, $fontSize, "<b>".$ticket["name"]."</b>",'center');
-            $hT-=$row+$pdf->C2P(9);
-            $pdf->addJpegFromFile(base_path("public/image/ticketborder.jpeg"),$margin*4,$hT,$wT-($margin*5.6),$pdf->C2P(9.3));
-            $pdf->setColor(0.70,0.00,0.00);
-            $pdf->addTextWrap($margin, $hT+$pdf->C2P(0.4), $wT-$pdf->C2P(2), $fontSize, "<b>".$ticket["ticketNo"]."</b>",'right');
+        if($top == 1){
+            //top
+            $pdf->line($w1-$extend,$h1,$w2+$extend,$h1);
         }
-        $hT-=$row;
+
+        if($col == 1){
+            //left corner
+            $pdf->line($w1,$h1+$extend,$w1,$h2-$extend);
+        }
+
+        //right corner
+        $pdf->line($w2,$h1+$extend,$w2,$h2-$extend);
+
+        //bottom
+        $pdf->line($w1-$extend,$h2,$w2+$extend,$h2);
+
+    }
+
+    $ticketCtr = 0;
+    foreach($ticketList as $ticket){
+        $extend = $pdf->C2P(0.015);
+        $pdf->setLineStyle(1);
+        $ticketW = $pdf->C2P(9.5);
+        $rowH = $pdf->C2P(5);
+        $ticketH = $startH;
+        $ticketH-=$rowH;
+
+        $ticketCtr++;
+
+        if($ticketCtr <= 10){
+            if($ticketCtr % 2 == 0){
+                generateLine($pdf, 1, 2, $ticketW, $ticketW+$ticketW, $startH, $ticketH);
+                $startH-=$rowH;
+            }else{
+                generateLine($pdf, 1, 1, $startW, $ticketW, $startH, $ticketH);
+            }
+        }else{
+            $pdf->ezNewPage();
+            $startH = $h-$startW;
+            $ticketCtr = 0;
+        }
+        
     }
     $pdf->ezStream();
 ?>

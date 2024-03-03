@@ -46,7 +46,8 @@ class TicketsModel extends Model
             "voters.MemberId",
             DB::raw("CONCAT(COALESCE(voters.FirstName, ''), ' ', COALESCE(voters.MiddleName, ''), ' ', COALESCE(voters.LastName, '')) AS Name"),
             "voters.Branch",
-            "tickets.created_at AS DateTime"
+            "tickets.created_at AS DateTime",
+            "voters.Contact"
         )->join("voters","voters.Id","tickets.VoterId");
 
         if(!empty($data->filterSearch)){

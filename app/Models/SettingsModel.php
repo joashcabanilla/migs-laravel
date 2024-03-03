@@ -13,12 +13,13 @@ class SettingsModel extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
     protected $fillable = [
+        'ElectionStatus',
         'startDateTime',
         'endDateTime',
         'f2fStartDateTime',
         'f2fEndDateTime',
+        'MeetingSched',
         'MeetingID',
-        'MeetingPass',
-        'ElectionStatus'
+        'MeetingPass'
     ];
 }
