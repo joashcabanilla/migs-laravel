@@ -84,7 +84,7 @@
         <link rel="stylesheet" href="{{asset('css/Admin.css')}}?{{ filemtime(public_path('css/Admin.css'))}}" />
         
         {{--script for page --}}
-        <script src="{{asset('js/Function.js')}}"></script>
+        <script src="{{asset('js/Function.js')}}?{{ filemtime(public_path('js/Function.js'))}}"></script>
     </head>
 
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">

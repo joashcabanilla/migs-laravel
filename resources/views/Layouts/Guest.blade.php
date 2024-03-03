@@ -80,10 +80,10 @@
         <script src="{{asset('bootbox/bootbox.all.min.js')}}"></script>
         
         {{--css for page --}}
-        <link rel="stylesheet" href="{{asset('css/app.css')}}" />
+        <link rel="stylesheet" href="{{asset('css/app.css')}}?{{ filemtime(public_path('js/app.css'))}}" />
 
         {{--script for page --}}
-        <script src="{{asset('js/Function.js')}}"></script>
+        <script src="{{asset('js/Function.js')}}?{{ filemtime(public_path('js/Function.js'))}}"></script>
     </head>
 
     <body>
@@ -156,7 +156,7 @@
         </script>
         
         {{--script for page --}}
-        <script src="{{asset('js/Verifier.js')}}"></script>
-        <script src="{{asset('js/Login.js')}}"></script>
+        <script src="{{asset('js/Verifier.js')}}?{{ filemtime(public_path('js/Verifier.js'))}}"></script>
+        <script src="{{asset('js/Login.js')}}?{{ filemtime(public_path('js/Login.js'))}}"></script>
     </body>
 </html>

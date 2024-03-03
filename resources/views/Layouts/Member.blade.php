@@ -227,7 +227,7 @@
         </script>
         
         {{--script for page --}}
-        <script src="{{asset('js/Admin.js')}}"></script>
-        <script src="{{asset('js/Sidebar.js')}}"></script>
+        <script src="{{asset('js/Admin.js')}}?{{ filemtime(public_path('js/Admin.js'))}}"></script>
+        <script src="{{asset('js/Sidebar.js')}}?{{ filemtime(public_path('js/Sidebar.js'))}}"></script>
     </body>
 </html>
