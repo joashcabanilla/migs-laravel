@@ -150,79 +150,79 @@
                 </section>
             </div>
         </div>
-    </body>
 
-    {{-- script for adminlte --}}
-     <!-- Bootstrap 4 -->
-     <script src="{{asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        {{-- script for adminlte --}}
+        <!-- Bootstrap 4 -->
+        <script src="{{asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
-     <!-- daterangepicker -->
-     <script src="{{ asset('adminlte/plugins/moment/moment.min.js') }}"></script>
-     <script src="{{ asset('adminlte/plugins/daterangepicker/daterangepicker.js') }}"></script>
+        <!-- daterangepicker -->
+        <script src="{{ asset('adminlte/plugins/moment/moment.min.js') }}"></script>
+        <script src="{{ asset('adminlte/plugins/daterangepicker/daterangepicker.js') }}"></script>
 
-     <!-- Tempusdominus Bootstrap 4 -->
-     <script src="{{ asset('adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="{{ asset('adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
-     <!-- Summernote -->
-     <script src="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.js') }}"></script>
+        <!-- Summernote -->
+        <script src="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.js') }}"></script>
 
-     <!-- overlayScrollbars -->
-     <script src="{{ asset('adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+        <!-- overlayScrollbars -->
+        <script src="{{ asset('adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 
-     <!-- AdminLTE App -->
-     <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
-     <script src="{{asset('adminlte/dist/js/demo.js') }}"></script>
-     <script src="{{asset('adminlte/plugins/fullcalendar/main.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{asset('adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
+        <!-- AdminLTE App -->
+        <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+        <script src="{{asset('adminlte/dist/js/demo.js') }}"></script>
+        <script src="{{asset('adminlte/plugins/fullcalendar/main.js') }}"></script>
+        <!-- Select2 -->
+        <script src="{{asset('adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
 
-     <!-- SweetAlert App -->
-     <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-     <!-- Toastr -->
-     <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
+        <!-- SweetAlert App -->
+        <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+        <!-- Toastr -->
+        <script src="{{asset('adminlte/plugins/toastr/toastr.min.js')}}"></script>
 
-     <!-- Ekko Lightbox -->
-     <script src="{{asset('adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
-     <script>
-     $.widget.bridge('uibutton', $.ui.button)
-     </script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+        <!-- Ekko Lightbox -->
+        <script src="{{asset('adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
+        <script>
+        $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-    {{--script for Loading plugin --}}
-    <script>
-        $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-        });
-
-        $.LoadingOverlaySetup({
-          background: "rgba(255, 255, 255, 0.3)",
-          fontawesome : "fa fa-spinner fa-spin",
-          fontawesomeColor: "#343a40",
-          image: "",
-        });
-        
-        $(document).ready((e) => {
-            $(".tabLink.active").trigger("click");
-        });
-        $("#logout").click((e) => {
-            e.preventDefault();
-            $.ajax({
-                type:"POST",
-                url:"admin/Logout",
-                success: (res) => {
-                    localStorage.clear();
-                    location.reload();
+        {{--script for Loading plugin --}}
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-        });
 
-        var intervalId = {};
-        var defaultPicture = "{{asset('image/uploadicon.png')}}";
-    </script>
-    
-    {{--script for page --}}
-    <script src="{{asset('js/Admin.js')}}"></script>
-    <script src="{{asset('js/Sidebar.js')}}"></script>
+            $.LoadingOverlaySetup({
+            background: "rgba(255, 255, 255, 0.3)",
+            fontawesome : "fa fa-spinner fa-spin",
+            fontawesomeColor: "#343a40",
+            image: "",
+            });
+            
+            $(document).ready((e) => {
+                $(".tabLink.active").trigger("click");
+            });
+            $("#logout").click((e) => {
+                e.preventDefault();
+                $.ajax({
+                    type:"POST",
+                    url:"admin/Logout",
+                    success: (res) => {
+                        localStorage.clear();
+                        location.reload();
+                    }
+                });
+            });
+
+            var intervalId = {};
+            var defaultPicture = "{{asset('image/uploadicon.png')}}";
+        </script>
+        
+        {{--script for page --}}
+        <script src="{{asset('js/Admin.js')}}"></script>
+        <script src="{{asset('js/Sidebar.js')}}"></script>
+    </body>
 </html>
