@@ -43,8 +43,3 @@
 </div>
 @include('Components.Admin.AddMemberModal')
 @include('Components.Admin.UpdateMemberModal')
-
-@push('scripts')
-    <script src="{{asset('js/Admin.js')}}"></script>
-    <script src="{{asset('js/Sidebar.js')}}"></script>
-@endpush

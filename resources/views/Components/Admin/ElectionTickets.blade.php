@@ -82,8 +82,3 @@
     <input type="hidden" name="DateTimeTo">
     <input type="hidden" name="filterSearch">
 </form>
-
-@push('scripts')
-    <script src="{{asset('js/Admin.js')}}"></script>
-    <script src="{{asset('js/Sidebar.js')}}"></script>
-@endpush

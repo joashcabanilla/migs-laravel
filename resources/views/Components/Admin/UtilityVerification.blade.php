@@ -45,8 +45,3 @@
 </div>
 @include('Components.Admin.AddVerificationModal')
 @include('Components.Admin.UpdateVerificationModal')
-
-@push('scripts')
-    <script src="{{asset('js/Admin.js')}}"></script>
-    <script src="{{asset('js/Sidebar.js')}}"></script>
-@endpush
