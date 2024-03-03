@@ -52,17 +52,6 @@ class GuestController extends Controller
             return view('Components.Guest.ElectionClosed',$this->data);
         }
         
-        if(strtoupper(config('app.F2F_ELECTION')) == "NO"){
-            if($startDate <= $day && $endDate >= $day){
-                $this->data["branchContact"] = $this->helper->BranchContactList();
-                $this->data["TitlePage"] = "NOVADECI MIGS Verifier";
-                return view('Components.Guest.Verifier',$this->data);
-            }
-            else{
-                $this->data["TitlePage"] = "NOVADECI";
-                return view('Components.Guest.ElectionClosed',$this->data);
-            }
-        }
         $this->data["branchContact"] = $this->helper->BranchContactList();
         $this->data["TitlePage"] = "NOVADECI MIGS Verifier";
         return view('Components.Guest.Verifier',$this->data);
