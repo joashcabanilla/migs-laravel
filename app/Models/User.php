@@ -49,7 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     function CreateUpdateUser($data){
         $result = array();
-        $defaultpassword = "nvdc1976";
         $result["status"] = "success";
         $var = (object) $data;
         $id = 0;
@@ -78,7 +77,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $result["status"] = "failed";
         }
         else{
-            $password = isset($var->defaultpassword) ? $defaultpassword : $var->password;
+            $password = !isset($var->password) && empty($var->password) ? $var->defaultpassword : $var->password;
             $firstname = strtoupper(str_replace('ñ', 'Ñ', $var->firstname));
             $middlename = strtoupper(str_replace('ñ', 'Ñ', $var->middlename));
             $lastname = strtoupper(str_replace('ñ', 'Ñ', $var->lastname));
