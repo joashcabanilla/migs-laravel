@@ -54,11 +54,11 @@
             <div class="card elevation-2 p-2 bg-light memcard memcard-verifier d-none">
                 <h3 class="text-center font-weight-bold memberName">JOASH FLORENTINO CABANILLA</h3>
                 <div class="d-flex justify-content-center mt-2">
-                    <div>
+                    <div class="d-md-flex d-lg-flex">
                         <h3 class="font-weight-bold mr-2 black">PB#:</h3>
                         <h3 class="font-weight-bold mr-3 pbno"></h3>
                     </div>
-                    <div>
+                    <div class="d-md-flex d-lg-flex">
                         <h3 class="font-weight-bold mr-2 black">Member ID:</h4>
                         <h3 class="font-weight-bold memberID"></h3>
                     </div>
