@@ -34,7 +34,7 @@ $("#verifierForm").submit((e) => {
                     membercard.find(".nonMigs").parent().removeClass("d-none").addClass("d-flex").children().first().css("color", "purple").next().css("color", "blue");
                 }
                 
-                if (res.electionStatus != "open" || res.f2felectionStatus != "open") {
+                if (res.electionStatus != "open" && res.f2felectionStatus != "open") {
                     membercard.find(".voteBtn").remove();
                 }
 
