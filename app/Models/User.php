@@ -203,19 +203,19 @@ class User extends Authenticatable implements MustVerifyEmail
     function VoterLogin($data, $validation){
         $result = array();
         $forChecking = (object) $validation;
-        
-        if(strtoupper(config('app.F2F_ELECTION')) == "NO"){
-            if($forChecking->electionStatus == "open"){
-                return $this->MemberLogin($data,$forChecking->memberData);
-            }else{
-                $result["status"] = "election closed";
-                return $result;
-            }
-        }
+        return $this->MemberLogin($data,$forChecking->memberData);
+        // if(strtoupper(config('app.F2F_ELECTION')) == "NO"){
+        //     if($forChecking->electionStatus == "open"){
+        //         return $this->MemberLogin($data,$forChecking->memberData);
+        //     }else{
+        //         $result["status"] = "election closed";
+        //         return $result;
+        //     }
+        // }
 
-        if($forChecking->f2fElectionStatus == "open" || $forChecking->voteData > 0){
-            return $this->MemberLogin($data,$forChecking->memberData);
-        }
+        // if($forChecking->f2fElectionStatus == "open" || $forChecking->voteData > 0){
+        //     return $this->MemberLogin($data,$forChecking->memberData);
+        // }
         
         $result["status"] = "election closed";
         return $result;
