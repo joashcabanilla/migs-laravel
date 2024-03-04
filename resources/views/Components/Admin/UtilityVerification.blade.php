@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            @if(Auth::user()->UserType == 1)
+            @if(Auth::user()->UserType == 1 || Auth::user()->UserType == 3 || Auth::user()->UserType == 6)
                 <div class="col-lg-5 col-sm-12">
                     <button type="submit" class="btn btn-lg btn-primary float-lg-right font-weight-bold" id="memberAddBtn">
                         <i class="fa fa-plus" aria-hidden="true"></i> Add Member
