@@ -143,6 +143,7 @@ class VotersModel extends Model
                 DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
                 "Branch",
                 "Contact",
+                "Status"
             )->whereIn("Id",$idList);
 
             if(!empty($filter->filterSearch)){
@@ -163,7 +164,8 @@ class VotersModel extends Model
                         "MemberId" => $member->MemberId,
                         "Name" => $member->Name,
                         "Branch" => $member->Branch,
-                        "Contact" => $member->Contact
+                        "Contact" => $member->Contact,
+                        "Status" => $member->Status
                     ];
                 }
             }

@@ -228,6 +228,7 @@ class DataTableClass
         $memberList = array();
         $userList = array();
         $verifiedList = array();
+        $statusList = array();
 
         $var = (object) $data;
         $query = $this->verificationModel->verificationTable($var);
@@ -242,7 +243,10 @@ class DataTableClass
             $memberList = $this->voterModel->GetMemberForVerification($var, $idList);
 
             if(!empty($memberList)){
-                $query = $query->whereIn("VoterId", array_keys($memberList)); 
+                $query = $query->whereIn("VoterId", array_keys($memberList));
+                foreach($memberList as $memberId => $memberData){
+                    $statusList[$memberId] = $memberData["Status"];
+                } 
             }else{
                 $query = $query->where("Id", 0);
             }
@@ -293,7 +297,7 @@ class DataTableClass
                 return !empty($d) ? date("m/d/Y h:i A", strtotime($d)) : "";
             }],
 
-            ['db' => 'Id', 'dt' => 9, 'formatter' => function($d,$row) use($memberList){
+            ['db' => 'Id', 'dt' => 9, 'formatter' => function($d,$row) use($memberList, $statusList){
                 $id = $row->Id;
                 $voterId = $row->VoterId;
                 $pbno = !empty($memberList) ? $memberList[$voterId]["Pbno"] : "";
@@ -301,6 +305,12 @@ class DataTableClass
                 $name = !empty($memberList) ? $memberList[$voterId]["Name"] : "";
                 if($row->Status != "Verified"){
                     return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$id."' data-pbno='".$pbno."' data-memberid='".$memberId."' data-name='".$name."' data-status='".$row->Status."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
+                }else{
+                    if(isset($statusList[$voterId])){
+                        $color = $statusList[$voterId] != "MIGS" ? "border border-danger text-danger" : "border border-success text-success";
+                        return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 ".$color."'>".strtoupper($statusList[$voterId])."</p>";
+                    }
+                    
                 }
             }]
         ];
