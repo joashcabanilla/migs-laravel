@@ -514,14 +514,23 @@ class DataTableClass
 
     function summaryDataTable($data){
         $var = (object) $data;
+        $positionList = array();
+
         $query = $this->votesModel->dataTable($var);
+        $positions = $this->positionsModel->GetPositionList();
+        
+        foreach($positions as $position){
+            $positionList[$position->Id] = $position->Description;
+        }
 
         $columns =[
             ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
 
             ['db' => 'VoterId', 'dt' => 1, 'formatter'],
 
-            ['db' => 'Position', 'dt' => 2, 'formatter'],
+            ['db' => 'Position', 'dt' => 2, 'formatter' => function($d) use($positionList){
+                return strtoupper($positionList[$d]);
+            }],
 
             ['db' => 'Candidate', 'dt' => 3, 'formatter' => function($d){
                 return strtoupper($d);
