@@ -50,7 +50,7 @@ class ReportController extends Controller
 
     function PrintSummary(Request $request){
         $var = (object) $request->all();
-        $data = $positionList = array();
+        $data = $positionList = $voteList = array();
         $getAllVotes = $this->votesModel->dataTable($var)->get();
         $positions = $this->positionsModel->GetPositionList();
         $candidates = $this->candidateModel->GetAllCandidate();
@@ -61,11 +61,15 @@ class ReportController extends Controller
 
         if(!empty($getAllVotes)){
             foreach($getAllVotes as $votes){
-                $data["votesTally"][$positionList[$votes->Position]][strtoupper($votes->Candidate)][] = $votes->VoterId;
+                $voteList[strtoupper($votes->Candidate)][] = $votes->VoterId;
             }
-        }else{
-            foreach($candidates as $candidate){
-                $name = strtoupper($candidate["FirstName"] . " " . $candidate["MiddleName"] . " " . $candidate["LastName"]);
+        }
+
+        foreach($candidates as $candidate){
+            $name = strtoupper($candidate["FirstName"] . " " . $candidate["MiddleName"] . " " . $candidate["LastName"]);
+            if(isset($voteList[$name])){
+                $data["votesTally"][$positionList[$candidate["Position"]]][$name] = $voteList[$name];
+            }else{
                 $data["votesTally"][$positionList[$candidate["Position"]]][$name] = 0;
             }
         }
