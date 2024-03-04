@@ -150,6 +150,42 @@
                         </a>
                     </li>
                 @break
+
+                @case(6)
+                    {{-- UTILITY TAB --}}
+                    <li class="nav-item mt-2">
+                        <a href="{{route("utility.dashboard")}}" class="nav-link nav-main-tab tabLink active font-weight-bold">
+                            <i class="nav-icon fa fa-th-large fa-lg"></i>
+                            <p>Utility Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("utility.member")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-users fa-lg"></i>
+                            <p>Member Information</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("utility.status")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-users fa-lg"></i>
+                            <p>Member Status</p>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a href="{{route("utility.verification")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-user-check fa-lg"></i>
+                            <p>Utility Verification</p>
+                        </a>
+                    </li>
+
+                    {{-- SUPPLIES TAB --}}
+                    <li class="nav-item mt-2">
+                        <a href="{{route("supplies.index")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                            <i class="nav-icon fas fa-shopping-basket fa-lg"></i>
+                            <p>GA Items</p>
+                        </a>
+                    </li>
+                @break
             @endswitch
         </ul>
     </nav>

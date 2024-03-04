@@ -60,11 +60,11 @@
             <table id="dataTable" class="table table-hover table-bordered dataTable">
                 <thead>
                     <tr>
-                        <th>Ticket No</th>
-                        <th>Pb No</th>
-                        <th>Member ID</th>
-                        <th>Name</th>
-                        <th>Branch</th>
+                        <th>ID</th>
+                        <th>Voter ID</th>
+                        <th>Position</th>
+                        <th>Candidate</th>
+                        <th>Vote Method</th>
                         <th>Date & Time Voted</th>
                     </tr>
                 </thead>
@@ -74,10 +74,9 @@
 </div>
 
 {{-- PRINT TICKETS FORM --}}
-<form method="POST" id="printTicketForm" target="_blank" action="{{route('print.ticket')}}">
+<form method="POST" id="printSummaryForm" target="_blank" action="{{route('print.summary')}}">
     @csrf
-    <input type="hidden" name="filterBranch">
-    <input type="hidden" name="DateTimeFrom">
-    <input type="hidden" name="DateTimeTo">
+    <input type="hidden" name="filterPosition">
+    <input type="hidden" name="filterCandidate">
     <input type="hidden" name="filterSearch">
 </form>

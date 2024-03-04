@@ -1076,7 +1076,6 @@ const ElectionTickets = () => {
         $("#printTicketForm").find("input[name='filterSearch']").val($("#filterSearch").val());
         $("#printTicketForm").submit();
     });
-
 }
 
 const MemberVoting = () => {
@@ -1175,7 +1174,58 @@ const MemberVoting = () => {
 }
 
 const ElectionSummary = () => {
+    let dataTable = $('#dataTable').on('init.dt', function () {
+        $(".dataTables_wrapper").prepend("<div class='dataTables_processing card font-weight-bold d-none' role='status'>Loading Please Wait...<i class='fa fa-spinner fa-spin text-warning'></i></div>");
+    }).DataTable({
+        ordering: false,
+        serverSide: true,
+        dom: 'rtip',
+        columnDefs: [
+            { targets: 0, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 1, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 2, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 3, width: '30%', className: "text-left align-middle font-weight-bold p-2" },
+            { targets: 4, width: '20%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 5, width: '20%', className: "text-center align-middle font-weight-bold p-2" },
+        ],
+        ajax: {
+            url: 'admin/ElectionSummaryDataTable',
+            type: 'POST',
+            data: function (d) {
+                d.filterSearch = $("#filterSearch").val();
+                d.filterPosition = $("#filterPosition").val();
+                d.filterCandidate = $("#filterCandidate").val();
+            },
+            beforeSend: () => {
+                $(".dataTables_processing").removeClass("d-none");
+            },
+            complete: () => {
+                $(".dataTables_processing").addClass("d-none");
+            }
+        }
+    });
 
+    $("#filterSearch").keyup((e) => {
+        dataTable.draw();
+    });
+
+    $("#filterPosition,#filterCandidate").change((e) => {
+        dataTable.draw();
+    });
+
+    $("#clearFilter").click((e) => {
+        $("#filterSearch").val("");
+        $("#filterPosition").val("");
+        $("#filterCandidate").val("");
+        dataTable.draw();
+    });
+
+    $("#printBtn").click((e) => {
+        $("#printSummaryForm").find("input[name='filterPosition']").val($("#filterPosition").val());
+        $("#printSummaryForm").find("input[name='filterCandidate']").val($("#filterCandidate").val());
+        $("#printSummaryForm").find("input[name='filterSearch']").val($("#filterSearch").val());
+        $("#printSummaryForm").submit();
+    });
 }
 
 const Supplies = () => {

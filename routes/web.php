@@ -111,7 +111,9 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
 
         Route::post('ElectionTicketDataTable', [AdminController::class, 'ElectionTicketDataTable']);
         Route::post('PrintTickets', [ReportController::class, 'PrintTickets'])->name('print.ticket');
-
+        Route::post('ElectionSummaryDataTable', [AdminController::class, 'ElectionSummaryDataTable']);
+        Route::post('PrintSummary', [AdminController::class, 'PrintSummary'])->name('print.summary');
+        
         //supplies post route
         Route::post('SuppliesDataTable', [AdminController::class, 'SuppliesDataTable']);
         Route::post('ReceivedGaItems', [AdminController::class, 'ReceivedGaItems']);
