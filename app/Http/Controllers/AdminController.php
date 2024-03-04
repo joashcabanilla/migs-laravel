@@ -54,7 +54,6 @@ class AdminController extends Controller
             case 4:
                 $this->data["TitlePage"] = "NOVADECI SUPPLIES";
             break;
-            
             case 6:
                 $this->data["TitlePage"] = "NOVADECI UTILITY AND SUPPLIES";
             break;

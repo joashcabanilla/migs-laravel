@@ -43,7 +43,7 @@
         $fontSize = 11;
         $ticketW -= $pdf->C2P(1);
         //ticket no
-       $pdf->setColor(0.70,0.00,0.00);
+       $pdf->setColor(255,0.00,0.00);
         $infoH -= $pdf->C2P(0.5); 
         $pdf->addTextWrap($startW, $infoH, $ticketW-$pdf->C2P(0.2), $fontSize, "<b>".$ticket->ticketNo."</b>",'right');
 
@@ -54,7 +54,6 @@
         $pdf->addTextWrap($infoW, $infoH, $pdf->C2P(2.2), $fontSize, "<b>MEM ID/PB#:</b>",'left');
         $pdf->line($infoW+$pdf->C2P(2.2),$infoH-$pdf->C2P(0.1),$infoW+$pdf->C2P(8),$infoH-$pdf->C2P(0.1));
         $infoW += $pdf->C2P(2.3);
-        $pdf->setColor(0.70,0.00,0.00);
         $pdf->addTextWrap($infoW, $infoH, $pdf->C2P(4), $fontSize, "<b>".$ticket->pbno."</b>",'left');
         
         //name
@@ -63,7 +62,6 @@
         $infoW = $startW+$pdf->C2P(0.1);
         $pdf->addTextWrap($infoW, $infoH, $pdf->C2P(1.2), $fontSize, "<b>NAME:</b>",'left');
         $infoW += $pdf->C2P(1.3);
-        $pdf->setColor(0.70,0.00,0.00);
         $text = "<b>".$ticket->name."</b>";
         $text = $pdf->addTextWrap($infoW, $infoH,$pdf->C2P(6.5),$fontSize,$text,'left');
         while(!empty($text)){
@@ -80,7 +78,6 @@
         $pdf->addTextWrap($infoW, $infoH, $pdf->C2P(2.3), $fontSize, "<b>CONTACT NO:</b>",'left');
         $pdf->line($infoW+$pdf->C2P(2.3),$infoH-$pdf->C2P(0.1),$infoW+$pdf->C2P(8),$infoH-$pdf->C2P(0.1));
         $infoW += $pdf->C2P(2.4);
-        $pdf->setColor(0.70,0.00,0.00);
         $pdf->addTextWrap($infoW, $infoH, $pdf->C2P(4), $fontSize, "<b>".$ticket->contact."</b>",'left');
     }
 
