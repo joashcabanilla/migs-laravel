@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class VotesModel extends Model
 {
@@ -78,5 +79,29 @@ class VotesModel extends Model
         } 
         
         return $query->get();
+    }
+
+    function dataTable($data){
+        $query = $this->select(
+            "votes.Id AS Id",
+            "votes.VoterId AS VoterId",
+            DB::raw("CONCAT(COALESCE(candidates.FirstName, ''), ' ', COALESCE(candidates.MiddleName, ''), ' ', COALESCE(candidates.LastName, '')) AS Candidate"),
+            "votes.VoteF2F AS VoteMethod",
+            "votes.created_at AS DateTime",
+            "candidates.Position"
+        )->join("candidates","candidates.Id","votes.Candidate");
+
+        if(!empty($data->filterSearch)){
+            $search = strtoupper(str_replace('ñ', 'Ñ', $data->filterSearch));
+            $query->where(function($q) use($search){
+                $q->orWhereRaw("CONCAT(COALESCE(candidates.FirstName, ''), ' ', COALESCE(candidates.MiddleName, ''), ' ', COALESCE(candidates.LastName, '')) LIKE '%".$search."%'");
+            });
+        }
+
+        $query = !empty($data->filterCandidate) ? $query->where("votes.Candidate",$data->filterCandidate) : $query;
+        $query = !empty($data->filterPosition) ? $query->where("candidates.Position",$data->filterPosition) : $query;
+
+        $query = $query->orderBy("votes.Id", "ASC");
+        return $query;
     }
 }

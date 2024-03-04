@@ -87,21 +87,9 @@
 
                 @case(2)
                     <li class="nav-item mt-2">
-                        <a href="{{route("election.dashboard")}}" class="nav-link nav-main-tab tabLink active font-weight-bold">
-                            <i class="nav-icon fa fa-th-large fa-lg"></i>
-                            <p>Election Dashboard</p>
-                        </a>
-                    </li>
-                    <li class="nav-item mt-2">
-                        <a href="{{route("election.tickets")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
+                        <a href="{{route("election.tickets")}}" class="nav-link nav-main-tab tabLink active font-weight-bold">
                             <i class="nav-icon fas fa-print fa-lg"></i>
                             <p>Tickets Printing</p>
-                        </a>
-                    </li>
-                    <li class="nav-item mt-2">
-                        <a href="{{route("election.summary")}}" class="nav-link nav-main-tab tabLink font-weight-bold">
-                            <i class="nav-icon fas fa-print fa-lg"></i>
-                            <p>Election Summary</p>
                         </a>
                     </li>
                 @break

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="form-group">
-                    <label for="filterPosition">Candidate</label>
+                    <label for="filterPosition">Position</label>
                     <select class="form-control" id="filterPosition" name="filterPosition">
                         <option value=""> -- Select Position -- </option>
                         @foreach($positions as $position)

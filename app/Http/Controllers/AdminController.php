@@ -331,6 +331,10 @@ class AdminController extends Controller
         return $this->datatable->ticketTable($request->all());
     }
 
+    function ElectionSummaryDataTable(Request $request){
+        return $this->datatable->summaryDataTable($request->all());
+    }
+
     function SuppliesDataTable(Request $request){
         return $this->datatable->suppliesTable($request->all());
     }

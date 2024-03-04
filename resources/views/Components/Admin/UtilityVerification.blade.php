@@ -27,7 +27,7 @@
             <table id="memberTable" class="table table-hover table-bordered dataTable">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Voter ID</th>
                         <th>Pb No</th>
                         <th>Member ID</th>
                         <th>Name</th>

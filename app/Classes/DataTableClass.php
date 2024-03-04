@@ -194,7 +194,9 @@ class DataTableClass
         $query = $this->voterModel->memberTable($var);
         
         $columns =[
-            ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
+            ['db' => 'Id', 'dt' => 0, 'formatter' => function($d){
+                return $d;
+            }],
 
             ['db' => 'Pbno', 'dt' => 1],
 
@@ -262,7 +264,9 @@ class DataTableClass
         }
         
         $columns =[
-            ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
+            ['db' => 'VoterId', 'dt' => 0, 'formatter' => function($d){
+                return $d;
+            }],
 
             ['db' => 'VoterId', 'dt' => 1, 'formatter' => function($d) use($memberList) {
                 return !empty($memberList) ? $memberList[$d]["Pbno"] : "";
@@ -496,6 +500,39 @@ class DataTableClass
                 }else{
                     return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
                 }
+            }]
+        ];
+
+        $params = array(
+            "var" => $var,
+            "columns" => $columns,
+            "sql" => $query,  
+        );
+        
+        return $this->processTable($params);
+    }
+
+    function summaryDataTable($data){
+        $var = (object) $data;
+        $query = $this->votesModel->dataTable($var);
+
+        $columns =[
+            ['db' => 'Id', 'dt' => 0,'orderable' => false, 'sortnum'=>true],
+
+            ['db' => 'VoterId', 'dt' => 1, 'formatter'],
+
+            ['db' => 'Position', 'dt' => 2, 'formatter'],
+
+            ['db' => 'Candidate', 'dt' => 3, 'formatter' => function($d){
+                return strtoupper($d);
+            }],
+
+            ['db' => 'VoteMethod', 'dt' => 4, 'formatter' => function($d){
+                return $d == "YES" ? "FACE TO FACE" : "ONLINE";
+            }],
+
+            ['db' => 'DateTime', 'dt' => 5, 'formatter' => function($d){
+                return date("m/d/Y h:i A", strtotime($d));
             }]
         ];
 
