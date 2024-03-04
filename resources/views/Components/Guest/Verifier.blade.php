@@ -54,10 +54,15 @@
             <div class="card elevation-2 p-2 bg-light memcard memcard-verifier d-none">
                 <h3 class="text-center font-weight-bold memberName">JOASH FLORENTINO CABANILLA</h3>
                 <div class="d-flex justify-content-center mt-2">
-                    <h3 class="font-weight-bold mr-2 black">PB#:</h3>
-                    <h3 class="font-weight-bold mr-3 pbno"></h3>
-                    <h3 class="font-weight-bold mr-2 black">Member ID:</h4>
-                    <h3 class="font-weight-bold memberID"></h3>
+                    <div>
+                        <h3 class="font-weight-bold mr-2 black">PB#:</h3>
+                        <h3 class="font-weight-bold mr-3 pbno"></h3>
+                    </div>
+                    <div>
+                        <h3 class="font-weight-bold mr-2 black">Member ID:</h4>
+                        <h3 class="font-weight-bold memberID"></h3>
+                    </div>
+
                 </div>
                 <h3 class=" text-center font-weight-bold status"></h3>
                 <h3 class='text-center font-weight-bold voteBtn d-none'>>>> Click here to VOTE <<<</h3>  
