@@ -38,6 +38,12 @@ $("#verifierForm").submit((e) => {
                     membercard.find(".voteBtn").remove();
                 }
 
+                if (res.f2fElection == "NO") {
+                    if (res.electionStatus != "open"){
+                        membercard.find(".voteBtn").remove();
+                    }
+                }
+
                 membercard.find(".nonMigs").click((e) => {
                     $("#nonMigsForm").find(".nonmigs-membername").text(data.name);
                     $("#nonMigsForm").find("input[name='Id']").val(data.id);

@@ -44,16 +44,11 @@ class GuestController extends Controller
         $setting = $this->settingModel->find(1);
         $this->data["electionStatus"] = $this->helper->CheckElectionStatus();
         $this->data["f2felectionStatus"] = $this->helper->f2fElectionStatus();
+        $this->data["f2fElection"] = config('app.F2F_ELECTION');
         $this->data["TitlePage"] = "NOVADECI";
 
         if($setting->ElectionStatus == "CLOSED"){    
             return view('Components.Guest.ElectionClosed',$this->data);
-        }
-
-        if(strtoupper(config('app.F2F_ELECTION')) == "NO"){
-            if($this->data["electionStatus"] != "open"){
-                return view('Components.Guest.ElectionClosed',$this->data);
-            }
         }
 
         $this->data["branchContact"] = $this->helper->BranchContactList();
