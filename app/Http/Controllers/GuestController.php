@@ -44,7 +44,6 @@ class GuestController extends Controller
         $setting = $this->settingModel->find(1);
         $this->data["electionStatus"] = $this->helper->CheckElectionStatus();
         $this->data["f2felectionStatus"] = $this->helper->f2fElectionStatus();
-        $this->data["f2fElection"] = config('app.F2F_ELECTION');
         $this->data["TitlePage"] = "NOVADECI";
 
         if($setting->ElectionStatus == "CLOSED"){    
@@ -79,6 +78,7 @@ class GuestController extends Controller
         $result["status"] = "success";
         $result["electionStatus"] = $this->helper->CheckElectionStatus();
         $result["f2felectionStatus"] = $this->helper->f2fElectionStatus();
+        $result["f2fElection"] = config('app.F2F_ELECTION');
         if(count($searched) > 0){
             foreach($searched as $data){
                 $result["data"][] = [
