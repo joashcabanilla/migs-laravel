@@ -56,6 +56,28 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-gradient-success card card-primary elevation-3">
+                <div class="inner">
+                    <h3 class="font-weight-bold text-white totalF2F">0</h3>
+                    <h5 class="font-weight-bold text-white">VOTED F2F</h5>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="small-box bg-gradient-primary card card-primary elevation-3">
+                <div class="inner">
+                    <h3 class="font-weight-bold text-white totalOnline">0</h3>
+                    <h5 class="font-weight-bold text-white">VOTED ONLINE</h5>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="small-box bg-gradient-indigo card card-primary elevation-3">
                 <div class="inner">
                     <h3 class="font-weight-bold text-white totalPositions">0</h3>

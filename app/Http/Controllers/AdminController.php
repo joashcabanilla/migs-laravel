@@ -204,10 +204,16 @@ class AdminController extends Controller
             $candidateArray[$candidate["Position"]][$candidate["Id"]] = strtoupper(str_replace('ñ', 'Ñ',$candidate['FirstName']." ".$candidate["MiddleName"]." ".$candidate["LastName"]));
         }
 
-        $voterList = array();
+        $voterList = $votedOnline = $votedF2F = array();
         if(!empty($votedVotersList)){
             foreach($votedVotersList as $voter){
                 $voterList[] = $voter->VoterId;
+                
+                if($voter->VoteF2F == "NO"){
+                    $votedF2F[] = $voter->VoterId;
+                }else{
+                    $votedOnline[] = $voter->VoterId;
+                }
             }
             $memberList = $this->votersModel->GetMemberIDs($voterList);
 
@@ -254,6 +260,8 @@ class AdminController extends Controller
                 "totalQuorum" => number_format($quorum,2),
                 "totalPositions" => number_format(count($positionList)),
                 "totalCandidates" => number_format(count($candidateList)),
+                "totalOnline" => number_format(count($votedOnline)),
+                "totalF2F" => number_format(count($votedF2F)),
             ],
             "voteTally" => [
                 "branch" => [

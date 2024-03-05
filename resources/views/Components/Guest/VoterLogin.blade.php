@@ -28,7 +28,7 @@
                             <input type="date" class="form-control" id="Birthdate" name="Birthdate" autocomplete="false" required autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span class="fas fa-calendar-alt"></span>
                                 </div>
                             </div>
                         </div>
