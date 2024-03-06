@@ -204,7 +204,7 @@ class AdminController extends Controller
             $candidateArray[$candidate["Position"]][$candidate["Id"]] = strtoupper(str_replace('ñ', 'Ñ',$candidate['FirstName']." ".$candidate["MiddleName"]." ".$candidate["LastName"]));
         }
 
-        $voterList = $votedOnline = $votedF2F = array();
+        $voterList = $votedOnline = $votedF2F = $totalPerBranch = array();
         if(!empty($votedVotersList)){
             foreach($votedVotersList as $voter){
                 $voterList[] = $voter->VoterId;
@@ -223,6 +223,10 @@ class AdminController extends Controller
 
             foreach($branchArray as $branch){
                 $voteCountPerBranch[] = isset($votePerBranchList[$branch]) ? count($votePerBranchList[$branch]) : 0;
+                $totalPerBranch[str_replace(' ','',$branch)] = [
+                    "label" => $branch,
+                    "total" => isset($votePerBranchList[$branch]) ? number_format(count($votePerBranchList[$branch])) : 0
+                ];
             }
 
             $votePerCandidate = array();
@@ -241,6 +245,10 @@ class AdminController extends Controller
         }else{
             foreach($branchArray as $branch){
                 $voteCountPerBranch[] = 0;
+                $totalPerBranch[str_replace(' ','',$branch)] = [
+                    "label" => $branch,
+                    "total" => 0
+                ];
             }
 
             foreach($candidateArray as $positionId => $positions){
@@ -270,6 +278,7 @@ class AdminController extends Controller
                 ],
                 "positions" => $positionVoteCountPerBranch,
             ],
+            "totalPerBranch" => $totalPerBranch
         ];
         return $result;
     }

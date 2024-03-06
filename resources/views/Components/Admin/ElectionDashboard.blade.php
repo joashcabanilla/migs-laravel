@@ -99,10 +99,26 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="bg-gradient-primary card card-primary elevation-3">
+                <div class="d-flex flex-column p-2">
+                    <small class="font-weight-bold text-white" id="BSILANGOFFICE">BSILANG OFFICE: 0</small>
+                    <small class="font-weight-bold text-white" id="BULACANOFFICE">BULACAN OFFICE: 0</small>
+                    <small class="font-weight-bold text-white" id="CAMARINOFFICE">CAMARIN OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="CUBAOOFFICE">CUBAO OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="FAIRVIEWOFFICE">FAIRVIEW OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="KIKOOFFICE">KIKO OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="LAGROOFFICE">LAGRO OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="MAINOFFICE">MAIN OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="NUEVAECIJAOFFICE">NUEVA ECIJA OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="TSORAOFFICE">TSORA OFFICE: 0</small>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row mt-3 mb-2">
         <div class="col-12">
-            <h4 class="font-weight-bold">VOTES TALLY</h4>
+            <h4 class="font-weight-bold" style="color: #000000 !important;">VOTES TALLY</h4>
         </div>
     </div>
     <div class="row">
