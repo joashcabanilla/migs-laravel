@@ -745,7 +745,7 @@ const ElectionDashboard = () => {
             for (let key in res.voteTally.positions) {
                 generateChart(res.voteTally.positions[key]["labels"], res.voteTally.positions[key]["data"], key, 25);
             }
-            console.log(res.totalPerBranch);
+
             for (let key in res.totalPerBranch) {
                 $("#" + key).text(res.totalPerBranch[key].label + ": " + res.totalPerBranch[key].total);
             }
@@ -786,6 +786,10 @@ const ElectionDashboard = () => {
                     charts[key].data.labels = sortedLabels;
                     charts[key].data.datasets[0].data = sortedData;
                     charts[key].update();
+                }
+                
+                for (let key in res.totalPerBranch) {
+                    $("#" + key).text(res.totalPerBranch[key].label + ": " + res.totalPerBranch[key].total);
                 }
             }
         });
