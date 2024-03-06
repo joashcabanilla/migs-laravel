@@ -31,23 +31,26 @@ class VotesModel extends Model
         $forChecking = (object) $validation;
         
         $f2f = strtoupper(config('app.F2F_ELECTION'));
-
-        if(!empty($data) && count($data) > 1){
-            $var = (object) $data;
-            foreach($var->candidateId as $candidateId){
+        $memberCheck = $this->where("VoterId",$voterId)->first();
+        if(empty($memberCheck)){
+            if(!empty($data) && count($data) > 1){
+                $var = (object) $data;
+                foreach($var->candidateId as $candidateId){
+                    $this->create([
+                        "VoterId" => $voterId,
+                        "Candidate" => $candidateId,
+                        "VoteF2F" => $f2f
+                    ]);
+                }
+            }else{
                 $this->create([
                     "VoterId" => $voterId,
-                    "Candidate" => $candidateId,
+                    "Candidate" => 0,
                     "VoteF2F" => $f2f
                 ]);
             }
-        }else{
-            $this->create([
-                "VoterId" => $voterId,
-                "Candidate" => 0,
-                "VoteF2F" => $f2f
-            ]);
         }
+        
 
         $result["status"] = "success";
         $result["message"] = "Successfully Voted.";

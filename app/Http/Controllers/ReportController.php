@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 //Model
 use App\Models\TicketsModel;
 use App\Models\VotesModel;
+use App\Models\VotersModel;
 use App\Models\PositionsModel;
 use App\Models\CandidateModel;
+use App\Models\GaItemsModel;
+use App\Models\User;
 
 class ReportController extends Controller
 {
-    protected $data, $ticketModel, $votesModel, $positionsModel, $candidateModel;
+    protected $data, $ticketModel, $votesModel, $positionsModel, $candidateModel, $gaItemsModel, $userModel, $voterModel;
 
     public function __construct()
     {
@@ -22,6 +26,9 @@ class ReportController extends Controller
         $this->votesModel = new VotesModel();
         $this->positionsModel = new PositionsModel();
         $this->candidateModel = new CandidateModel();
+        $this->gaItemsModel = new GaItemsModel();
+        $this->voterModel = new VotersModel();
+        $this->userModel = new User();
     }
 
     function PrintTickets(Request $request){
@@ -81,5 +88,70 @@ class ReportController extends Controller
             'Content-Type'=>'application/pdf',
             'Content-Disposition'=>'inline; filname="ElectionSummary.pdf"'
         ]);
+    }
+
+    function PrintSummaryGaItems(Request $request){
+        $var = (object) $request->all();
+        $data = array();
+        $voterList = $this->votesModel->GetAllVotePerVoteMethod($var->voteMethod);
+        $gaItemList = $this->gaItemsModel->SummaryReport($var);
+        $users = $this->userModel->GetUserListNotMember();
+
+        $userList = $voterIdList = $voteMethodList = $memberReceivedList = array();
+        
+        foreach($users as $user){
+            $userList[$user->Id] = strtoupper(str_replace('ñ', 'Ñ', $user->FirstName . " " . $user->LastName)); 
+        }
+
+        foreach($voterList as $voter){
+            $voteMethodList[$voter->VoterId] = $voter->VoteF2F == "NO" ? "ONLINE" : "FACE TO FACE";
+        }
+
+        foreach($gaItemList as $item){
+            $voterIdList[] = $item->VoterId;
+        }
+
+        if(!empty($voterIdList)){
+            $voters = $this->voterModel->memberReceivedItems($voterIdList)->get();
+            foreach($voters as $voter){
+                $memberReceivedList[$voter->Id] = [
+                    "Pbno" => $voter->Pbno,
+                    "MemberId" => $voter->MemberId,
+                    "Name" => $voter->Name,
+                ];
+            }
+        }
+        
+        $data["memberList"] = array();
+
+        foreach($gaItemList as $item){
+            if(isset($voteMethodList[$item->VoterId])){
+                $data["memberList"][] = [
+                    "Pbno" => $memberReceivedList[$item->VoterId]["Pbno"],
+                    "MemberId" => $memberReceivedList[$item->VoterId]["MemberId"],
+                    "Name" => $memberReceivedList[$item->VoterId]["Name"],
+                    "RegisterBy" => $userList[$item->RegisterBy],
+                    "DateTime" => date("m/d/Y h:i A", strtotime($item->DateTime)),
+                    "VoteMethod" => $voteMethodList[$item->VoterId],
+                ]; 
+            }
+        }
+
+        if($var->reportType == "1"){
+            $data["encoderName"] = $userList[Auth::user()->Id];
+            
+            return response()->make(view('Report.GaItemsSummaryPerUser',$data), '200', 
+            [
+                'Content-Type'=>'application/pdf',
+                'Content-Disposition'=>'inline; filname="GaItemsSummaryPerUser.pdf"'
+            ]);
+        }else{
+            return response()->make(view('Report.GaItemsSummary',$data), '200', 
+            [
+                'Content-Type'=>'application/pdf',
+                'Content-Disposition'=>'inline; filname="GaItemsSummary.pdf"'
+            ]);
+        }
+        
     }
 }

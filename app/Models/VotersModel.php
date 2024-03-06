@@ -201,4 +201,18 @@ class VotersModel extends Model
         $query = $query->orderBy("Id", "ASC");
         return $query;
     }
+
+    function memberReceivedItems($voterIdList){
+        $query = $this->select(
+            "Id",
+            "Pbno",
+            "MemberId",
+            DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
+            "Branch",
+        );
+        
+        $query = !empty($voterIdList) ? $query->whereIn("Id", $voterIdList) : $query;
+        $query = $query->orderBy("Id", "ASC");
+        return $query;
+    }
 }

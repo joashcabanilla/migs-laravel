@@ -118,5 +118,6 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::post('SuppliesDataTable', [AdminController::class, 'SuppliesDataTable']);
         Route::post('ReceivedGaItems', [AdminController::class, 'ReceivedGaItems']);
         Route::post('GetMemberGaItems', [AdminController::class, 'GetMemberGaItems']);
+        Route::post('PrintSummaryGaItems', [ReportController::class, 'PrintSummaryGaItems'])->name('print.summaryGaItems');
     }
 );

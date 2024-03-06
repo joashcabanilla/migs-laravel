@@ -46,4 +46,25 @@ class GaItemsModel extends Model
 
         return $this->create($member);
     }
+
+    function SummaryReport($data){
+        $summary = $this->select(
+            "VoterId",
+            "RegisterBy",
+            "Register AS Date",
+            "created_at AS DateTime"
+        );
+
+        if($data->reportType == "1"){
+            $summary = $summary->where("RegisterBy", Auth::user()->Id);
+        }
+
+        if(!empty($data->date)){
+            $summary = $summary->where("Register", $data->date);
+        }
+        
+        $summary = $summary->orderBy("RegisterBy","ASC");
+        
+        return $summary->get();
+    }
 }

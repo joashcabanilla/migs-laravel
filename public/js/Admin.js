@@ -1337,4 +1337,11 @@ const Supplies = () => {
             }
         });
     });
+
+    $("#printBtn").click((e) => {
+        $("#reportType").val("1");
+        $("#voteMethod").val("");
+        $("#Date").val("");
+        $("#reportModal").modal("show");
+    });
 }
