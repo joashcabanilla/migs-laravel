@@ -100,6 +100,27 @@ const MaintenanceTab = () => {
         $("#importDatabaseForm").find("button").attr("disabled", true).removeClass("btn-primary").addClass("btn-success").html("<i class='fa fa-spinner fa-spin text-warning'></i> Inserting Data...");
         insertData(0, csvData.length, "success");
     });
+
+    $("#electionStatusForm").submit((e) => {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "admin/UpdateElectionStatus",
+            data: $(e.currentTarget).serializeArray(),
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                Swal.fire({
+                    title: "ELECTION STATUS",
+                    text: "Successfully " + $("#electionStatus").val(),
+                    icon: "success",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            }
+        });
+    });
 }
 
 const UseraccountTab = () => {

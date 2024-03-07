@@ -14,6 +14,7 @@ use App\Models\PositionsModel;
 use App\Models\CandidateModel;
 use App\Models\VotesModel;
 use App\Models\GaItemsModel;
+use App\Models\SettingsModel;
 
 //Class
 use App\Classes\HelperClass;
@@ -21,7 +22,7 @@ use App\Classes\DataTableClass;
 
 class AdminController extends Controller
 {
-    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel, $candidateModel, $votesModel, $gaItemsModel;
+    protected $data, $helper, $datatable, $votersModel, $usertypeModel, $userModel, $verificationModel, $positionModel, $candidateModel, $votesModel, $gaItemsModel, $settingModel;
 
     public function __construct()
     {
@@ -36,6 +37,7 @@ class AdminController extends Controller
         $this->candidateModel = new CandidateModel();
         $this->votesModel = new VotesModel();
         $this->gaItemsModel = new GaItemsModel();
+        $this->settingModel = new SettingsModel();
         $this->data = array();
     }
 
@@ -70,6 +72,7 @@ class AdminController extends Controller
                 $tableList[] = trim($tablename);
             }
         }
+        $this->data["electionStatus"] = $this->settingModel->first()->ElectionStatus;
         $this->data["tables"] = $tableList;
         return view('Components.Admin.Maintenance',$this->data);
     }
@@ -376,5 +379,9 @@ class AdminController extends Controller
     function ReceivedGaItems(Request $request){
         $this->gaItemsModel->RegisterMember($request->all());
         return $this->gaItemsModel->getCounter(Auth::user()->Id);
+    }
+
+    function UpdateElectionStatus(Request $request){
+        $this->settingModel->find(1)->update($request->all());
     }
 }

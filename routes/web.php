@@ -86,6 +86,7 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::post('UserDataTable', [AdminController::class, 'UserDataTable']);
         Route::post('CreateUpdateUser', [AdminController::class, 'CreateUpdateUser']);
         Route::post('GetUser', [AdminController::class, 'GetUser']);
+        Route::post('UpdateElectionStatus', [AdminController::class, 'UpdateElectionStatus']);
 
         //utility post route
         Route::post('GetUtilityDashboardData', [AdminController::class, 'GetUtilityDashboardData']);

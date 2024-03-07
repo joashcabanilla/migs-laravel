@@ -4,6 +4,37 @@
             <div class="card card-primary card-outline elevation-2 p-3">
                 <div class="row">
                     <div class="col-12">
+                        <h5 class="font-weight-bold">ELECTION STATUS</h5>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <form id="electionStatusForm" method="POST">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="electionStatus">STATUS</label>
+                                        <select class="form-control" id="electionStatus" name="ElectionStatus">
+                                            <option value="OPEN" {{$electionStatus == "OPEN" ? "selected" : ""}}>OPEN</option>
+                                            <option value="CLOSED" {{$electionStatus == "CLOSED" ? "selected" : ""}}>CLOSED</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="saveBtn">&nbsp;</label>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary font-weight-bold" id="saveBtn"><i class="fas fa-save"></i> SAVE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="card card-primary card-outline elevation-2 p-3">
+                <div class="row">
+                    <div class="col-12">
                         <h5 class="font-weight-bold">BATCH IMPORT DATA</h5>
                     </div>
                     <div class="col-12 mt-2">
