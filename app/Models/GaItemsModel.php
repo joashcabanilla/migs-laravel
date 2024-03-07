@@ -52,7 +52,7 @@ class GaItemsModel extends Model
             "VoterId",
             "RegisterBy",
             "Register AS Date",
-            "created_at AS DateTime"
+            "created_at"
         );
 
         if($data->reportType == "1"){
@@ -63,7 +63,7 @@ class GaItemsModel extends Model
             $summary = $summary->where("Register", $data->date);
         }
         
-        $summary = $summary->orderBy("RegisterBy","ASC");
+        $summary = $summary->orderBy("RegisterBy","ASC")->orderBy("created_at","ASC");
         
         return $summary->get();
     }

@@ -122,7 +122,7 @@ class ReportController extends Controller
             }
         }
         
-        $data["memberList"] = array();
+        $data["memberList"] = $data["SummaryReport"] = array();
 
         foreach($gaItemList as $item){
             if(isset($voteMethodList[$item->VoterId])){
@@ -131,7 +131,7 @@ class ReportController extends Controller
                     "MemberId" => $memberReceivedList[$item->VoterId]["MemberId"],
                     "Name" => $memberReceivedList[$item->VoterId]["Name"],
                     "RegisterBy" => $userList[$item->RegisterBy],
-                    "DateTime" => date("m/d/Y h:i A", strtotime($item->DateTime)),
+                    "DateTime" => date("m/d/Y", strtotime($item->created_at)),
                     "VoteMethod" => $voteMethodList[$item->VoterId],
                 ]; 
             }
@@ -146,6 +146,12 @@ class ReportController extends Controller
                 'Content-Disposition'=>'inline; filname="GaItemsSummaryPerUser.pdf"'
             ]);
         }else{
+            $data["DateTime"] = empty($var->date) ? date("m/d/Y") : date("m/d/Y", strtotime($var->date)); 
+            if(!empty($data["memberList"])){
+                foreach($data["memberList"] as $member){
+                    $data["SummaryReport"][$member["RegisterBy"]][$member["VoteMethod"]][$member["DateTime"]][] = $member;
+                }
+            }
             return response()->make(view('Report.GaItemsSummary',$data), '200', 
             [
                 'Content-Type'=>'application/pdf',
