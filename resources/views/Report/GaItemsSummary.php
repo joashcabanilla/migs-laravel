@@ -116,7 +116,7 @@
                         $pdf->line($startW-$extend,$startH-$rowH,$endW+$extend,$startH-$rowH);
                         $startH-=$rowH;
     
-                        $pdf->addTextWrap($startW+$pdf->C2P(0.2), $startH+$pdf->C2P(0.18), $pdf->C2P(9), $fontSize,$username,'left');
+                        $pdf->addTextWrap($startW+$pdf->C2P(0.2), $startH+$pdf->C2P(0.18), $pdf->C2P(9), $fontSize,$username." -> ".$branchUserList[$username],'left');
     
                         $pdf->addTextWrap($startW+$pdf->C2P(9), $startH+$pdf->C2P(0.18), $pdf->C2P(3), $fontSize,$method,'center');
 
@@ -138,7 +138,7 @@
                         $pdf->line($startW-$extend,$startH-$rowH,$endW+$extend,$startH-$rowH);
                         $startH-=$rowH;
     
-                        $pdf->addTextWrap($startW+$pdf->C2P(0.2), $startH+$pdf->C2P(0.18), $pdf->C2P(9), $fontSize,$username,'left');
+                        $pdf->addTextWrap($startW+$pdf->C2P(0.2), $startH+$pdf->C2P(0.18), $pdf->C2P(9), $fontSize,$username." -> ".$branchUserList[$username],'left');
     
                         $pdf->addTextWrap($startW+$pdf->C2P(9), $startH+$pdf->C2P(0.18), $pdf->C2P(3), $fontSize,$method,'center');
 

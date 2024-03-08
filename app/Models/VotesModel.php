@@ -107,4 +107,50 @@ class VotesModel extends Model
         $query = $query->orderBy("votes.Id", "ASC");
         return $query;
     }
+
+    function GetElectionSummary($method, $date){
+        $query = $this->selectRaw("VoterId,VoteF2F,DATE(created_at) AS date")->groupBy("VoterId","VoteF2F","date");
+
+        if(!empty($method)){
+            $f2f = $method == "online" ? "NO" : "YES";
+            $query = $query->where("VoteF2F",$f2f);
+        } 
+
+        if(!empty($date)){
+            $query = $query->whereRaw("DATE(created_at) = ?",$date);
+        } 
+
+        $query = $query->get();
+        $votesData = $voterIdList = $electionSummary = array();
+
+        if(!empty($query)){
+            foreach($query as $vote){
+                if(!array_search($vote->VoterId,$voterIdList)){
+                    $voterIdList[] = $vote->VoterId;
+                }
+                $votesData[$vote->VoterId] = [
+                    "voteMethod" => $vote->VoteF2F == "NO" ? "ONLINE" : "FACE TO FACE",
+                    "dateTime" => date("m/d/Y h:i A",strtotime($vote->created_at)),
+                ];
+            }
+    
+            $voters = DB::table("voters")->select(
+                "Id",
+                "Pbno",
+                "MemberId",
+                DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
+                "Branch"
+            )->whereIn("Id",$voterIdList)->get();
+    
+            foreach($voters as $voter){
+                if(!empty($date)){
+                    $votesData[$voter->Id]["pbno"] = $voter->Pbno;
+                    $votesData[$voter->Id]["memberId"] = $voter->MemberId;
+                    $votesData[$voter->Id]["name"] = $voter->Name;
+                    $votesData[$voter->Id]["branch"] = $voter->Branch;
+                    $electionSummary[$voter->Id] =  $votesData[$voter->Id];
+                } 
+            } 
+        }
+    }
 }

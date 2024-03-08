@@ -97,10 +97,11 @@ class ReportController extends Controller
         $gaItemList = $this->gaItemsModel->SummaryReport($var);
         $users = $this->userModel->GetUserListNotMember();
 
-        $userList = $voterIdList = $voteMethodList = $memberReceivedList = array();
+        $userList = $voterIdList = $voteMethodList = $memberReceivedList = $branchUserList = array();
         
         foreach($users as $user){
             $userList[$user->Id] = strtoupper(str_replace('ñ', 'Ñ', $user->FirstName . " " . $user->LastName)); 
+            $branchUserList[strtoupper(str_replace('ñ', 'Ñ', $user->FirstName . " " . $user->LastName))] = $user->Branch;
         }
 
         foreach($voterList as $voter){
@@ -145,7 +146,9 @@ class ReportController extends Controller
                 'Content-Type'=>'application/pdf',
                 'Content-Disposition'=>'inline; filname="GaItemsSummaryPerUser.pdf"'
             ]);
-        }else{
+            
+        }else if($var->reportType == "2"){
+            $data["branchUserList"] = $branchUserList;
             $data["DateTime"] = empty($var->date) ? date("m/d/Y") : date("m/d/Y", strtotime($var->date)); 
             if(!empty($data["memberList"])){
                 foreach($data["memberList"] as $member){
@@ -156,6 +159,17 @@ class ReportController extends Controller
             [
                 'Content-Type'=>'application/pdf',
                 'Content-Disposition'=>'inline; filname="GaItemsSummary.pdf"'
+            ]);
+
+        }else{
+
+            $data["DateTime"] = empty($var->date) ? date("m/d/Y") : date("m/d/Y", strtotime($var->date)); 
+            $electionSummary = $this->votesModel->GetElectionSummary($var->voteMethod,$var->date);
+            
+            return response()->make(view('Report.ElectionSummaryPerMember',$data), '200', 
+            [
+                'Content-Type'=>'application/pdf',
+                'Content-Disposition'=>'inline; filname="ElectionSummary.pdf"'
             ]);
         }
         
