@@ -48,7 +48,7 @@ class ReportController extends Controller
             ];
         }
 
-        return response()->make(view('Report.PrintTicket',$data), '200', 
+        return response()->make(view('Report.PDF.PrintTicket',$data), '200', 
         [
             'Content-Type'=>'application/pdf',
             'Content-Disposition'=>'inline; filname="ticketsPrinting.pdf"'
@@ -83,7 +83,7 @@ class ReportController extends Controller
 
         $data["DateTime"] = date("F d, Y h:i A", strtotime(Carbon::now()));
         
-        return response()->make(view('Report.ElectionSummary',$data), '200', 
+        return response()->make(view('Report.PDF.ElectionSummary',$data), '200', 
         [
             'Content-Type'=>'application/pdf',
             'Content-Disposition'=>'inline; filname="ElectionSummary.pdf"'
@@ -141,7 +141,7 @@ class ReportController extends Controller
         if($var->reportType == "1"){
             $data["encoderName"] = $userList[Auth::user()->Id];
             
-            return response()->make(view('Report.GaItemsSummaryPerUser',$data), '200', 
+            return response()->make(view('Report.PDF.GaItemsSummaryPerUser',$data), '200', 
             [
                 'Content-Type'=>'application/pdf',
                 'Content-Disposition'=>'inline; filname="GaItemsSummaryPerUser.pdf"'
@@ -155,21 +155,29 @@ class ReportController extends Controller
                     $data["SummaryReport"][$member["RegisterBy"]][$member["VoteMethod"]][$member["DateTime"]][] = $member;
                 }
             }
-            return response()->make(view('Report.GaItemsSummary',$data), '200', 
-            [
-                'Content-Type'=>'application/pdf',
-                'Content-Disposition'=>'inline; filname="GaItemsSummary.pdf"'
-            ]);
-
+            if($var->filetype == "PDF"){
+                return response()->make(view('Report.PDF.GaItemsSummary',$data), '200', 
+                [
+                    'Content-Type'=>'application/pdf',
+                    'Content-Disposition'=>'inline; filname="GaItemsSummary.pdf"'
+                ]);
+            }else{
+                return response()->make(view("Report.Excel.GaItemsSummary",$data), '200'); 
+            }
         }else{
             $data["DateTime"] = empty($var->date) ? date("m/d/Y") : date("m/d/Y", strtotime($var->date)); 
             $data["electionSummary"] = $this->votesModel->GetElectionSummary($var->voteMethod,$var->date);
 
-            return response()->make(view('Report.ElectionSummaryPerMember',$data), '200', 
-            [
-                'Content-Type'=>'application/pdf',
-                'Content-Disposition'=>'inline; filname="ElectionSummary.pdf"'
-            ]);
+            if($var->filetype == "PDF"){
+                return response()->make(view('Report.PDF.ElectionSummaryPerMember',$data), '200', 
+                [
+                    'Content-Type'=>'application/pdf',
+                    'Content-Disposition'=>'inline; filname="ElectionSummary.pdf"'
+                ]);
+            }else{
+                return response()->make(view("Report.Excel.ElectionSummaryPerMember",$data), '200'); 
+            }
+           
         }
         
     }

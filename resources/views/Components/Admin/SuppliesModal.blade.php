@@ -99,12 +99,13 @@
             <form id="reportForm" method="POST" action="{{route("print.summaryGaItems")}}" target="_blank">
                 @csrf
                 <div class="modal-body">
+                    <input type="hidden" name="filetype">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 pb-3">
                             <label for="reportType">Select Report</label>
                             <select class="form-control" id="reportType" name="reportType" required autocomplete="false">
                                 <option value="1">List of registered members for the current user</option>
-                                <option value="2">Summary of registration</option>
+                                <option value="2">GA items Summary</option>
                                 <option value="3">Election Summary</option>
                             </select>
                         </div>
@@ -128,7 +129,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary font-weight-bold">Generate</button>
+                    @if(Auth::user()->UserType == 1)
+                        <a class="btn btn-primary font-weight-bold d-none" id="printExcel">Generate Excel</a>
+                    @endif
+                    <button type="submit" class="btn btn-primary font-weight-bold" id="printPDF">Generate PDF</button>
                     <a type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">Cancel</a>
                 </div>
             </form>

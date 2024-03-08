@@ -1365,4 +1365,18 @@ const Supplies = () => {
         $("#Date").val("");
         $("#reportModal").modal("show");
     });
+
+    $("#printExcel").click((e) => {
+        $("#reportForm").find("input[name='filetype']").val("Excel");
+        $("#reportForm").submit();
+    });
+
+    $("#printPDF").click((e) => {
+        $("#reportForm").find("input[name='filetype']").val("PDF");
+        $("#reportForm").submit();
+    });
+
+    $("#reportType").change((e) => {
+        $(e.currentTarget).val() == 1 ? $("#printExcel").addClass("d-none") : $("#printExcel").removeClass("d-none");
+    });
 }
