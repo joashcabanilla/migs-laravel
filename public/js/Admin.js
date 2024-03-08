@@ -1373,7 +1373,6 @@ const Supplies = () => {
 
     $("#printPDF").click((e) => {
         $("#reportForm").find("input[name='filetype']").val("PDF");
-        $("#reportForm").submit();
     });
 
     $("#reportType").change((e) => {
