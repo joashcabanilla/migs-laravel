@@ -105,7 +105,7 @@
                             <select class="form-control" id="reportType" name="reportType" required autocomplete="false">
                                 <option value="1">List of registered members for the current user</option>
                                 <option value="2">Summary of registration</option>
-                                {{-- <option value="3">Election Summary</option> --}}
+                                <option value="3">Election Summary</option>
                             </select>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">

@@ -422,7 +422,7 @@ class DataTableClass
             }],
 
             ['db' => 'DateTime', 'dt' => 5, 'formatter' => function($d){
-                return date("m/d/Y h:i A", strtotime($d));
+                return date("m/d/Y", strtotime($d));
             }]
         ];
 
@@ -541,7 +541,7 @@ class DataTableClass
             }],
 
             ['db' => 'DateTime', 'dt' => 5, 'formatter' => function($d){
-                return date("m/d/Y h:i A", strtotime($d));
+                return date("m/d/Y", strtotime($d));
             }]
         ];
 

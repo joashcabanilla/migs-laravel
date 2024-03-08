@@ -65,7 +65,7 @@
                         <th>Position</th>
                         <th>Candidate</th>
                         <th>Vote Method</th>
-                        <th>Date & Time Voted</th>
+                        <th>Date Voted</th>
                     </tr>
                 </thead>
             </table>

@@ -162,10 +162,9 @@ class ReportController extends Controller
             ]);
 
         }else{
-
             $data["DateTime"] = empty($var->date) ? date("m/d/Y") : date("m/d/Y", strtotime($var->date)); 
-            $electionSummary = $this->votesModel->GetElectionSummary($var->voteMethod,$var->date);
-            
+            $data["electionSummary"] = $this->votesModel->GetElectionSummary($var->voteMethod,$var->date);
+
             return response()->make(view('Report.ElectionSummaryPerMember',$data), '200', 
             [
                 'Content-Type'=>'application/pdf',

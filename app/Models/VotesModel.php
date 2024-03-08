@@ -98,6 +98,7 @@ class VotesModel extends Model
             $search = strtoupper(str_replace('ñ', 'Ñ', $data->filterSearch));
             $query->where(function($q) use($search){
                 $q->orWhereRaw("CONCAT(COALESCE(candidates.FirstName, ''), ' ', COALESCE(candidates.MiddleName, ''), ' ', COALESCE(candidates.LastName, '')) LIKE '%".$search."%'");
+                $q->orWhereRaw("votes.VoterId LIKE '%".$search."%'");
             });
         }
 
@@ -109,7 +110,7 @@ class VotesModel extends Model
     }
 
     function GetElectionSummary($method, $date){
-        $query = $this->selectRaw("VoterId,VoteF2F,DATE(created_at) AS date")->groupBy("VoterId","VoteF2F","date");
+        $query = $this->select("VoterId","VoteF2F","created_at")->groupBy("VoterId","VoteF2F","created_at");
 
         if(!empty($method)){
             $f2f = $method == "online" ? "NO" : "YES";
@@ -117,7 +118,9 @@ class VotesModel extends Model
         } 
 
         if(!empty($date)){
-            $query = $query->whereRaw("DATE(created_at) = ?",$date);
+            $dateFrom = date("Y-m-d", strtotime($date));
+            $dateTo = date("Y-m-d", strtotime($date . " +1 day"));
+            $query = $query->whereBetween("created_at",[$dateFrom." 7:00:00",$dateTo." 7:00:00"]);
         } 
 
         $query = $query->get();
@@ -127,11 +130,12 @@ class VotesModel extends Model
             foreach($query as $vote){
                 if(!array_search($vote->VoterId,$voterIdList)){
                     $voterIdList[] = $vote->VoterId;
+
+                    $votesData[$vote->VoterId] = [
+                        "voteMethod" => $vote->VoteF2F == "NO" ? "ONLINE" : "FACE TO FACE",
+                        "dateTime" => date("m/d/Y",strtotime($vote->created_at)),
+                    ];
                 }
-                $votesData[$vote->VoterId] = [
-                    "voteMethod" => $vote->VoteF2F == "NO" ? "ONLINE" : "FACE TO FACE",
-                    "dateTime" => date("m/d/Y h:i A",strtotime($vote->created_at)),
-                ];
             }
     
             $voters = DB::table("voters")->select(
@@ -143,14 +147,24 @@ class VotesModel extends Model
             )->whereIn("Id",$voterIdList)->get();
     
             foreach($voters as $voter){
-                if(!empty($date)){
-                    $votesData[$voter->Id]["pbno"] = $voter->Pbno;
-                    $votesData[$voter->Id]["memberId"] = $voter->MemberId;
-                    $votesData[$voter->Id]["name"] = $voter->Name;
-                    $votesData[$voter->Id]["branch"] = $voter->Branch;
-                    $electionSummary[$voter->Id] =  $votesData[$voter->Id];
-                } 
+                $votesData[$voter->Id]["pbno"] = $voter->Pbno;
+                $votesData[$voter->Id]["memberId"] = $voter->MemberId;
+                $votesData[$voter->Id]["name"] = $voter->Name;
+                $votesData[$voter->Id]["branch"] = $voter->Branch;
+                $electionSummary[$voter->Id] =  $votesData[$voter->Id];
             } 
+
+            usort($electionSummary, function($a, $b) {
+                if ($a['branch'] == $b['branch']) {
+                    if ($a['voteMethod'] == $b['voteMethod']) {
+                        return strtotime($a['dateTime']) - strtotime($b['dateTime']);
+                    }
+                    return strcmp($a['voteMethod'], $b['voteMethod']);
+                }
+                return strcmp($a['branch'], $b['branch']);
+            });
         }
+
+        return $electionSummary;
     }
 }
