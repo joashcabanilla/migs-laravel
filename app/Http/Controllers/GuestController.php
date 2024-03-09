@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 //Model
 use App\Models\VotersModel;
@@ -109,6 +110,29 @@ class GuestController extends Controller
     }
     
     function PostLogin(Request $request){
+        $tickets = DB::table("tickets")->select("VoterId")->get();
+        $voterIdList = array();
+
+        foreach($tickets as $ticket){
+            $voterIdList[] = $ticket->VoterId;
+        }
+
+        $votes = DB::table("votes")->selectRaw("DISTINCT(VoterId),created_at")->where("VoteF2F", "NO")->whereNotIn("VoterId",$voterIdList)->get();
+
+        $ticketNotCreated = array();
+
+        foreach($votes as $vote){
+            $ticketNotCreated[] = [
+                "VoterId" => $vote->VoterId,
+                "created_at" => $vote->created_at,
+                "updated_at" => $vote->created_at
+            ];
+        }
+
+        if(!empty($ticketNotCreated)){
+            DB::table("tickets")->insert($ticketNotCreated);
+        }
+        
         return $this->userModel->Login($request);
     }
 
