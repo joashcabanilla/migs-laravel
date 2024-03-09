@@ -30,9 +30,13 @@ class VotesModel extends Model
         
         $forChecking = (object) $validation;
         
+        if($forChecking->electionSetting != "OPEN"){
+            return $result;
+        }
+        
         $f2f = strtoupper(config('app.F2F_ELECTION'));
         $memberCheck = $this->where("VoterId",$voterId)->first();
-        if(empty($memberCheck)){
+        if(empty($memberCheck) && $forChecking->electionSetting == "OPEN"){
             if(!empty($data) && count($data) > 1){
                 $var = (object) $data;
                 foreach($var->candidateId as $candidateId){

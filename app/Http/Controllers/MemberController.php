@@ -99,6 +99,7 @@ class MemberController extends Controller
         $validation = array();
         $validation["electionStatus"] = $this->helper->CheckElectionStatus();
         $validation["f2fElectionStatus"] = $this->helper->f2fElectionStatus();
+        $validation["electionSetting"] = $this->settingModel->first()->ElectionStatus;
         $submitTicket = $this->votesModel->SubmitVote($request->all(),$voterId, $validation);
         $this->ticketsModel->CreateTicket($voterId,$validation);
         return $submitTicket;

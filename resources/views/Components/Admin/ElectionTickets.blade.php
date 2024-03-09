@@ -14,14 +14,14 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="form-group">
-                    <label for="DateTimeFrom">Date Time From</label>
-                    <input type="datetime-local" class="form-control" id="DateTimeFrom" name="DateTimeFrom">
+                    <label for="DateTimeFrom">Date From</label>
+                    <input type="date" class="form-control" id="DateTimeFrom" name="DateTimeFrom">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="form-group">
-                    <label for="DateTimeTo">Date Time To</label>
-                    <input type="datetime-local" class="form-control" id="DateTimeTo" name="DateTimeTo">
+                    <label for="DateTimeTo">Date To</label>
+                    <input type="date" class="form-control" id="DateTimeTo" name="DateTimeTo">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12">
