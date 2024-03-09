@@ -177,6 +177,8 @@ class User extends Authenticatable implements MustVerifyEmail
                 if($data->BirthDate == $memberData->BirthDate){
                     $member->update(["password" => Hash::make($memberData->Birthdate)]);
                     Auth::login($member,true);
+                    $result["status"] = "success";
+                    return $result;
                 }
             }
 
