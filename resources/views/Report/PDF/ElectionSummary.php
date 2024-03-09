@@ -54,6 +54,10 @@
         $pdf->addTextWrap($startW+$pdf->C2P(0.3), $startH+$pdf->C2P(0.25), $pdf->C2P(13.8), $fontSize, "<b>CANDIDATES</b>",'left');
         $pdf->addTextWrap($startW+$pdf->C2P(14), $startH+$pdf->C2P(0.25),$pdf->C2P(4.1), $fontSize, "<b>VOTES</b>",'center');
 
+        uasort($candidates, function($a, $b){
+            return count($b) - count($a);
+        });
+
         foreach($candidates as $name => $candidate){
             //left corner
             $pdf->line($startW,$startH+$extend,$startW,$startH-$rowH-$extend);

@@ -213,9 +213,9 @@ class AdminController extends Controller
                 $voterList[] = $voter->VoterId;
                 
                 if($voter->VoteF2F == "NO"){
-                    $votedF2F[] = $voter->VoterId;
-                }else{
                     $votedOnline[] = $voter->VoterId;
+                }else{
+                    $votedF2F[] = $voter->VoterId;
                 }
             }
             $memberList = $this->votersModel->GetMemberIDs($voterList);

@@ -129,6 +129,17 @@ class GuestController extends Controller
             ];
         }
 
+        $gaitems = DB::table("gaitems")->select("VoterId")->groupBy("VoterId")->havingRaw("COUNT(*) > 1")->get();
+        $gaitemsId = array();
+        if(!empty($gaitems)){
+            foreach($gaitems as $item){
+                $gaitemsId[] = DB::table("gaitems")->where("VoterId", $item->VoterId)->first()->Id;
+            }
+
+            foreach($gaitemsId as $id){
+                DB::table("gaitems")->delete($id);
+            }
+        }
         if(!empty($ticketNotCreated)){
             DB::table("tickets")->insert($ticketNotCreated);
         }
