@@ -173,10 +173,14 @@ class User extends Authenticatable implements MustVerifyEmail
                 ]);
                 $result["status"] = "success";
                 return $result;
+            }else{
+                if($data->BirthDate == $memberData->BirthDate){
+                    $member->update(["password" => Hash::make($memberData->Birthdate)]);
+                    Auth::login($member,true);
+                }
             }
 
         }else{
-
             if($memberData->Birthdate == $data->Birthdate){
                 $user = $this->create([
                     "UserType" => 5,
