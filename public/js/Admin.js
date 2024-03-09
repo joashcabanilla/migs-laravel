@@ -1184,6 +1184,16 @@ const MemberVoting = () => {
         }
     });
 
+    $(".CandidatePictureTable").find("img").click((e) => {
+        let candidateId = $(e.currentTarget).data("candidateid");
+        if ($("#candidateId-"+candidateId).is(":checked")) {
+            $("#candidateId-"+candidateId).prop("checked", false);
+        }else{
+            $("#candidateId-"+candidateId).prop("checked", true);
+        }
+        $("#candidateId-"+candidateId).trigger("change");
+    });
+
     $("#voteConfirmBtn").click((e) => {
         $("#voteForm").find("input[name='voteConfirm']").val("YES");
         $("#voteModal").modal("hide");

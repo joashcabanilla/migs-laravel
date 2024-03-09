@@ -26,7 +26,7 @@
                                         </div>
                                         <div class="col-10">
                                             <div class="img-fluid elevation-2 CandidatePictureTable float-center">
-                                                <img class="picture"  src="{{$candidate["Picture"]}}" alt="Picture" width="100" height="100">
+                                                <img class="picture"  src="{{$candidate["Picture"]}}" alt="Picture" width="100" height="100" data-candidateid="{{$candidate["Id"]}}">
                                             </div>
                                         </div>
                                     </div>
