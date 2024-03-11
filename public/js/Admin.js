@@ -1387,5 +1387,8 @@ const Supplies = () => {
 
     $("#reportType").change((e) => {
         $(e.currentTarget).val() == 1 ? $("#printExcel").addClass("d-none") : $("#printExcel").removeClass("d-none");
+        
+        $("#voteMethod").val("");
+        $("#Date").val("");
     });
 }

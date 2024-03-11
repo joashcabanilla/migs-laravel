@@ -113,7 +113,7 @@ class VotesModel extends Model
         return $query;
     }
 
-    function GetElectionSummary($method, $date){
+    function GetElectionSummary($method, $date, $notReceivedIdList = array()){
         $query = $this->select("VoterId","VoteF2F","created_at")->groupBy("VoterId","VoteF2F","created_at");
 
         if(!empty($method)){
@@ -126,6 +126,10 @@ class VotesModel extends Model
             $dateTo = date("Y-m-d", strtotime($date . " +1 day"));
             $query = $query->whereBetween("created_at",[$dateFrom." 7:00:00",$dateTo." 7:00:00"]);
         } 
+
+        if(!empty($notReceivedIdList)){
+            $query = $query->WhereIn("VoterId",$notReceivedIdList);
+        }
 
         $query = $query->get();
         $votesData = $voterIdList = $electionSummary = array();

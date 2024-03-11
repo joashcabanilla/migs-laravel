@@ -164,7 +164,7 @@ class ReportController extends Controller
             }else{
                 return response()->make(view("Report.Excel.GaItemsSummary",$data), '200'); 
             }
-        }else{
+        }else if($var->reportType == "3"){
             $data["DateTime"] = empty($var->date) ? date("m/d/Y") : date("m/d/Y", strtotime($var->date)); 
             $data["electionSummary"] = $this->votesModel->GetElectionSummary($var->voteMethod,$var->date);
 
@@ -177,8 +177,30 @@ class ReportController extends Controller
             }else{
                 return response()->make(view("Report.Excel.ElectionSummaryPerMember",$data), '200'); 
             }
-           
-        }
-        
+        }else if($var->reportType == "4"){
+            $data["DateTime"] = empty($var->date) ? date("m/d/Y") : date("m/d/Y", strtotime($var->date)); 
+            $notReceivedIdList = $gaitemsIdList = array();
+
+            foreach($gaItemList as $item){
+                $gaitemsIdList[$item->VoterId] = $item->VoterId;
+            }
+
+            foreach($voterList as $voter){
+                if(!isset($gaitemsIdList[$voter->VoterId])){
+                    $notReceivedIdList[] = $voter->VoterId;
+                }
+            }
+            $data["notReceivedReport"] = $this->votesModel->GetElectionSummary($var->voteMethod,$var->date,$notReceivedIdList);
+
+            if($var->filetype == "PDF"){
+                return response()->make(view('Report.PDF.GaItemsSummaryNotReceived',$data), '200', 
+                [
+                    'Content-Type'=>'application/pdf',
+                    'Content-Disposition'=>'inline; filname="GaItemsSummary.pdf"'
+                ]);
+            }else{
+                return response()->make(view("Report.Excel.GaItemsSummaryNotReceived",$data), '200'); 
+            }
+        }  
     }
 }

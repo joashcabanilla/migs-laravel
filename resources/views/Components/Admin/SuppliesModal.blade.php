@@ -106,6 +106,7 @@
                             <select class="form-control" id="reportType" name="reportType" required autocomplete="false">
                                 <option value="1">List of registered members for the current user</option>
                                 <option value="2">GA items Summary</option>
+                                <option value="4">GA items Summary (Not Received)</option>
                                 <option value="3">Election Summary</option>
                             </select>
                         </div>
