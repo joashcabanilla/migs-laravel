@@ -35,6 +35,13 @@ class VotesModel extends Model
         }
         
         $f2f = strtoupper(config('app.F2F_ELECTION'));
+
+        if($f2f == "NO"){
+            if($forChecking->electionStatus == "closed"){
+                return $result;
+            }
+        }
+        
         $memberCheck = $this->where("VoterId",$voterId)->first();
         if(empty($memberCheck) && $forChecking->electionSetting == "OPEN"){
             if(!empty($data) && count($data) > 1){

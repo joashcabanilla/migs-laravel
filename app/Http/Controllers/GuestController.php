@@ -51,6 +51,14 @@ class GuestController extends Controller
             return view('Components.Guest.ElectionClosed',$this->data);
         }
 
+        $this->data["f2fElection"] = config('app.F2F_ELECTION');
+
+        if($this->data["f2fElection"] == "NO"){
+            if($this->data["electionStatus"] == "closed"){
+                return view('Components.Guest.ElectionClosed',$this->data);
+            }
+        }
+
         $this->data["branchContact"] = $this->helper->BranchContactList();
         $this->data["TitlePage"] = "NOVADECI MIGS Verifier";
         return view('Components.Guest.Verifier',$this->data);

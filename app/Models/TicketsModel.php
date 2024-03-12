@@ -22,7 +22,7 @@ class TicketsModel extends Model
         
         if(strtoupper(config('app.F2F_ELECTION')) == "NO"){
             $memberCheck = $this->where("VoterId", $voterId)->first();
-            if(empty($memberCheck) && $forChecking->electionSetting == "OPEN"){
+            if(empty($memberCheck) && $forChecking->electionSetting == "OPEN" && $forChecking->electionStatus == "open"){
                 return $this->create([
                     "VoterId" => $voterId
                 ]);
