@@ -217,6 +217,8 @@ class User extends Authenticatable implements MustVerifyEmail
                 $result["status"] = "election closed";
                 return $result;
             }
+        }else{
+            return $this->MemberLogin($data,$forChecking->memberData);
         }
 
         if($forChecking->f2fElectionStatus == "open" || $forChecking->voteData > 0){
