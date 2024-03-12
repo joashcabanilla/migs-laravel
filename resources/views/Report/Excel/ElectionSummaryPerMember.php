@@ -95,8 +95,8 @@
     foreach($electionSummary as $data){
         $c = 0;
         $sheet->setRow($r,$rowHeaderH);
-        $sheet->write($r,$c,$data["pbno"],$normalC);$c++;
-        $sheet->write($r,$c,$data["memberId"],$normalC);$c++;
+        $sheet->writeString($r,$c,$data["pbno"],$normalC);$c++;
+        $sheet->writeString($r,$c,$data["memberId"],$normalC);$c++;
         $sheet->write($r,$c,$data["name"],$normal);$c++;
         $sheet->write($r,$c,$data["branch"],$normalC);$c++;
         $sheet->write($r,$c,$data["voteMethod"],$normalC);$c++;
