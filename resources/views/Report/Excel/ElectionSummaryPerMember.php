@@ -61,6 +61,7 @@
         array('Pb No',20),
         array('Member ID',20),
         array('NAME',40),
+        array('BIRTHDATE',20),
         array('BRANCH',20),
         array('VOTE METHOD',20),
         array('DATE',20)
@@ -98,6 +99,7 @@
         $sheet->writeString($r,$c,$data["pbno"],$normalC);$c++;
         $sheet->writeString($r,$c,$data["memberId"],$normalC);$c++;
         $sheet->write($r,$c,$data["name"],$normal);$c++;
+        $sheet->write($r,$c,$data["birthdate"],$normalC);$c++;
         $sheet->write($r,$c,$data["branch"],$normalC);$c++;
         $sheet->write($r,$c,$data["voteMethod"],$normalC);$c++;
         $sheet->write($r,$c,$data["dateTime"],$normalC);$c++;

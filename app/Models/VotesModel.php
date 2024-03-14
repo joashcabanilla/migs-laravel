@@ -158,7 +158,8 @@ class VotesModel extends Model
                 "Pbno",
                 "MemberId",
                 DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
-                "Branch"
+                "Branch",
+                "Birthdate"
             )->whereIn("Id",$voterIdList)->get();
     
             foreach($voters as $voter){
@@ -166,6 +167,7 @@ class VotesModel extends Model
                 $votesData[$voter->Id]["memberId"] = $voter->MemberId;
                 $votesData[$voter->Id]["name"] = $voter->Name;
                 $votesData[$voter->Id]["branch"] = $voter->Branch;
+                $votesData[$voter->Id]["birthdate"] = date("m/d/Y", strtotime($voter->Birthdate));
                 $electionSummary[$voter->Id] =  $votesData[$voter->Id];
             } 
 
