@@ -201,6 +201,9 @@ class ReportController extends Controller
             }else{
                 return response()->make(view("Report.Excel.GaItemsSummaryNotReceived",$data), '200'); 
             }
-        }  
+        }else if($var->reportType == "5"){
+            $data["electionMemberList"] = $this->voterModel->electionMemberList($var);
+            return response()->make(view("Report.Excel.ElectionMembersList",$data), '200'); 
+        } 
     }
 }

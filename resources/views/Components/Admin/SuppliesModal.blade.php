@@ -108,6 +108,9 @@
                                 <option value="2">GA items Summary</option>
                                 <option value="4">GA items Summary (Not Received)</option>
                                 <option value="3">Election Summary</option>
+                                @if(Auth::user()->UserType == 1)
+                                    <option value="5">Election Members List</option>
+                                @endif
                             </select>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">

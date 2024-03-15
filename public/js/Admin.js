@@ -1387,7 +1387,11 @@ const Supplies = () => {
 
     $("#reportType").change((e) => {
         $(e.currentTarget).val() == 1 ? $("#printExcel").addClass("d-none") : $("#printExcel").removeClass("d-none");
-        
+
+        $(e.currentTarget).val() == 5 ? $("#printPDF").addClass("d-none") : $("#printPDF").removeClass("d-none");
+
+        $(e.currentTarget).val() == 5 ? $("#Date").parent().parent().addClass("d-none") : $("#Date").parent().parent().removeClass("d-none");
+
         $("#voteMethod").val("");
         $("#Date").val("");
     });

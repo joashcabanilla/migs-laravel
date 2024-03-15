@@ -215,4 +215,78 @@ class VotersModel extends Model
         $query = $query->orderBy("Id", "ASC");
         return $query;
     }
+
+    function electionMemberList($data){
+        $users = DB::table("users")->where("UserType","!=","5")->get();
+        $userList = array();
+        foreach($users as $user){
+            $userList[$user->Id] = strtoupper(str_replace('ñ', 'Ñ', $user->FirstName . " " . $user->LastName)); 
+        }
+
+        $voters = DB::table("votes")->select(
+            "VoterId",
+            "VoteF2F",
+            "created_at AS DateVoted"
+        );
+
+        if(!empty($data->voteMethod)){
+            $voteMethod = $data->voteMethod == "online" ? "NO" : "YES";
+            $voters = $voters->where("VoteF2F", $voteMethod);
+        }
+        
+        $voters = $voters->get();
+
+        $voterList = array();
+        foreach($voters as $voter){
+            $voterList[$voter->VoterId] = [
+                "VoteF2F" => $voter->VoteF2F == "NO" ? "ONLINE" : "FACE TO FACE",
+                "DateVoted" => $voter->DateVoted,
+            ];
+        }
+
+        $gaItems = DB::table("gaitems")->select(
+            "VoterId",
+            "RegisterBy AS IssuedBy",
+            "Register AS DateReceived",
+        )->get();
+
+        $gaItemsList = array();
+        foreach($gaItems as $gaItem){
+            $gaItemsList[$gaItem->VoterId] = [
+                "IssuedBy" => $userList[$gaItem->IssuedBy],
+                "DateReceived" => $gaItem->DateReceived
+            ];
+        }
+
+        $members = $this->select(
+            "Id",
+            "Pbno",
+            "MemberId",
+            DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
+            "Birthdate",
+            "Branch"
+        )->where("Status", "MIGS")->get();
+
+        $memberList = array();
+
+        foreach($members as $member){
+            $age = Carbon::parse($member->Birthdate)->age;
+            $ageBracket = $age >= 60 ? "SENIOR" : "18-59 YEARS OLD";
+            $memberList[] = [
+                "pbno" => $member->Pbno,
+                "memberId" => $member->MemberId,
+                "name" => $member->Name,
+                "birthdate" => date("m/d/Y", strtotime($member->Birthdate)),
+                "age" => $age,
+                "ageBracket" => $ageBracket, 
+                "branch" => $member->Branch,
+                "voteMethod" => isset($voterList[$member->Id]) ? $voterList[$member->Id]["VoteF2F"] : "",
+                "dateVoted" => isset($voterList[$member->Id]) ? date("m/d/Y",strtotime($voterList[$member->Id]["DateVoted"])) : "",
+                "issuedBy" => isset($gaItemsList[$member->Id]) ? $gaItemsList[$member->Id]["IssuedBy"] : "",
+                "dateReceived" => isset($gaItemsList[$member->Id]) ? date("m/d/Y",strtotime($gaItemsList[$member->Id]["DateReceived"])) : ""
+            ];
+        }
+
+        return $memberList;
+    }
 }

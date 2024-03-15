@@ -36,15 +36,19 @@ class GaItemsModel extends Model
         $var = (object) $data;
         $currentDateTime = Carbon::now();
         $day = $currentDateTime->format('Y-m-d');
-        $member = [
-            "VoterId" => $var->VoterId,
-            "Pbno" => $var->Pbno,
-            "MemberId" => $var->MemberId,
-            "RegisterBy" => Auth::user()->Id,
-            "Register" => $day,
-        ];
 
-        return $this->create($member);
+        $checkExist = $this->where("VoterId", $var->VoterId)->first();
+        if(empty($checkExist)){
+            $member = [
+                "VoterId" => $var->VoterId,
+                "Pbno" => $var->Pbno,
+                "MemberId" => $var->MemberId,
+                "RegisterBy" => Auth::user()->Id,
+                "Register" => $day,
+            ];
+    
+            return $this->create($member);
+        }
     }
 
     function SummaryReport($data){
