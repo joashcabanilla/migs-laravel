@@ -157,6 +157,9 @@ class VotesModel extends Model
                 "Id",
                 "Pbno",
                 "MemberId",
+                "FirstName",
+                "MiddleName",
+                "LastName",
                 DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
                 "Branch",
                 "Birthdate"
@@ -165,6 +168,9 @@ class VotesModel extends Model
             foreach($voters as $voter){
                 $votesData[$voter->Id]["pbno"] = $voter->Pbno;
                 $votesData[$voter->Id]["memberId"] = $voter->MemberId;
+                $votesData[$voter->Id]["firstName"] = strtoupper(str_replace('ñ', 'Ñ', $voter->FirstName));
+                $votesData[$voter->Id]["MiddleName"] = strtoupper(str_replace('ñ', 'Ñ', $voter->MiddleName));
+                $votesData[$voter->Id]["LastName"] = strtoupper(str_replace('ñ', 'Ñ', $voter->LastName));
                 $votesData[$voter->Id]["name"] = $voter->Name;
                 $votesData[$voter->Id]["branch"] = $voter->Branch;
                 $votesData[$voter->Id]["birthdate"] = date("m/d/Y", strtotime($voter->Birthdate));
