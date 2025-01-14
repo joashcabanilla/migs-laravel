@@ -18,7 +18,7 @@
                 
                     <div class="col-12">
                         <div class="form-group">
-                            <label for="nonmigs-contact">Please type in your mobile number (ex.0966587XXXX)</label>
+                            <label for="nonmigs-contact">Please provide your mobile number. (ex.0966587XXXX)</label>
                             <input type="text" class="form-control font-weight-bold" placeholder="" id="nonmigs-contact" name="contact" autocomplete="false" required maxlength="11">
                         </div>
                     </div>
