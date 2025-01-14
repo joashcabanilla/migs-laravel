@@ -173,6 +173,7 @@ const UseraccountTab = () => {
 
     $("#userAddBtn").click((e) => {
         $("#userModal").modal("show");
+        $("#userForm").find("input").val("");
     });
 
     $("#showPassword").change((e) => {
