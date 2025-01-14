@@ -14,7 +14,7 @@
                 </div>
             @else
                 <div class="card-body">
-                    <h1 class="font-weight-bold text-monospace text-center">The 48th General Assembly System is</h1>
+                    <h1 class="font-weight-bold text-monospace text-center">The 49th General Assembly System is</h1>
                     <h1 class="font-weight-bold text-monospace text-center" style="color:purple">OFFICIALLY CLOSED.</h1> 
                 </div>
             @endif
