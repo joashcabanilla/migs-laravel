@@ -23,7 +23,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    {{-- <div class="col-12">
                         <h5 class="font-weight-bold text-center">You may Call these Hotlines:</h5>
                     </div>
 
@@ -35,7 +35,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="modal-footer">
