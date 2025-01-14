@@ -7,24 +7,24 @@
                     <img src="{{asset('image/1.png')}}" width="200"/>
                 </div>
                 <div class="col-12 mt-3">
-                    <h3 class="text-center font-weight-bold mb-0">48th General Assembly</h3>
+                    <h3 class="text-center font-weight-bold mb-0">49th General Assembly</h3>
                     <h2 class="text-center font-weight-bold text-light">MIGS VERIFICATION</h2>
                 </div>
                 <div class="col-12 d-flex justify-content-center">
                     <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MEMBERSHIP CUT OFF DATE:</h6>
-                    <h6 class="font-weight-bold m-0 bg-info rounded p-1">DECEMBER 29, 2023</h6>
+                    <h6 class="font-weight-bold m-0 bg-info rounded p-1">DECEMBER 28, 2024</h6>
                 </div>
                 <div class="col-12 d-flex justify-content-center mt-2">
                     <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MIGS CUT OFF DATE:</h6>
-                    <h6 class="font-weight-bold m-0 bg-info rounded p-1">MARCH 2, 2024</h6>
+                    <h6 class="font-weight-bold m-0 bg-info rounded p-1">MARCH 1, 2025</h6>
                 </div>
-                <div class="col-12 mt-4">
+                {{-- <div class="col-12 mt-4">
                     <h5 class="font-weight-bold text-warning">PAALALA:</h5>
                     <h5 class="text-light">PARA SA MGA KAMAY-ARI NA BUMOTO AT NAGPA-REHISTRO ONLINE ANG INYONG MGA <b class="text-warning">GA ITEMS</b> AY MAAARING I-CLAIM  MULA <b class="text-warning">MARCH 5, 2024</b> HANGGANG <b class="text-warning">MARCH 15, 2024</b> LAMANG.</h5>
                 </div>
                 <div class="col-12 mt-4">
                     <h5 class="text-light">PARA NAMAN SA MGA KASAPI NA NASA IBANG LUGAR O HINDI MAKAKAPUNTA, MAAARING IPAKUHA ANG INYONG MGA <b class="text-warning">GA ITEMS.</b> MAGDALA LAMANG NG <b class="text-warning">AUTHORIZATION LETTER</b> AT <b class="text-warning">PHOTO COPY</b> NG INYONG VALID ID. MAAARI DIN I-CLAIM HANGGANG <b class="text-warning">MARCH 15, 2024</b> LAMANG.</h5>
-                </div>
+                </div> --}}
                 <div class="col-12">
                     <hr class="bg-light" />
                 </div>
