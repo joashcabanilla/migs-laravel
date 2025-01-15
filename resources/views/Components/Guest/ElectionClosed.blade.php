@@ -7,17 +7,19 @@
             </div>
             @if(config('app.F2F_ELECTION') == "NO")
                 <div class="card-body">
-                    <h1 class="font-weight-bold text-monospace text-center">The 49th General Assembly System is</h1>
-                    {{-- <h1 class="font-weight-bold text-monospace text-center">The 48th PRE-GA Online Registration and Voting System is</h1> --}}
-                    {{-- <h1 class="font-weight-bold text-monospace text-center" style="color:purple">accessible only from 7:00 AM to 10:00 PM</h1>  --}}
+                    {{-- <h1 class="font-weight-bold text-monospace text-center">The 49th General Assembly System is</h1> --}}
+                    <h1 class="font-weight-bold text-monospace text-center">The 49th PRE-GA Online Registration and Voting System is</h1>
+                    <h1 class="font-weight-bold text-monospace text-center" style="color:purple">accessible only from 7:00 AM to 10:00 PM</h1> 
                     {{-- <h1 class="font-weight-bold text-monospace text-center" style="color:purple">OFFICIALLY CLOSED.</h1>  --}}
-                    <h1 class="font-weight-bold text-monospace text-center" style="color:purple">UNDER MAINTENANCE.</h1>
+                    {{-- <h1 class="font-weight-bold text-monospace text-center" style="color:purple">UNDER MAINTENANCE.</h1> --}}
                 </div>
             @else
                 <div class="card-body">
-                    <h1 class="font-weight-bold text-monospace text-center">The 49th General Assembly System is</h1>
+                    {{-- <h1 class="font-weight-bold text-monospace text-center">The 49th General Assembly System is</h1> --}}
                     {{-- <h1 class="font-weight-bold text-monospace text-center" style="color:purple">OFFICIALLY CLOSED.</h1>  --}}
-                    <h1 class="font-weight-bold text-monospace text-center" style="color:purple">UNDER MAINTENANCE.</h1>
+                    {{-- <h1 class="font-weight-bold text-monospace text-center" style="color:purple">UNDER MAINTENANCE.</h1> --}}
+                    <h1 class="font-weight-bold text-monospace text-center">The 49th PRE-GA Online Registration and Voting System is</h1>
+                    <h1 class="font-weight-bold text-monospace text-center" style="color:purple">accessible only from 7:00 AM to 10:00 PM</h1> 
                 </div>
             @endif
 
