@@ -27,7 +27,7 @@
                 <div class="col-12 mt-2">
                     {{-- <h5 class="text-light">PARA NAMAN SA MGA KASAPI NA NASA IBANG LUGAR O HINDI MAKAKAPUNTA, MAAARING IPAKUHA ANG INYONG MGA <b class="text-warning">GA ITEMS.</b> MAGDALA LAMANG NG <b class="text-warning">AUTHORIZATION LETTER</b> AT <b class="text-warning">PHOTO COPY</b> NG INYONG VALID ID. MAAARI DIN I-CLAIM HANGGANG <b class="text-warning">MARCH 15, 2024</b> LAMANG.</h5> --}}
 
-                    <h5 class="text-warning font-weight-bold mb-0">MIGS Verifier Records as of February 20, 2025.</h5>
+                    <h5 class="text-warning font-weight-bold mb-0">MIGS Verifier Records as of February 27, 2025.</h5>
                 </div>
                 <div class="col-12">
                     <hr class="bg-light" />
