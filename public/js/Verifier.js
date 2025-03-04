@@ -1,9 +1,22 @@
+$(document).ready(() => {
+    $("#voterForm").find("input[name='Birthdate']").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        minDate: new Date(1920, 0, 1),
+        yearRange: "1920:+0",
+    });
+});
+
 $("#verifierForm").submit((e) => {
     e.preventDefault();
     let data = $(e.currentTarget).serializeArray();
     let verifymember = postAjax("Verifymember", data);
 
     verifymember.done((res) => {
+        if(res.settingStatus.verifier == "CLOSED"){
+            location.reload();
+        }
+        
         !$(".norecord-verifier").hasClass("d-none") ? $(".norecord-verifier").addClass("d-none") : "";
         $(".search-container-verifier").empty();
         if (res.status == "success") {
@@ -20,7 +33,7 @@ $("#verifierForm").submit((e) => {
                 membercard.find(".pbno").text(data.pbno).css("color", data.pbno == "No Data" ? "gray" : "green");
                 membercard.find(".memberID").text(data.memid).css("color", data.memid == "No Data" ? "gray" : "green");
 
-                if (data.status != "MIGS") {
+                if(data.status != "MIGS"){
                     migs.status = "N O N - M I G S!";
                     migs.color = "red";
                     migs.canVote = false;
@@ -28,20 +41,14 @@ $("#verifierForm").submit((e) => {
 
                 membercard.find(".status").text(migs.status).css("color", migs.color);
 
-                if (migs.canVote) {
+                if(migs.canVote){
                     membercard.find(".voteBtn").removeClass("d-none").css("color", "purple");
-                } else {
+                }else{
                     membercard.find(".nonMigs").parent().removeClass("d-none").addClass("d-flex").children().first().css("color", "purple").next().css("color", "blue");
                 }
                 
-                if (res.electionStatus != "open" && res.f2felectionStatus != "open") {
+                if(res.settingStatus.election == "CLOSED"){
                     membercard.find(".voteBtn").remove();
-                }
-
-                if (res.f2fElection == "NO") {
-                    if (res.electionStatus != "open"){
-                        membercard.find(".voteBtn").remove();
-                    }
                 }
 
                 membercard.find(".nonMigs").click((e) => {
@@ -130,4 +137,12 @@ $("#voterForm").submit((e) => {
             }, 5000);
         }
     });
+});
+
+$("#voterForm").find("#Birthdate").keyup((e) => {
+    let input = e.target.value;
+    input = input.replace(/\D/g, "");
+    if (input.length >= 2) input = input.slice(0, 2) + "/" + input.slice(2);
+    if (input.length >= 5) input = input.slice(0, 5) + "/" + input.slice(5, 9);
+    e.target.value = input;
 });

@@ -3,15 +3,34 @@
         <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="card card-primary card-outline elevation-2 p-3">
                 <div class="row">
-                    <div class="col-12">
-                        <h5 class="font-weight-bold">ELECTION STATUS</h5>
+                    <div class="col-12 mt-2">
+                        <form id="verifierStatusForm" method="POST">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="verifierStatus">VERIFIER STATUS</label>
+                                        <select class="form-control" id="verifierStatus" name="VerifierStatus">
+                                            <option value="OPEN" {{$verifierStatus == "OPEN" ? "selected" : ""}}>OPEN</option>
+                                            <option value="CLOSED" {{$verifierStatus == "CLOSED" ? "selected" : ""}}>CLOSED</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="verifierSaveBtn">&nbsp;</label>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary font-weight-bold" id="verifierSaveBtn"><i class="fas fa-save"></i> SAVE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+
                     <div class="col-12 mt-2">
                         <form id="electionStatusForm" method="POST">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="electionStatus">STATUS</label>
+                                        <label for="electionStatus">ELECTION STATUS</label>
                                         <select class="form-control" id="electionStatus" name="ElectionStatus">
                                             <option value="OPEN" {{$electionStatus == "OPEN" ? "selected" : ""}}>OPEN</option>
                                             <option value="CLOSED" {{$electionStatus == "CLOSED" ? "selected" : ""}}>CLOSED</option>

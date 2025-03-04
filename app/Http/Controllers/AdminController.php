@@ -72,7 +72,9 @@ class AdminController extends Controller
                 $tableList[] = trim($tablename);
             }
         }
-        $this->data["electionStatus"] = $this->settingModel->first()->ElectionStatus;
+        $settingModel = $this->settingModel->first();
+        $this->data["electionStatus"] = $settingModel->ElectionStatus;
+        $this->data["verifierStatus"] = $settingModel->VerifierStatus;
         $this->data["tables"] = $tableList;
         return view('Components.Admin.Maintenance',$this->data);
     }
@@ -137,6 +139,38 @@ class AdminController extends Controller
         $this->data['candidates'] = $this->candidateModel->GetAllCandidate();
         $this->data['positions'] = $this->positionModel->GetPositionList();
         return view('Components.Admin.ElectionSummary', $this->data);
+    }
+
+    //for f2f election
+    function F2Felection(){
+        $settingStatus = (object) $this->helper->CheckSettingStatus();
+        $this->data["electionStatus"] = $settingStatus->election;
+        $this->data['branch'] = $this->votersModel->GetBranchList();
+        $this->data['status'] = $this->votersModel->GetStatusList();
+        $this->data['counter'] = $this->votesModel->GetCounter(Auth::user()->Id);
+        return view('Components.Admin.F2fElection', $this->data);
+    }
+
+    function F2Fvoting(Request $request){
+        $positionList = $this->positionModel->GetPositionList();
+        $candidateArray = $this->candidateModel->GetAllCandidate();
+        $positions = $candidateList = $voteLimit = array();
+        
+        foreach($positionList as $position){
+            $positions[$position->Id] = $position->Description; 
+            $voteLimit[str_replace(' ', '', $position->Description)] = $position->VoteLimit;
+        }
+
+        foreach($candidateArray as $candidate){
+            $candidatePosition = $positions[$candidate["Position"]];
+            $candidateList[$candidatePosition][] = $candidate;
+        }
+        
+        $this->data["candidateList"] = $candidateList;
+        $this->data["voteLimit"] = $voteLimit;
+        $this->data["voterId"] = $request->voterId;
+        $this->data["currentPage"] = "voting";
+        return view('Components.Member.Voting',$this->data);
     }
 
     //for Supplies
@@ -383,5 +417,21 @@ class AdminController extends Controller
 
     function UpdateElectionStatus(Request $request){
         $this->settingModel->find(1)->update($request->all());
+    }
+
+    function f2fDataTable(Request $request){
+        return $this->datatable->f2fDataTable($request->all());
+    }
+
+    function f2fSubmitVote(Request $request){
+        $result = array();
+        $result["status"] = "election closed";
+        $result["message"] = "Election has already closed.";
+
+        $settingStatus = (object) $this->helper->CheckSettingStatus();
+        if($settingStatus->election == "OPEN"){
+            return $this->votesModel->f2fSubmitVote($request->all());
+        }
+        return $result;
     }
 }

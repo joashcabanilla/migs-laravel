@@ -37,13 +37,12 @@ class ReportController extends Controller
         $getAllTicket = $this->ticketModel->dataTable($var)->get();
 
         foreach($getAllTicket as $ticket){
-            $memId = !empty($ticket->MemberId) ? $ticket->MemberId : "NO MEM ID";
-            $pbno = !empty($ticket->Pbno) ? $ticket->Pbno : "NO PB#";
+            $pbno = !empty($ticket->Pbno) ? $ticket->Pbno : $ticket->MemberId;
 
-            $data["ticketList"][] = [
-                "pbno" => $memId ." / ". $pbno,
+            $data["ticketList"][$ticket->VoterId] = [
+                "pbno" => $pbno,
                 "name" => $ticket->Name,
-                "ticketNo" => "ON-".sprintf('%04d', $ticket->ticketNo),
+                "ticketNo" => "ON-".sprintf('%05d', $ticket->ticketNo),
                 "contact" => $ticket->Contact
             ];
         }
@@ -77,7 +76,7 @@ class ReportController extends Controller
             if(isset($voteList[$name])){
                 $data["votesTally"][$positionList[$candidate["Position"]]][$name] = $voteList[$name];
             }else{
-                $data["votesTally"][$positionList[$candidate["Position"]]][$name] = 0;
+                $data["votesTally"][$positionList[$candidate["Position"]]][$name] = array();
             }
         }
 

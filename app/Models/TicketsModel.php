@@ -17,16 +17,12 @@ class TicketsModel extends Model
         'VoterId',
     ];
 
-    function CreateTicket($voterId,$validation){
-        $forChecking = (object) $validation;
-        
-        if(strtoupper(config('app.F2F_ELECTION')) == "NO"){
-            $memberCheck = $this->where("VoterId", $voterId)->first();
-            if(empty($memberCheck) && $forChecking->electionSetting == "OPEN" && $forChecking->electionStatus == "open"){
-                return $this->create([
-                    "VoterId" => $voterId
-                ]);
-            }
+    function CreateTicket($voterId){
+        $memberCheck = $this->where("VoterId", $voterId)->first();
+        if(empty($memberCheck)){
+            return $this->create([
+                "VoterId" => $voterId
+            ]);
         }
     }
 
@@ -35,7 +31,7 @@ class TicketsModel extends Model
         $ticket = $this->where("VoterId",$voterId)->first();
 
         if(!empty($ticket)){
-            $ticketNo = "ON-".sprintf('%04d', $ticket->Id);
+            $ticketNo = "ON-".sprintf('%05d', $ticket->Id);
         }
 
         return $ticketNo;
@@ -49,7 +45,8 @@ class TicketsModel extends Model
             DB::raw("CONCAT(COALESCE(voters.FirstName, ''), ' ', COALESCE(voters.MiddleName, ''), ' ', COALESCE(voters.LastName, '')) AS Name"),
             "voters.Branch",
             "tickets.created_at AS DateTime",
-            "voters.Contact"
+            "voters.Contact",
+            "tickets.VoterId"
         )->join("voters","voters.Id","tickets.VoterId");
 
         if(!empty($data->filterSearch)){

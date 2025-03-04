@@ -103,7 +103,7 @@
                         <img class="ml-2" id="CandidatePicture" src="{{asset('image/logo.png')}}" alt="Picture" width="40" height="40">
                     </li>
                     <li class="nav-item">
-                        <h5 class="ml-lg-2 ml-md-2 ml-2 mt-2 font-weight-bold">NOVADECI ELECTION 2024</h5>
+                        <h5 class="ml-lg-2 ml-md-2 ml-2 mt-2 font-weight-bold">NOVADECI ELECTION {{date("Y")}}</h5>
                     </li>
 
                 </ul>

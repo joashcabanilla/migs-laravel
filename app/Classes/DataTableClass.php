@@ -382,11 +382,15 @@ class DataTableClass
                 return strtoupper($d);
             }],
 
-            ['db' => 'Position', 'dt' => 3, 'formatter' => function($d) use($positionArray){
+            ['db' => 'Education', 'dt' => 3, 'formatter' => function($d){
+                return strtoupper($d);
+            }],
+
+            ['db' => 'Position', 'dt' => 4, 'formatter' => function($d) use($positionArray){
                 return isset($positionArray[$d]) && !empty($positionArray[$d]) ? $positionArray[$d] : "";
             }],
 
-            ['db' => 'Id', 'dt' => 4, 'formatter' => function($d){
+            ['db' => 'Id', 'dt' => 5, 'formatter' => function($d){
                 return "<button type='submit' class='btn btn-sm btn-primary elevation-1 editBtn' data-id='".$d."'><i class='fas fa-edit' aria-hidden='true'></i></button>";
             }]
         ];
@@ -406,7 +410,7 @@ class DataTableClass
 
         $columns =[
             ['db' => 'ticketNo', 'dt' => 0,'formatter' => function($d){
-                return "ON-".sprintf('%04d', $d);
+                return "ON-".sprintf('%05d', $d);
             }],
 
             ['db' => 'Pbno', 'dt' => 1, 'formatter'],
@@ -549,6 +553,55 @@ class DataTableClass
             "var" => $var,
             "columns" => $columns,
             "sql" => $query,  
+        );
+        
+        return $this->processTable($params);
+    }
+
+    function f2fDataTable($data){
+        $var = (object) $data;
+        $voters = array();
+        $query = $this->voterModel->memberTable($var);
+        $voterList = $this->votesModel->GetAllVotePerVoteMethod("");
+        
+        foreach($voterList as $voter){
+            $voters[$voter->VoterId] = $voter->VoteF2F;
+        }
+
+        $columns =[
+            ['db' => 'Id', 'dt' => 0, 'formatter' => function($d){
+                return $d;
+            }],
+
+            ['db' => 'Pbno', 'dt' => 1],
+
+            ['db' => 'MemberId', 'dt' => 2],
+
+            ['db' => 'Name', 'dt' => 3],
+
+            ['db' => 'Branch', 'dt' => 4],
+
+            ['db' => 'Status', 'dt' => 5,'formatter' => function($d){
+               $status = $d != "MIGS" ? "NON-MIGS" : $d;
+               $color = $d != "MIGS" ? "border border-danger text-danger" : "border border-success text-success";
+               return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 ".$color."'>".$status."</p>";
+            }],
+
+            ['db' => 'Id', 'dt' => 6, 'formatter' => function($d, $drow) use($voters){
+                if($drow["Status"] == "MIGS"){
+                    if(isset($voters[$d])){
+                        return "<p class='text-center font-weight-bold m-0 p-1 rounded-lg elevation-1 border border-success text-success'>VOTED</p>";
+                    }else{
+                        return "<a href=".route("F2Fvoting.index",['voterId' => $d])." class='btn btn-sm btn-primary elevation-1 editBtn'><i class='fas fa-edit' aria-hidden='true'></i></a>";
+                    }
+                }
+            }]
+        ];
+
+        $params = array(
+            "var" => $var,
+            "columns" => $columns,
+            "sql" => $query  
         );
         
         return $this->processTable($params);

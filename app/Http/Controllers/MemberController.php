@@ -41,7 +41,12 @@ class MemberController extends Controller
     }
 
     function Voting(){
-        $voterId = Session::get('VoterId');
+        if(Session::has('VoterId')){
+            $voterId = Session::get('VoterId');
+        }else{
+            return redirect('/');
+        }
+
         $positionList = $this->positionModel->GetPositionList();
         $candidateArray = $this->candidateModel->GetAllCandidate();
         $positions = $candidateList = $voteLimit = array();
@@ -58,7 +63,7 @@ class MemberController extends Controller
         
         $this->data["candidateList"] = $candidateList;
         $this->data["voteLimit"] = $voteLimit;
-
+        $this->data["f2f"] = Auth::user()->UserType == 5 ? "NO" : "YES";
         if($this->votesModel->CheckVote($voterId) > 0){
             $this->data["currentPage"] = "voted";
             $this->data["ticketNo"] = $this->ticketsModel->GetTicketNo($voterId);
@@ -66,17 +71,17 @@ class MemberController extends Controller
             $this->data["gaSched"] = "( ".$setting->MeetingSched." )";
             $this->data["meetingID"] = $setting->MeetingID;
             $this->data["meetingPass"] = $setting->MeetingPass;
-            $this->data["gaDate"] = date("F j, Y", strtotime($setting->f2fEndDateTime));
+            $this->data["gaDate"] = date("F j, Y", strtotime($setting->GADate));
             
             $votedCandidates = $this->votesModel->GetVote($voterId);
             $votedCandidatesList = array();
             foreach($votedCandidates as $voteCandidate){
+                $this->data["f2f"] = $voteCandidate->VoteF2F;
                 if($voteCandidate->Candidate != 0){
                     $votedCandidatesList[] = $voteCandidate->Candidate;
                 }
             }
             $this->data["votedCandidatesList"] = $votedCandidatesList;
-
             return view('Components.Member.MemberVoted',$this->data);
         }else{
             $this->data["currentPage"] = "voting";
@@ -95,13 +100,31 @@ class MemberController extends Controller
     }
 
     function SubmitVote(Request $request){
-        $voterId = Session::get('VoterId');
-        $validation = array();
-        $validation["electionStatus"] = $this->helper->CheckElectionStatus();
-        $validation["f2fElectionStatus"] = $this->helper->f2fElectionStatus();
-        $validation["electionSetting"] = $this->settingModel->first()->ElectionStatus;
-        $submitTicket = $this->votesModel->SubmitVote($request->all(),$voterId, $validation);
-        $this->ticketsModel->CreateTicket($voterId,$validation);
-        return $submitTicket;
+        $result = array();
+        $result["status"] = "election closed";
+        $result["message"] = "Election has already closed.";
+
+        if(Session::has('VoterId')){
+            $voterId = Session::get('VoterId');
+        }else{
+            return redirect('/');
+        }
+        
+        $settingStatus = (object) $this->helper->CheckSettingStatus();
+        $dateToday = date("Y-m-d");
+        $gaDate = date("Y-m-d", strtotime($settingStatus->gaDate));
+
+        if($settingStatus->election == "OPEN" && $dateToday != $gaDate){
+            $f2f = Auth::user()->UserType == 5 ? "NO" : "YES";
+            $submitTicket = $this->votesModel->SubmitVote($request->all(),$voterId, $f2f);
+
+            if($f2f == "NO"){
+                $this->ticketsModel->CreateTicket($voterId);
+            }
+
+            $result = $submitTicket;
+        }
+
+        return $result;
     }
 }

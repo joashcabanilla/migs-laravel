@@ -18,6 +18,7 @@ class CandidateModel extends Model
         'FirstName',
         'MiddleName',
         'LastName',
+        'Education',
         'Position'
     ];
 
@@ -25,7 +26,9 @@ class CandidateModel extends Model
         $query = $this->select(
             "Id",
             "Picture",
-            DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),"Position",
+            DB::raw("CONCAT(COALESCE(FirstName, ''), ' ', COALESCE(MiddleName, ''), ' ', COALESCE(LastName, '')) AS Name"),
+            "Education",
+            "Position"
         );
         
         if(!empty($data->filterSearch)){
@@ -46,7 +49,8 @@ class CandidateModel extends Model
             "FirstName" => strtoupper(str_replace('ñ', 'Ñ', $data->FirstName)),
             "MiddleName" => !empty($data->MiddleName) ? strtoupper(str_replace('ñ', 'Ñ', $data->MiddleName)) : NULL,
             "LastName" => strtoupper(str_replace('ñ', 'Ñ', $data->LastName)),
-            "Position" => $data->Position
+            "Position" => $data->Position,
+            "Education" => $data->Education
         ];
 
         if(isset($data->Id) && !empty($data->Id)){
@@ -68,7 +72,8 @@ class CandidateModel extends Model
             "FirstName" => $candidate->FirstName,
             "MiddleName" => $candidate->MiddleName,
             "LastName" => $candidate->LastName,
-            "Position" => $candidate->Position
+            "Position" => $candidate->Position,
+            "Education" => $candidate->Education
         ];
     }
 
@@ -82,6 +87,7 @@ class CandidateModel extends Model
                 "FirstName" => $candidate->FirstName,
                 "MiddleName" => $candidate->MiddleName,
                 "LastName" => $candidate->LastName,
+                "Education" => $candidate->Education,
                 "Position" => $candidate->Position
             ]; 
         }

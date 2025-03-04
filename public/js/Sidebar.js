@@ -14,7 +14,6 @@ $(".tabLink").click((e) => {
     $(".content").load(url, (res, status, xhr) => {
         if (status == "success") {
             switch (tabTitle) {
-
                 case "Maintenance":
                     MaintenanceTab();
                     break;
@@ -65,6 +64,10 @@ $(".tabLink").click((e) => {
                 
                 case "GA Items":
                     Supplies();
+                break;
+
+                case "F2F Election":
+                    F2fElection();
                 break;
             }
             $.LoadingOverlay("hide");

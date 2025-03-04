@@ -121,6 +121,27 @@ const MaintenanceTab = () => {
             }
         });
     });
+
+    $("#verifierStatusForm").submit((e) => {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "POST",
+            url: "admin/UpdateElectionStatus",
+            data: $(e.currentTarget).serializeArray(),
+            success: (res) => {
+                $.LoadingOverlay("hide");
+                Swal.fire({
+                    title: "VERIFIER STATUS",
+                    text: "Successfully " + $("#verifierStatus").val(),
+                    icon: "success",
+                    confirmButtonText: "OK",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            }
+        });
+    });
 }
 
 const UseraccountTab = () => {
@@ -186,12 +207,9 @@ const UseraccountTab = () => {
 
     $("#defaultPassword").change((e) => {
         if ($(e.currentTarget).is(":checked")) {
-            $("#addPassword").attr("disabled", true);
-            $("#addPassword").val("");
-            $("#addPassword").attr("required", false);
+            $("#addPassword").val("Nvdc@1976");
         } else {
-            $("#addPassword").attr("disabled", false);
-            $("#addPassword").attr("required", true);
+            $("#addPassword").val("");
         }
     });
 
@@ -241,6 +259,7 @@ const UseraccountTab = () => {
     });
 
     $('#userTable').on('click', '.editBtn', (e) => {
+        $("#userForm").find("input").val("");
         let id = $(e.currentTarget).data("id");
         $("#addPassword").attr("required", false);
         $("#userModalLabel").text("Update User Data");
@@ -939,7 +958,8 @@ const ELectionCandidates = () => {
             { targets: 1, width: '1%' },
             { targets: 2, width: '30%', className: "text-center align-middle font-weight-bold p-2" },
             { targets: 3, width: '30%', className: "text-center align-middle font-weight-bold p-2" },
-            { targets: 4, width: '9%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 4, width: '30%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 5, width: '9%', className: "text-center align-middle font-weight-bold p-2" },
         ],
         ajax: {
             url: 'admin/ElectionCandidateDataTable',
@@ -1041,6 +1061,7 @@ const ELectionCandidates = () => {
                 $("#MiddleName").val(res.MiddleName);
                 $("#LastName").val(res.LastName);
                 $("#Position").val(res.Position);
+                $("#Education").val(res.Education);
                 $("#addModalLabel").text("Update Candidate");
                 $("#addForm").find("input[name='Id']").val(id);
                 $("#addModal").modal("show");
@@ -1120,7 +1141,7 @@ const MemberVoting = () => {
                 data: data,
                 success: (res) => {
                     $.LoadingOverlay("hide");
-                    if (res.status == "election closed") {
+                    if (res.status == "election closed") { 
                         Swal.fire({
                             title: "ELECTION CLOSED",
                             text: res.message,
@@ -1395,5 +1416,193 @@ const Supplies = () => {
 
         $("#voteMethod").val("");
         $("#Date").val("");
+    });
+}
+
+const F2fElection = () => {
+    let dataTable = $('#memberTable').on('init.dt', function () {
+        $(".dataTables_wrapper").prepend("<div class='dataTables_processing card font-weight-bold d-none' role='status'>Loading Please Wait...<i class='fa fa-spinner fa-spin text-warning'></i></div>");
+    }).DataTable({
+        ordering: false,
+        serverSide: true,
+        dom: 'rtip',
+        columnDefs: [
+            { targets: 0, width: '5%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 1, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 2, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 3, width: '25%', className: "text-left align-middle font-weight-bold p-2" },
+            { targets: 4, width: '15%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 5, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+            { targets: 6, width: '10%', className: "text-center align-middle font-weight-bold p-2" },
+        ],
+        ajax: {
+            url: 'admin/f2fDataTable',
+            type: 'POST',
+            data: function (d) {
+                d.filterSearch = $("#filterSearch").val();
+                d.filterBranch = $("#filterBranch").val();
+                d.filterStatus = $("#filterStatus").val();
+            },
+            beforeSend: () => {
+                $(".dataTables_processing").removeClass("d-none");
+            },
+            complete: () => {
+                $(".dataTables_processing").addClass("d-none");
+            }
+        }
+    });
+
+    $("#clearFilter").click((e) => {
+        $("#filterSearch").val("");
+        $("#filterBranch").val("");
+        $("#filterStatus").val("");
+        dataTable.draw();
+    });
+
+    $("#filterSearch").keyup((e) => {
+        dataTable.draw();
+    });
+
+    $("#filterBranch,#filterStatus").change((e) => {
+        dataTable.draw();
+    });
+
+    $('#memberTable').on('click', '.editBtn', (e) => {
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        let url = $(e.currentTarget).attr("href");
+        $(".content").load(url, (res, status, xhr) => {
+            $.LoadingOverlay("hide");
+            $("#voteForm").find("input[name='candidateId[]']").change((e) => {
+                let currentPosition = $(e.currentTarget).data("position");
+                let votelimit = $(e.currentTarget).data("votelimit");
+                let currentLimit = 0;
+                $("#voteForm").find("input[name='candidateId[]']").each((key, element) => {
+                    let position = $(element).data("position");
+                    if (currentPosition == position) {
+                        if ($(element).is(":checked")) {
+                            currentLimit++;
+                        }
+                    }
+                });
+        
+                if (parseInt(votelimit) < currentLimit) {
+                    Swal.fire({
+                        title: "Voting exceeds the limit",
+                        text: "You must not exceed choosing " + votelimit + " candidates for the " + currentPosition + ".",
+                        icon: "warning",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then((result) => {
+                        $(e.currentTarget).prop("checked", false);
+                    });
+                }
+            });
+        
+            $(".CandidatePictureTable").find("img").click((e) => {
+                let candidateId = $(e.currentTarget).data("candidateid");
+                if ($("#candidateId-"+candidateId).is(":checked")) {
+                    $("#candidateId-"+candidateId).prop("checked", false);
+                }else{
+                    $("#candidateId-"+candidateId).prop("checked", true);
+                }
+                $("#candidateId-"+candidateId).trigger("change");
+            });
+            
+            $("#voteForm").submit((e) => {
+                e.preventDefault();
+                let data = $(e.currentTarget).serializeArray();
+                
+                if($("#voteForm").find("input[name='voteConfirm']").val() == "YES" || data.length == 2) {
+                    $.LoadingOverlay("show");
+                    $.ajax({
+                        type: "POST",
+                        url: "admin/f2fSubmitVote",
+                        data: data,
+                        success: (res) => {
+                            $.LoadingOverlay("hide");
+                            if (res.status == "election closed") {
+                                Swal.fire({
+                                    title: "ELECTION CLOSED",
+                                    text: res.message,
+                                    icon: "error",
+                                    confirmButtonText: "OK",
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false
+                                }).then((result) => {
+                                    $(".tabLink.active").trigger("click");
+                                });
+                            }
+
+                            if (res.status == "success") {
+                                let voterId = $("#voteForm").find("input[name='voterId']").val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "admin/GetMemberGaItems",
+                                    data: { id: voterId },
+                                    success: (res) => {
+                                        $.LoadingOverlay("hide");
+                                        for (let key in res) {
+                                            if (key != "VoteF2F") {
+                                                $("#itemForm").find("input[name='" + key + "']").val(res[key]);
+                                            } else {
+                                                if (res[key] == "NO") {
+                                                    $(".itemsTicket").addClass("d-none");
+                                                } else {
+                                                    $(".itemsTicket").removeClass("d-none");
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                                $("#itemModal").modal("show");
+                            }
+                        }
+                    });
+                } else {
+                    $("#voteForm").find("input[name='candidateId[]']").each((key, element) => {
+                        if ($(element).is(":checked")) {
+                            let candidateId = $(element).val();
+                            $(`.candidateVoted-${candidateId}`).removeClass("d-none").parent().removeClass("d-none");
+                        }
+                    });
+                    $("#voteModal").modal("show");
+                }
+            });
+
+            $("#voteConfirmBtn").click((e) => {
+                $("#voteForm").find("input[name='voteConfirm']").val("YES");
+                $("#voteModal").modal("hide");
+                $("#voteForm").submit();
+            });
+
+            $("#itemForm").find("input[type='checkbox']").change((e) => {
+                $(e.currentTarget).prop("checked", true);
+            });
+        
+            $("#itemForm").submit((e) => {
+                e.preventDefault();
+                $.LoadingOverlay("show");
+                $.ajax({
+                    type: "POST",
+                    url: "admin/ReceivedGaItems",
+                    data: $(e.currentTarget).serializeArray(),
+                    success: (res) => {
+                        $.LoadingOverlay("hide");
+                        $('#itemModal').modal("hide");
+                        Swal.fire({
+                            title: "Member successfully registered.",
+                            icon: res.status,
+                            confirmButtonText: "OK",
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then((result) => {
+                            $(".tabLink.active").trigger("click");
+                        });
+                    }
+                });
+            });
+        });
     });
 }

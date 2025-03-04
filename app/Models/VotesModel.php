@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class VotesModel extends Model
 {
@@ -17,33 +19,17 @@ class VotesModel extends Model
         'VoterId',
         'Candidate',
         'VoteF2F',
+        'StaffName'
     ];
 
     function CheckVote($voterId){
         return $this->where("VoterId",$voterId)->count();
     }
     
-    function SubmitVote($data, $voterId, $validation){
+    function SubmitVote($data, $voterId, $f2f){
         $result = array();
-        $result["status"] = "election closed";
-        $result["message"] = "Election has already closed.";
-        
-        $forChecking = (object) $validation;
-        
-        if($forChecking->electionSetting != "OPEN"){
-            return $result;
-        }
-        
-        $f2f = strtoupper(config('app.F2F_ELECTION'));
-
-        if($f2f == "NO"){
-            if($forChecking->electionStatus == "closed"){
-                return $result;
-            }
-        }
-        
         $memberCheck = $this->where("VoterId",$voterId)->first();
-        if(empty($memberCheck) && $forChecking->electionSetting == "OPEN"){
+        if(empty($memberCheck)){
             if(!empty($data) && count($data) > 1){
                 $var = (object) $data;
                 foreach($var->candidateId as $candidateId){
@@ -62,7 +48,6 @@ class VotesModel extends Model
             }
         }
         
-
         $result["status"] = "success";
         $result["message"] = "Successfully Voted.";
 
@@ -189,5 +174,48 @@ class VotesModel extends Model
         }
 
         return $electionSummary;
+    }
+
+    function f2fSubmitVote($data){
+        $result = array();
+        $var = (object) $data;
+
+        $memberCheck = $this->where("VoterId",$var->voterId)->first();
+        if(empty($memberCheck)){
+            if(!empty($data) && count($data) > 2){
+                $var = (object) $data;
+                foreach($var->candidateId as $candidateId){
+                    $this->create([
+                        "VoterId" => $var->voterId,
+                        "Candidate" => $candidateId,
+                        "VoteF2F" => "YES",
+                        "StaffName" => Auth::user()->Id,
+                    ]);
+                }
+            }else{
+                $this->create([
+                    "VoterId" => $var->voterId,
+                    "Candidate" => 0,
+                    "VoteF2F" => "YES",
+                    "StaffName" => Auth::user()->Id,
+                ]);
+            }
+        }
+
+        $result["status"] = "success";
+        $result["message"] = "Successfully Voted.";
+
+        return $result;
+    }
+
+    function GetCounter($staffId){
+        $currentDateTime = Carbon::now();
+        $day = $currentDateTime->format('Y-m-d');
+        $countVote = $this->select("VoterId","VoteF2F","StaffName")
+                        ->where("StaffName",$staffId)
+                        ->where("VoteF2F","YES")
+                        ->whereDate('created_at', '=', $day)
+                        ->groupBy("VoterId","VoteF2F","StaffName")->get();
+        return number_format(count($countVote));
     }
 }

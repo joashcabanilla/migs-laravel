@@ -38,6 +38,7 @@
                         <th>ID</th>
                         <th>Picture</th>
                         <th>Name</th>
+                        <th>Educational Attainment</th>
                         <th>Position</th>
                         <th>Action</th>
                     </tr>

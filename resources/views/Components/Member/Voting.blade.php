@@ -1,5 +1,8 @@
 <div class="container-fluid">
     <form id="voteForm" method="POST" enctype="multipart/form-data">
+        @if(isset($voterId))
+            <input type="hidden" name="voterId" value="{{$voterId}}">
+        @endif
         <input type="hidden" name="voteConfirm" value="NO">
         @foreach ($candidateList as $position => $candidates)
             @php
@@ -32,7 +35,14 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 mt-lg-0 mt-md-0 mt-3 d-flex align-items-center justify-content-lg-start justify-content-md-start justify-content-center">
-                                    <h5 class="font-weight-bold">{{$candidate["FirstName"]." ".$candidate["MiddleName"]." ".$candidate["LastName"]}}</h5>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5 class="font-weight-bold mb-0 text-lg-left text-center">{{$candidate["FirstName"]." ".$candidate["MiddleName"]." ".$candidate["LastName"]}}</h5>
+                                        </div>
+                                        <div class="col-12">
+                                            <h5 class="font-weight-bold text-warning mt-0 text-lg-left text-center">{{$candidate["Education"]}}</h5>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -48,3 +58,7 @@
     </form>
 </div>
 @include('Components.Member.VotedModal')
+
+@if(isset($voterId))
+    @include('Components.Admin.SuppliesModal',["voterId" => $voterId]) 
+@endif

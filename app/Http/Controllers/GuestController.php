@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 //Model
@@ -42,25 +41,13 @@ class GuestController extends Controller
 
     function GetVerifier(){
         Session::forget('VoterId');
-        $setting = $this->settingModel->find(1);
-        $this->data["electionStatus"] = $this->helper->CheckElectionStatus();
-        $this->data["f2felectionStatus"] = $this->helper->f2fElectionStatus();
-        $this->data["TitlePage"] = "NOVADECI";
-
-        if($setting->ElectionStatus == "CLOSED"){    
-            return view('Components.Guest.ElectionClosed',$this->data);
-        }
-
-        $this->data["f2fElection"] = config('app.F2F_ELECTION');
-
-        // if($this->data["f2fElection"] == "NO"){
-        //     if($this->data["electionStatus"] == "closed"){
-        //         return view('Components.Guest.ElectionClosed',$this->data);
-        //     }
-        // }
-
+        $settingStatus = (object) $this->helper->CheckSettingStatus();
         $this->data["branchContact"] = $this->helper->BranchContactList();
         $this->data["TitlePage"] = "NOVADECI MIGS Verifier";
+        
+        if($settingStatus->verifier == "CLOSED"){    
+            return view('Components.Guest.ElectionClosed',$this->data);
+        }
         return view('Components.Guest.Verifier',$this->data);
     }
 
@@ -77,6 +64,13 @@ class GuestController extends Controller
     }
 
     function ElectionClosed(){
+        $settingStatus = (object) $this->helper->CheckSettingStatus();
+        $dateToday = date("Y-m-d");
+        $gaDate = date("Y-m-d", strtotime($settingStatus->gaDate));
+
+        if($settingStatus->election == "OPEN" && $dateToday != $gaDate){
+            return redirect('/');
+        }
         $this->data["TitlePage"] = "NOVADECI Election";
         return view('Components.Guest.ElectionClosed',$this->data);
     }
@@ -85,9 +79,7 @@ class GuestController extends Controller
     function VerifyMember(Request $request){
         $searched = $this->votersModel->SearchMember($request->search);
         $result["status"] = "success";
-        $result["electionStatus"] = $this->helper->CheckElectionStatus();
-        $result["f2felectionStatus"] = $this->helper->f2fElectionStatus();
-        $result["f2fElection"] = config('app.F2F_ELECTION');
+        $result["settingStatus"] = $this->helper->CheckSettingStatus();
         if(count($searched) > 0){
             foreach($searched as $data){
                 $result["data"][] = [
@@ -161,11 +153,10 @@ class GuestController extends Controller
 
     function VoterLogin(Request $request){
         $validation = array();
-        $validation["electionStatus"] = $this->helper->CheckElectionStatus();
-        $validation["f2fElectionStatus"] = $this->helper->f2fElectionStatus();
+        $validation["settingStatus"] = $this->helper->CheckSettingStatus();
         $validation["memberData"] = $this->votersModel->GetMember($request->VoterId);
         $validation["voteData"] = $this->votesModel->CheckVote($request->VoterId);
-        return $this->userModel->VoterLogin($request, $validation);
+        return $this->userModel->VoterLogin($request->all(), $validation, $request->ip());
     }
 
     function ElectionAuthentication(Request $request){

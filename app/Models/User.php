@@ -77,7 +77,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $result["status"] = "failed";
         }
         else{
-            $password = !isset($var->password) && empty($var->password) ? $var->defaultpassword : $var->password;
+            $password = $var->password;
             $firstname = strtoupper(str_replace('ñ', 'Ñ', $var->firstname));
             $middlename = strtoupper(str_replace('ñ', 'Ñ', $var->middlename));
             $lastname = strtoupper(str_replace('ñ', 'Ñ', $var->lastname));
@@ -157,46 +157,46 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->where("UserType", "!=", "5")->get();
     }
 
-    private function MemberLogin($data,$memberData){
+    private function MemberLogin($data,$memberData, $ip){
         $result = array();
         $result["status"] = "failed";
         $result["message"] = "Incorrect Birthdate";
-
-        $member = $this->where("username",$data->VoterId."-".$memberData->FirstName)->first();
+        $data["Birthdate"] = date("Y-m-d",strtotime($data["Birthdate"]));
+        
+        $member = $this->where("username",$data["VoterId"]."-".$memberData["FirstName"])->first();
         
         if(!empty($member)){
-            if(Hash::check($data->Birthdate,$member->password)){
+            if(Hash::check($data["Birthdate"],$member->password)){
                 Auth::login($member,true);
                 $member->update([
                     'LastLogin' => Carbon::now(),
-                    'LastIp' => $data->ip()    
+                    'LastIp' => $ip  
                 ]);
                 $result["status"] = "success";
                 return $result;
             }else{
-                if($data->BirthDate == $memberData->BirthDate){
-                    $member->update(["password" => Hash::make($memberData->Birthdate)]);
+                if($data["Birthdate"] == $memberData["Birthdate"]){
+                    $member->update(["password" => Hash::make($memberData["Birthdate"])]);
                     Auth::login($member,true);
                     $result["status"] = "success";
                     return $result;
                 }
             }
-
         }else{
-            if($memberData->Birthdate == $data->Birthdate){
+            if($memberData["Birthdate"] == $data["Birthdate"]){
                 $user = $this->create([
                     "UserType" => 5,
-                    "FirstName" => $memberData->FirstName,
-                    "MiddleName" => $memberData->MiddleName,
-                    "LastName" => $memberData->LastName,
-                    "Branch" => $memberData->Branch,
-                    "username" => $data->VoterId."-".$memberData->FirstName,
-                    "password" => Hash::make($memberData->Birthdate),
+                    "FirstName" => $memberData["FirstName"],
+                    "MiddleName" => $memberData["MiddleName"],
+                    "LastName" => $memberData["LastName"],
+                    "Branch" => $memberData["Branch"],
+                    "username" => $data["VoterId"]."-".$memberData["FirstName"],
+                    "password" => Hash::make($memberData["Birthdate"]),
                 ]);
                 Auth::login($user,true);
                 $user->update([
                     'LastLogin' => Carbon::now(),
-                    'LastIp' => $data->ip()    
+                    'LastIp' => $ip
                 ]);
                 $result["status"] = "success";
                 return $result;
@@ -206,26 +206,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $result;
     }
 
-    function VoterLogin($data, $validation){
+    function VoterLogin($data, $validation, $ip){
         $result = array();
-        $forChecking = (object) $validation;
-        
-        if(strtoupper(config('app.F2F_ELECTION')) == "NO"){
-            if($forChecking->electionStatus == "open"){
-                return $this->MemberLogin($data,$forChecking->memberData);
-            }else{
-                $result["status"] = "election closed";
-                return $result;
-            }
-        }else{
-            return $this->MemberLogin($data,$forChecking->memberData);
+        $result["status"] = "election closed";
+
+        $dateToday = date("Y-m-d");
+        $gaDate = date("Y-m-d", strtotime($validation["settingStatus"]["gaDate"]));
+
+        if($validation["voteData"] > 0){
+            return $this->MemberLogin($data,$validation["memberData"],$ip);
         }
 
-        if($forChecking->f2fElectionStatus == "open" || $forChecking->voteData > 0){
-            return $this->MemberLogin($data,$forChecking->memberData);
+        if($validation["settingStatus"]["election"] == "OPEN" && $dateToday != $gaDate){
+            return $this->MemberLogin($data,$validation["memberData"],$ip);
         }
-        
-        $result["status"] = "election closed";
+
         return $result;
     }
 

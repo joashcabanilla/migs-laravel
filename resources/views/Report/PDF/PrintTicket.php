@@ -35,7 +35,7 @@
     function generateData($pdf, $startW, $infoH, $ticketW, $ticket){
         $fontSize = 65;
         $ticket = (object) $ticket;
-        $label48 = base_path('public/image/48.jpg');
+        $label48 = base_path('public/image/49.jpg');
         $infoH-= $pdf->C2P(4.3);   
         $pdf->addJpegFromFile($label48,$startW+$pdf->C2P(0.5),$infoH,$pdf->C2P(7.5),$pdf->C2P(3));
         $infoH+=$pdf->C2P(4.3);

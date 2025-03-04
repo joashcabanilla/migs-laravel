@@ -48,26 +48,26 @@
 
                         <div class="col-6">
                             <div class="icheck-success">
-                                <input type="checkbox" id="foodStub" name="foodStub" checked>
-                                <label for="foodStub">₱100 FOOD STUB</label>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="icheck-success">
-                                <input type="checkbox" id="tshirt" name="tshirt" checked>
-                                <label for="tshirt">T-SHIRT</label>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="icheck-success">
-                                <input type="checkbox" id="rice" name="rice" checked>
-                                <label for="rice">2KLS BIGAS</label>
+                                <input type="checkbox" id="vouchers" name="vouchers" checked>
+                                <label for="foodStub">₱200 VOUCHERS</label>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="icheck-success">
                                 <input type="checkbox" id="savings" name="savings" checked>
-                                <label for="savings">₱300 SAVINGS</label>
+                                <label for="savings">₱200 REGULAR SAVINGS</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="icheck-success">
+                                <input type="checkbox" id="rice" name="rice" checked>
+                                <label for="rice">2KG OF RICE</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="icheck-success">
+                                <input type="checkbox" id="tshirt" name="tshirt" checked>
+                                <label for="tshirt">NOVADECI T-SHIRT</label>
                             </div>
                         </div>
                         <div class="col-6 d-none itemsTicket">
@@ -79,8 +79,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    @if(!isset($voterId))
+                        <a type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">Cancel</a>
+                    @endif
                     <button type="submit" class="btn btn-primary font-weight-bold">Register</button>
-                    <a type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">Cancel</a>
                 </div>
             </form>
         </div>

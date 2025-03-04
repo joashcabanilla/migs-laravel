@@ -50,6 +50,13 @@
                         </div>
 
                         <div class="col-12">
+                            <label for="Education">Educational Attainment</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Educational Attainment *" id="Education" name="Education" autocomplete="false" required>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
                             <label for="Position">Position</label>
                             <div class="form-group">
                                 <select class="form-control" id="Position" name="Position" required>

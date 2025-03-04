@@ -5,7 +5,6 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +78,10 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         //Supplies Url
         Route::get('/supplies', [AdminController::class, 'Supplies'])->name('supplies.index');
 
+        //F2F Election Url
+        Route::get('/F2Felection', [AdminController::class, 'F2Felection'])->name('F2Felection.index');
+        Route::get('/F2Fvoting', [AdminController::class, 'F2Fvoting'])->name('F2Fvoting.index');
+
         //post route
         //admin post route
         Route::post('Logout', [AdminController::class, 'PostLogout']);
@@ -120,5 +123,9 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         Route::post('ReceivedGaItems', [AdminController::class, 'ReceivedGaItems']);
         Route::post('GetMemberGaItems', [AdminController::class, 'GetMemberGaItems']);
         Route::post('PrintSummaryGaItems', [ReportController::class, 'PrintSummaryGaItems'])->name('print.summaryGaItems');
+
+        //F2F Election post route
+        Route::post('f2fDataTable', [AdminController::class, 'f2fDataTable']);
+        Route::post('f2fSubmitVote', [AdminController::class, 'f2fSubmitVote']);
     }
 );

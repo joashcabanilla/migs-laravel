@@ -16,7 +16,7 @@
     $picture = base_path('public/image/letterhead.jpg');
     $pdf->addJpegFromFile($picture,$startW,$startH-$pdf->C2P(3.3),$endW,$pdf->C2P(3.5));
     $startH-=$rowH+$pdf->C2P(3.5);
-    $pdf->addTextWrap($startW, $startH, $endW, $fontSize, "<b>NOVADECI ELECTION 2024</b>",'center');
+    $pdf->addTextWrap($startW, $startH, $endW, $fontSize, "<b>NOVADECI ELECTION ".date("Y")."</b>",'center');
     $startH-=$rowH+$pdf->C2P(0.2);
     $pdf->addTextWrap($startW, $startH, $endW, $fontSize, "<b>VOTES TALLY AS OF ".strtoupper($DateTime)."</b>",'center');
 
@@ -59,6 +59,7 @@
         });
 
         foreach($candidates as $name => $candidate){
+            $name = utf8_decode($name);
             //left corner
             $pdf->line($startW,$startH+$extend,$startW,$startH-$rowH-$extend);
             //candidates divider
@@ -77,7 +78,6 @@
         $startH-=$pdf->C2P(0.25);
     }
 
-    $startH-=$pdf->C2P(0.25);
     $startH-=$rowH;
     $pdf->line($startW-$extend,$startH,$pdf->C2P(8),$startH);
     $startH-=$rowH;
@@ -85,12 +85,11 @@
 
     $startH-=$rowH;
     $pdf->line($startW-$extend,$startH,$pdf->C2P(8),$startH);
-    $startH-=$rowH;
-    $pdf->addTextWrap($startW, $startH+$pdf->C2P(0.25), $pdf->C2P(4), $fontSize, "<b>Audit Chairman</b>",'left');
-
-    $startH-=$rowH;
     $pdf->line($startW+$pdf->C2P(12),$startH,$endW,$startH);
     $startH-=$rowH;
+
+    $pdf->addTextWrap($startW, $startH+$pdf->C2P(0.25), $pdf->C2P(4), $fontSize, "<b>Audit Chairman</b>",'left');
+
     $pdf->addTextWrap($startW+$pdf->C2P(12), $startH+$pdf->C2P(0.25), $pdf->C2P(4), $fontSize, "<b>MIS Manager</b>",'left');
     $pdf->ezStream();
 ?>

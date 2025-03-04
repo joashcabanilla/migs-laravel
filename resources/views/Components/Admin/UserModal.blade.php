@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="icheck-success">
-                                        <input type="checkbox" id="defaultPassword" name="defaultpassword" value="nvdc1976">
+                                        <input type="checkbox" id="defaultPassword" name="defaultpassword">
                                         <label for="defaultPassword">Default Password</label>
                                     </div>
                                 </div>

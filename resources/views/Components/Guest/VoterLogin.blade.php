@@ -25,12 +25,7 @@
 
                         <label for="Birthdate">Birthdate</label>
                         <div class="input-group mb-3">
-                            <input type="date" class="form-control" id="Birthdate" name="Birthdate" autocomplete="false" required autofocus>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-calendar-alt"></span>
-                                </div>
-                            </div>
+                            <input type="text" class="form-control font-weight-bold" placeholder="mm/dd/yyyy" id="Birthdate" name="Birthdate" autocomplete="false" required>
                         </div>
 
                         <div class="row">

@@ -14,9 +14,6 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    
-    'F2F_ELECTION' => env("F2F_ELECTION", "NO"),
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -54,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://hotel.novadeci.com'),
+    'url' => env('APP_URL', 'https://migs.novadeci.com'),
 
     'asset_url' => env('ASSET_URL', null),
 
