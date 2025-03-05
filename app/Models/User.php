@@ -58,14 +58,14 @@ class User extends Authenticatable implements MustVerifyEmail
             $rules = [
                 'username' => ['required', 'string', 'min:3',Rule::unique('users')->ignore($var->id)],
                 'firstname' => ['required','string', 'min:2'],
-                'lastname' => ['required','string', 'min:2'],           
+                'lastname' => ['required','string', 'min:1'],           
             ];
         }else{
             $rules = [
-                'username' => ['required', 'string', 'min:5','unique:users'],
-                'password' => ['string', 'min:5'],
+                'username' => ['required', 'string', 'min:3','unique:users'],
+                'password' => ['string', 'min:3'],
                 'firstname' => ['required','string', 'min:2'],
-                'lastname' => ['required','string', 'min:2'],
+                'lastname' => ['required','string', 'min:1'],
             ];
         }
         
