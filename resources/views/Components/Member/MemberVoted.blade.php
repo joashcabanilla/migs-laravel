@@ -29,11 +29,11 @@
     @endif
 
     @if(!empty($votedCandidatesList))
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12 d-flex justify-content-center align-items-center">
                 <button style="width: 250px; font-size: 1.2rem !important;" class="btn btn-lg btn-primary font-weight-bold" id="viewVote">VIEW SUMMARY OF VOTES</button>
             </div>
-        </div>
+        </div> --}}
     @endif
 
     @if($f2f == "NO")
