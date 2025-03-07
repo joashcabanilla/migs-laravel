@@ -1603,6 +1603,12 @@ const F2fElection = () => {
                     }
                 });
             });
+
+            $("#itemForm").find(".form-group").addClass("mb-2");
+            $("#itemForm").find(".icheck-success").addClass("mb-0 mt-1");
+            $("#itemModal").find(".modal-header").addClass("p-2");
+            $("#itemModal").find(".modal-body").addClass("p-2");
+            $("#itemModal").find(".modal-footer").addClass("p-2");              
         });
     });
 }
