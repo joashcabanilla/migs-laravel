@@ -110,7 +110,8 @@
                     <small class="font-weight-bold mb-1 text-white" id="KIKOOFFICE">KIKO OFFICE: 0</small>
                     <small class="font-weight-bold mb-1 text-white" id="LAGROOFFICE">LAGRO OFFICE: 0</small>
                     <small class="font-weight-bold mb-1 text-white" id="MAINOFFICE">MAIN OFFICE: 0</small>
-                    <small class="font-weight-bold mb-1 text-white" id="NUEVAECIJAOFFICE">NUEVA ECIJA OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="NE-CUYAPOOFFICE">NE-CUYAPO OFFICE: 0</small>
+                    <small class="font-weight-bold mb-1 text-white" id="NE-TALUGTUGOFFICE">NE-TALUGTUG OFFICE: 0</small>
                     <small class="font-weight-bold mb-1 text-white" id="TSORAOFFICE">TSORA OFFICE: 0</small>
                 </div>
             </div>

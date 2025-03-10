@@ -135,9 +135,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    @if(Auth::user()->UserType == 1)
-                        <a class="btn btn-primary font-weight-bold d-none" id="printExcel">Generate Excel</a>
-                    @endif
+                    <a class="btn btn-primary font-weight-bold d-none" id="printExcel">Generate Excel</a>
                     <button type="submit" class="btn btn-primary font-weight-bold" id="printPDF">Generate PDF</button>
                     <a type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">Cancel</a>
                 </div>
