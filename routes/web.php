@@ -127,5 +127,6 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(
         //F2F Election post route
         Route::post('f2fDataTable', [AdminController::class, 'f2fDataTable']);
         Route::post('f2fSubmitVote', [AdminController::class, 'f2fSubmitVote']);
+        Route::post('f2fGenerateReport', [ReportController::class, 'f2fGenerateReport'])->name('print.f2f');
     }
 );

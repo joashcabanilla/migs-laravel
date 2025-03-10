@@ -205,4 +205,47 @@ class ReportController extends Controller
             return response()->make(view("Report.Excel.ElectionMembersList",$data), '200'); 
         } 
     }
+
+    function f2fGenerateReport(Request $request){
+        $result = $userList = $candidateList = $voterList = $voterIdList = array();
+
+        $users = $this->userModel->where("LastIp","112.200.163.114")->where("UserType",5)->get();
+
+        foreach($users as $user){
+            $userList[$user->FirstName.$user->MiddleName.$user->LastName] = $user->FirstName . " " . $user->MiddleName . " " . $user->LastName;
+        }
+
+        $candidates = $this->candidateModel->get();
+
+        foreach($candidates as $candidate){
+            $candidateList[$candidate->Id] = $candidate->FirstName . " " . $candidate->MiddleName . " " . $candidate->LastName;
+        }
+
+        $voters = $this->voterModel->get();
+
+        foreach($voters as $voter){
+            if(isset($userList[$voter->FirstName.$voter->MiddleName.$voter->LastName])){
+                $voterList[$voter->Id] = $voter;
+                $voterIdList[] = $voter->Id;
+            }
+        }
+
+        $votes = $this->votesModel->whereIn("VoterId",$voterIdList)->get();
+
+        foreach($votes as $vote){
+            $memberData = $voterList[$vote->VoterId];
+            $result[$vote->Id] = [
+                "pbno" => $memberData->Pbno,
+                "memberId" => $memberData->MemberId,
+                "memberName" => $memberData->FirstName . " " . $memberData->MiddleName . " " . $memberData->LastName,
+                "birthdate" => date("m/d/Y", strtotime($memberData->Birthdate)),
+                "candidate" => $candidateList[$vote->Candidate],
+            ];
+
+            $count[$candidateList[$vote->Candidate]][] = $vote->Id;
+        }
+        $result["election"] = $result;
+        $result["count"] = $count;
+        return response()->make(view("Report.Excel.f2fPrintReport",$result), '200');
+    }
 }

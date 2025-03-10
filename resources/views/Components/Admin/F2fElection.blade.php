@@ -17,12 +17,15 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary font-weight-bold" id="printBtn">
-                            <i class="fas fa-print"></i> Generate Report
-                        </button>
-                    </div>
+                    @if(Auth::user()->UserType == 1)
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-lg btn-primary font-weight-bold" id="printBtn">
+                                <i class="fas fa-print"></i> Generate Report
+                            </button>
+                        </div>
+                    @endif
                 </div>
+                
                 <div class="col-lg-2 col-md-2 col-sm-12">
                     <h5 class="font-weight-bold text-right mb-0">COUNTER: <b class="text-danger gaCounter">{{$counter}}</b></h5>
                 </div>
@@ -53,3 +56,7 @@
         </div>
     </div>
 @endif
+
+<form method="POST" id="f2fPrintForm" target="_blank" action="{{route("print.f2f")}}">
+    @csrf    
+</form>

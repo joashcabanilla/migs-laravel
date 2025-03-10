@@ -1611,4 +1611,8 @@ const F2fElection = () => {
             $("#itemModal").find(".modal-footer").addClass("p-2");              
         });
     });
+
+    $("#printBtn").click((e) => {
+        $("#f2fPrintForm").submit();
+    });
 }
