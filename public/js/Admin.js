@@ -1169,6 +1169,15 @@ const MemberVoting = () => {
                 }
             });
         } else {
+            $("#voteModal").find(".modal-body").children().each((key, element) => {
+                $(element).addClass("d-none");
+                $(element).children().each((key, childElement) => {
+                    if(key > 0){
+                        $(childElement).addClass("d-none");
+                    }
+                });
+            });
+
             $("#voteForm").find("input[name='candidateId[]']").each((key, element) => {
                 if ($(element).is(":checked")) {
                     let candidateId = $(element).val();
@@ -1561,6 +1570,15 @@ const F2fElection = () => {
                         }
                     });
                 } else {
+                    $("#voteModal").find(".modal-body").children().each((key, element) => {
+                        $(element).addClass("d-none");
+                        $(element).children().each((key, childElement) => {
+                            if(key > 0){
+                                $(childElement).addClass("d-none");
+                            }
+                        });
+                    });
+                    
                     $("#voteForm").find("input[name='candidateId[]']").each((key, element) => {
                         if ($(element).is(":checked")) {
                             let candidateId = $(element).val();
