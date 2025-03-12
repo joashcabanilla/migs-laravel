@@ -94,7 +94,7 @@
 
         $ticketCtr++;
 
-        if($ticketCtr <= 12){
+        if($ticketCtr <= 14){
             if($ticketCtr % 2 == 0){
                 generateLine($pdf, 1, 2, $ticketW, $ticketW+($ticketW-$startW), $startH, $ticketH);
                 $startH-=$rowH;
