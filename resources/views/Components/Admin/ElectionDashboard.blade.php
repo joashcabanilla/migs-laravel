@@ -81,7 +81,7 @@
             <div class="small-box bg-gradient-indigo card card-primary elevation-3">
                 <div class="inner">
                     <h3 class="font-weight-bold text-white totalPositions">0</h3>
-                    <h5 class="font-weight-bold text-white">No Of Positions</h5>
+                    <h5 class="font-weight-bold text-white">No. Of Positions</h5>
                 </div>
                 <div class="icon">
                     <i class="fas fa-poll-h"></i>
@@ -92,7 +92,7 @@
             <div class="small-box bg-gradient-maroon card card-primary elevation-3">
                 <div class="inner">
                     <h3 class="font-weight-bold text-white totalCandidates">0</h3>
-                    <h5 class="font-weight-bold text-white">No Of Candidates</h5>
+                    <h5 class="font-weight-bold text-white">No. Of Candidates</h5>
                 </div>
                 <div class="icon">
                     <i class="fas fa-poll-h"></i>
