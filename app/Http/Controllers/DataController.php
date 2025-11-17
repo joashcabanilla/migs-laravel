@@ -25,13 +25,13 @@ class DataController extends Controller
                 $member =  (array) str_getcsv($data);
                 try {
                     $insertData[] = [
-                        "memid" => $member[0],
-                        "pbno" => $member[1],
-                        "firstname" => $member[2],
-                        "middlename" => $member[3],
-                        "lastname" => $member[4],
-                        "branch" => $member[5],
-                        "status" => $member[6],
+                        "MemberId" => $member[0],
+                        "Pbno" => $member[1],
+                        "FirstName" => $member[2],
+                        "MiddleName" => $member[3],
+                        "LastName" => $member[4],
+                        "Branch" => $member[5],
+                        "Status" => $member[6],
                         "MembershipDate" => date("Y-m-d", strtotime($member[7])),
                         "created_at" => Carbon::now()
                     ];
