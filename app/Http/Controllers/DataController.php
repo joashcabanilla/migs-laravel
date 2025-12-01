@@ -8,6 +8,15 @@ use Carbon\Carbon;
 
 class DataController extends Controller
 {
+    private function isValidDate($date) {
+        try {
+            Carbon::parse($date);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     function import(Request $request){
         $request->validate([
             "file" => "required|file|mimetypes:csv,txt,application/octet-stream,text/plain"
@@ -32,7 +41,7 @@ class DataController extends Controller
                         "LastName" => $member[4],
                         "Branch" => $member[5],
                         "Status" => $member[6],
-                        "MembershipDate" => date("Y-m-d", strtotime($member[7])),
+                        "MembershipDate" => $this->isValidDate($member[7]) ? date("Y-m-d", strtotime($member[7])) : Carbon::now()->format('Y-m-d'),
                         "created_at" => Carbon::now()
                     ];
                     $totalRecords++;
