@@ -7,27 +7,27 @@
                     <img src="{{asset('image/1.png')}}" width="200"/>
                 </div>
                 <div class="col-12 mt-3">
-                    <h3 class="text-center font-weight-bold mb-0 d-none">49th General Assembly</h3>
+                    <h3 class="text-center font-weight-bold mb-0">49th General Assembly</h3>
                     <h2 class="text-center font-weight-bold text-light">MIGS VERIFICATION</h2>
                 </div>
-                <div class="col-12 d-none justify-content-center">
-                    <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MEMBERSHIP CUT OFF DATE:</h6>
-                    <h6 class="font-weight-bold m-0 bg-info rounded p-1">DECEMBER 28, 2024</h6>
-                </div>
                 <div class="col-12 d-flex justify-content-center mt-2">
+                    <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MEMBERSHIP CUT OFF DATE:</h6>
+                    <h6 class="font-weight-bold m-0 bg-info rounded p-1">DECEMBER 28, 2025</h6>
+                </div>
+                <div class="col-12 d-none justify-content-center mt-2">
                     <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MIGS CUT OFF DATE:</h6>
                     <h6 class="font-weight-bold m-0 bg-info rounded p-1">NOVEMBER 29, 2025</h6>
                 </div>
-                <div class="col-12 mt-4 d-none">
+                <div class="col-12 mt-4">
                     <h5 class="font-weight-bold text-warning">PAALALA:</h5>
-                    {{-- <h5 class="text-light">PARA SA MGA KAMAY-ARI NA BUMOTO AT NAGPA-REHISTRO ONLINE ANG INYONG MGA <b class="text-warning">GA ITEMS</b> AY MAAARING I-CLAIM  MULA <b class="text-warning">MARCH 5, 2024</b> HANGGANG <b class="text-warning">MARCH 15, 2024</b> LAMANG.</h5> --}}
+                    <h5 class="text-light">PARA SA MGA KAMAY-ARI NA BUMOTO AT NAGPA-REHISTRO ONLINE ANG INYONG MGA <b class="text-warning">GA ITEMS</b> AY MAAARING I-CLAIM  MULA <b class="text-warning">MARCH 5, 2026</b> HANGGANG <b class="text-warning">MARCH 15, 2026</b> LAMANG.</h5>
                     <h5 class="text-light">Siguraduhing mapanatili ang inyong MIGS status hanggang sa ika-1 ng Marso upang matiyak na nasa magandang katayuan ang inyong status sa darating na General Assembly.</h5>
                     <h5 class="text-light">Para naman po sa mga bagong nag ayos ng kanilang mga account, mangyaring hintayin ang susunod na update upang maipakita ang pinakabagong status.</h5>
                 </div>
-                <div class="col-12 mt-2">
-                    {{-- <h5 class="text-light">PARA NAMAN SA MGA KASAPI NA NASA IBANG LUGAR O HINDI MAKAKAPUNTA, MAAARING IPAKUHA ANG INYONG MGA <b class="text-warning">GA ITEMS.</b> MAGDALA LAMANG NG <b class="text-warning">AUTHORIZATION LETTER</b> AT <b class="text-warning">PHOTO COPY</b> NG INYONG VALID ID. MAAARI DIN I-CLAIM HANGGANG <b class="text-warning">MARCH 15, 2024</b> LAMANG.</h5> --}}
+                <div class="col-12 mt-2 d-none">
+                    <h5 class="text-light">PARA NAMAN SA MGA KASAPI NA NASA IBANG LUGAR O HINDI MAKAKAPUNTA, MAAARING IPAKUHA ANG INYONG MGA <b class="text-warning">GA ITEMS.</b> MAGDALA LAMANG NG <b class="text-warning">AUTHORIZATION LETTER</b> AT <b class="text-warning">PHOTO COPY</b> NG INYONG VALID ID. MAAARI DIN I-CLAIM HANGGANG <b class="text-warning">MARCH 15, 2025</b> LAMANG.</h5>
 
-                    <h5 class="text-warning font-weight-bold mb-0">MIGS verifier records as of November 29, 2025.</h5>
+                    <h5 class="text-warning font-weight-bold mb-0 d-none">MIGS verifier records as of November 29, 2025.</h5>
                 </div>
                 <div class="col-12">
                     <hr class="bg-light" />
@@ -70,10 +70,10 @@
                 </div>
                 <h3 class=" text-center font-weight-bold status"></h3>
                 <h3 class='text-center font-weight-bold voteBtn d-none'>>>> Click here to VOTE <<<</h3>  
-                {{-- <div class="d-none justify-content-center">
+                <div class="d-none justify-content-center">
                     <h5 class="font-weight-bold mr-2">Makipag ugnayan sa inyong account officer(AO)</h5>
                     <h5 class="font-weight-bold nonMigs">>> Please click here <<</h5>
-                </div> --}}
+                </div>
             </div>
 
             <div class="card elevation-2 p-2 bg-light norecord-verifier d-none">
