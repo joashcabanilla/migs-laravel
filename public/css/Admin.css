@@ -301,7 +301,7 @@ textarea{
 
 .ticketNoLabel{
     position: absolute; 
-    bottom: 1%; 
+    bottom: 0%; 
     right: 5%;
 }
 

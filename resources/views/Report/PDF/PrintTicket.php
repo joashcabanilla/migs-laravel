@@ -37,9 +37,9 @@
         $pdf->setLineStyle(1);
         $fontSize = 65;
         $ticket = (object) $ticket;
-        $label48 = base_path('public/image/49.jpg');
+        $label48 = base_path('public/image/50.jpg');
         $infoH-= $pdf->C2P(4.3);   
-        $pdf->addJpegFromFile($label48,$startW+$pdf->C2P(0.8),$infoH+$pdf->C2P(0.2),$pdf->C2P(7.5),$pdf->C2P(3));
+        $pdf->addJpegFromFile($label48,$startW+$pdf->C2P(0.8),$infoH+$pdf->C2P(0.5),$pdf->C2P(7.5),$pdf->C2P(3));
         $infoH+=$pdf->C2P(4.3);
         
         $fontSize = 11;
@@ -47,7 +47,7 @@
         //ticket no
        $pdf->setColor(255,0.00,0.00);
         $infoH -= $pdf->C2P(0.5); 
-        $pdf->addTextWrap($startW, $infoH-$pdf->C2P(0.4), $ticketW-$pdf->C2P(0.6), $fontSize+3, "<b>".$ticket->ticketNo."</b>",'right');
+        $pdf->addTextWrap($startW, $infoH-$pdf->C2P(0.2), $ticketW-$pdf->C2P(0.6), $fontSize+3, "<b>".$ticket->ticketNo."</b>",'right');
 
         //mem id / pb no
         $pdf->setColor(0,0,0,1);

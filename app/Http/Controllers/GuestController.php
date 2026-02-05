@@ -12,13 +12,14 @@ use App\Models\User;
 use App\Models\VerificationModel;
 use App\Models\VotesModel;
 use App\Models\SettingsModel;
+use App\Models\MembersModel;
 
 //Class
 use App\Classes\HelperClass;
 
 class GuestController extends Controller
 {
-    protected $data, $helper, $votersModel, $userModel, $verificationModel, $votesModel, $settingModel;
+    protected $data, $helper, $votersModel, $userModel, $verificationModel, $votesModel, $settingModel, $membersModel;
 
     public function __construct()
     {
@@ -29,6 +30,7 @@ class GuestController extends Controller
         $this->verificationModel = new VerificationModel();
         $this->votesModel = new VotesModel();
         $this->settingModel = new SettingsModel();
+        $this->membersModel = new MembersModel();
         $this->data = array();
     }
 
@@ -55,8 +57,8 @@ class GuestController extends Controller
         if(Session::has('VoterId')){
             $this->data["TitlePage"] = "NOVADECI Election";
             $this->data["VoterId"] = Session::get('VoterId');
-            $member = $this->votersModel->GetMember($this->data["VoterId"]);
-            $this->data["Pbno"] = !empty($member->Pbno) ? $member->Pbno : $member->MemberId;
+            $voter = $this->votersModel->GetMember($this->data["VoterId"]);
+            $this->data["email"] = $voter->Email;
             return view('Components.Guest.VoterLogin',$this->data);
         }else{
             return redirect('/');
@@ -148,7 +150,34 @@ class GuestController extends Controller
     }
 
     function SetVoterId(Request $request){
-        Session::put('VoterId', $request->id);
+        $result = array();
+        $voter = $this->votersModel->GetMember($request->id);
+        $email = "";
+        if(!empty($voter->Email)){
+            $email = $voter->Email;
+        }else{
+            $member = $this->membersModel->GetMember($voter->MemberId, $voter->Pbno, $voter->Branch);
+            $email = !empty($member) ? $member->email : "";
+            if(!empty($email)){ 
+                $this->votersModel->find($request->id)->update([
+                    "Email" => $email
+                ]);
+            } 
+        }
+
+        if(!empty($email)){
+            $result["status"] = "success";
+            $result["email"] = $email;
+            Session::put('VoterId', $request->id);
+            $this->votersModel->SendOTP($voter, 1);
+        }else{
+            $result["status"] = "failed";
+        }
+        return $result;
+    }
+
+    function ResendOtp(Request $request){
+        return $this->votersModel->SendOTP(null, 2, true, $request->voterId);
     }
 
     function VoterLogin(Request $request){

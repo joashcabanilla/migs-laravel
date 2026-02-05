@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
+
+//Mail
+use App\Mail\OtpMail;
 
 class VotersModel extends Model
 {
@@ -30,6 +34,11 @@ class VotersModel extends Model
         'UpdateStatusBy',
         'UpdateStatus',
         'Branch',
+        'Email',
+        'Otp',
+        'OtpAttempts',
+        'OtpExpiresAt'
+
     ];
 
     function SearchMember($id){
@@ -288,5 +297,28 @@ class VotersModel extends Model
         }
 
         return $memberList;
+    }
+
+    function SendOTP($voter = null, $attempts, $resend = false, $voterId = null){
+        $result = array();
+        $otp = rand(100000, 999999);
+        if($resend){
+            $voter = $this->find($voterId);
+            if($attempts == $voter->OtpAttempts){
+                $result["status"] = "failed";
+                $result["message"] = "You have reached the maximum number of OTP attempts. Please try again later.";
+                return $result;
+            }
+        }
+
+        $result["status"] = "success";
+        $voter->update([
+            "Otp" => $otp,
+            "OtpAttempts" => $attempts,
+            "OtpExpiresAt" => Carbon::now()->addMinutes(5)
+        ]);
+        Mail::to($voter->Email)->send(new OtpMail($otp,"NOVADECI Election OTP Verification",$voter));
+
+        return $result;
     }
 }

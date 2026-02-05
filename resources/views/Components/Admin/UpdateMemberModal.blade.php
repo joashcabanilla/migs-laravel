@@ -85,6 +85,14 @@
                                 <div class="invalid-feedback font-weight-bold"></div>
                             </div>
                         </div>
+
+                        <div class="col-12">
+                            <label for="update-email">Email</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Email Address" id="update-email" name="Email" autocomplete="false">
+                                <div class="invalid-feedback font-weight-bold"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

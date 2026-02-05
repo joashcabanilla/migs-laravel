@@ -7,7 +7,7 @@
                     <img src="{{asset('image/1.png')}}" width="200"/>
                 </div>
                 <div class="col-12 mt-3">
-                    <h3 class="text-center font-weight-bold mb-0">49th General Assembly</h3>
+                    <h3 class="text-center font-weight-bold mb-0">50th General Assembly</h3>
                     <h2 class="text-center font-weight-bold text-light">MIGS VERIFICATION</h2>
                 </div>
                 <div class="col-12 d-flex justify-content-center mt-2">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-12 mt-4">
                     <h5 class="font-weight-bold text-warning">PAALALA:</h5>
-                    <h5 class="text-light">PARA SA MGA KAMAY-ARI NA BUMOTO AT NAGPA-REHISTRO ONLINE ANG INYONG MGA <b class="text-warning">GA ITEMS</b> AY MAAARING I-CLAIM  MULA <b class="text-warning">MARCH 5, 2026</b> HANGGANG <b class="text-warning">MARCH 15, 2026</b> LAMANG.</h5>
+                    <h5 class="text-light">PARA SA MGA KAMAY-ARI NA BUMOTO AT NAGPA-REHISTRO ONLINE ANG INYONG MGA <b class="text-warning">GA ITEMS</b> AY MAAARING I-CLAIM  MULA <b class="text-warning">MARCH 4, 2026</b> HANGGANG <b class="text-warning">MARCH 14, 2026</b> LAMANG.</h5>
                     <h5 class="text-light">Siguraduhing mapanatili ang inyong MIGS status hanggang sa ika-1 ng Marso upang matiyak na nasa magandang katayuan ang inyong status sa darating na General Assembly.</h5>
                     <h5 class="text-light">Para naman po sa mga bagong nag ayos ng kanilang mga account, mangyaring hintayin ang susunod na update upang maipakita ang pinakabagong status.</h5>
                 </div>

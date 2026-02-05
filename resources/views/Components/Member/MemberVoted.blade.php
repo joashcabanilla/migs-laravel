@@ -13,7 +13,7 @@
             </div>
             <div class="col-12 d-flex justify-content-center">
                 <div class="card card-primary img-fluid elevation-3 mt-2 TicketPicture">
-                    <img class="TicketPictureSrc" src="{{asset('image/49th-ticket.jpg')}}" alt="Picture" width="100" height="100">
+                    <img class="TicketPictureSrc" src="{{asset('image/ticket.jpg')}}" alt="Picture" width="100" height="100">
                     <p class="text-monospace text-danger font-weight-bold m-0 ticketNoLabel">{{$ticketNo}}</p>
                 </div>
             </div>
@@ -39,7 +39,7 @@
     @if($f2f == "NO")
         <div class="row mt-3">
             <div class="col-12">
-                <p class="text-center text-indigo text-monospace mb-0">Here's your <a class="text-indigo text-monospace font-weight-bold">Zoom Credentials</a> for the 49th General Assembly Virtual Meeting to be held on</p>
+                <p class="text-center text-indigo text-monospace mb-0">Here's your <a class="text-indigo text-monospace font-weight-bold">Zoom Credentials</a> for the 50th General Assembly Virtual Meeting to be held on</p>
                 <p class="text-center text-indigo text-monospace font-weight-bold mb-1">{{$gaDate}}</p>
                 <p class="text-center text-monospace font-weight-bold mb-0">TIME</p>
                 <p class="text-center text-monospace font-weight-bold">{{$gaSched}}</p>
