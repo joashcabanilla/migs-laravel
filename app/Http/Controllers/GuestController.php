@@ -58,7 +58,7 @@ class GuestController extends Controller
             $this->data["TitlePage"] = "NOVADECI Election";
             $this->data["VoterId"] = Session::get('VoterId');
             $voter = $this->votersModel->GetMember($this->data["VoterId"]);
-            $this->data["email"] = $voter->Email;
+            $this->data["Pbno"] = !empty($voter->Pbno) ? $voter->Pbno : $voter->MemberId;
             return view('Components.Guest.VoterLogin',$this->data);
         }else{
             return redirect('/');
@@ -150,30 +150,30 @@ class GuestController extends Controller
     }
 
     function SetVoterId(Request $request){
-        $result = array();
-        $voter = $this->votersModel->GetMember($request->id);
-        $email = "";
-        if(!empty($voter->Email)){
-            $email = $voter->Email;
-        }else{
-            $member = $this->membersModel->GetMember($voter->MemberId, $voter->Pbno, $voter->Branch);
-            $email = !empty($member) ? $member->email : "";
-            if(!empty($email)){ 
-                $this->votersModel->find($request->id)->update([
-                    "Email" => $email
-                ]);
-            } 
-        }
+        Session::put('VoterId', $request->id);
+        // $email = "";
+        // if(!empty($voter->Email)){
+        //     $email = $voter->Email;
+        // }else{
+        //     $member = $this->membersModel->GetMember($voter->MemberId, $voter->Pbno, $voter->Branch);
+        //     $email = !empty($member) ? $member->email : "";
+        //     if(!empty($email)){ 
+        //         $this->votersModel->find($request->id)->update([
+        //             "Email" => $email
+        //         ]);
+        //     } 
+        // }
 
-        if(!empty($email)){
-            $result["status"] = "success";
-            $result["email"] = $email;
-            Session::put('VoterId', $request->id);
-            $this->votersModel->SendOTP($voter, 1);
-        }else{
-            $result["status"] = "failed";
-        }
-        return $result;
+        // if(!empty($email)){
+        //     $result["status"] = "success";
+        //     $result["email"] = $email;
+        //     Session::put('VoterId', $request->id);
+        //     $this->votersModel->SendOTP($voter, 1);
+        // }else{
+        //     $result["status"] = "failed";
+        // }
+        // return $result;
+        
     }
 
     function ResendOtp(Request $request){
@@ -190,5 +190,12 @@ class GuestController extends Controller
 
     function ElectionAuthentication(Request $request){
         return $this->userModel->ElectionAuthentication($request->password);
+    }
+
+    function ElectionLive(){
+        $data = array();
+        $data["TitlePage"] = "NOVADECI | Election Live";
+        
+        return view('Components.Guest.ElectionLive', $data);
     }
 }

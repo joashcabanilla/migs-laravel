@@ -10,35 +10,32 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="mb-2"><b>Sign into your account</b></h5>
-                    <p class="text-muted">An One-Time Password (OTP) has been sent to your registered email address: <b>{{ !empty($email) ? $email : 'No Email Found' }}</b></p>
+                    <h5 class="mb-3"><b>Sign into your account</b></h5>
                     <form id="voterForm" method="POST">
-                        <input type="hidden" name="VoterId" value="{{$VoterId}}">
-                        <input type="hidden" name="otp" id="otp">
-                        <div class="d-flex justify-content-between otp-inputs mb-3">
-                            <input type="text" name="otp1" class="form-control mr-2 text-center border-primary otp" maxlength="1">
-                            <input type="text" name="otp2" class="form-control mr-2 text-center border-primary otp" maxlength="1">
-                            <input type="text" name="otp3" class="form-control mr-2 text-center border-primary otp" maxlength="1">
-                            <input type="text" name="otp4" class="form-control mr-2 text-center border-primary otp" maxlength="1">
-                            <input type="text" name="otp5" class="form-control mr-2 text-center border-primary otp" maxlength="1">
-                            <input type="text" name="otp6" class="form-control text-center border-primary otp" maxlength="1">
+                        <label for="username">Pb No / Member Id</label>
+                        <div class="input-group mb-3">
+                            <input type="hidden" name="VoterId" value="{{$VoterId}}">
+                            <input type="text" class="form-control font-weight-bold" placeholder="Username" id="username" name="username" autocomplete="false" value="{{$Pbno}}" disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="d-none">Verify OTP</button>
+
+                        <label for="Birthdate">Birthdate</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control font-weight-bold" placeholder="mm/dd/yyyy" id="Birthdate" name="Birthdate" autocomplete="false" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <button type="submit" class="btn btn-primary btn-block font-weight-bold">Sign In</button>
+                            </div>
+                        </div>
                     </form>
-                    
-                    <div class="d-flex justify-content-center">
-                        <p class="text-muted text-center">
-                            Resend OTP in <span id="voterTimer">5:00</span>
-                        </p>
-                        <button id="resendOtpBtn" class="btn btn-primary font-weight-bold rounded d-none">
-                            RESEND
-                        </button>
-                    </div>
-
-                    <button id="backToVerifierBtn" class="btn btn-primary rounded mt-3 btn-block">
-                        <i class="fas fa-arrow-left mr-2"></i> Back to Verifier Page
-                    </button>
-
                 </div>
             </div>
         </div>

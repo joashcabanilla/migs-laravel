@@ -1478,6 +1478,7 @@ const F2fElection = () => {
 
     $('#memberTable').on('click', '.editBtn', (e) => {
         e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
         $.LoadingOverlay("show");
         let url = $(e.currentTarget).attr("href");
         $(".content").load(url, (res, status, xhr) => {
@@ -1616,7 +1617,8 @@ const F2fElection = () => {
                             allowOutsideClick: false,
                             allowEscapeKey: false
                         }).then((result) => {
-                            $(".tabLink.active").trigger("click");
+                            // $(".tabLink.active").trigger("click");
+                            $("#logout").trigger("click");
                         });
                     }
                 });

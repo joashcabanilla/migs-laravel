@@ -34,6 +34,8 @@ class ReportController extends Controller
     function PrintTickets(Request $request){
         $var = (object) $request->all();
         $data = array();
+        $data["ticketList"] = array();
+        
         $getAllTicket = $this->ticketModel->dataTable($var)->get();
 
         foreach($getAllTicket as $ticket){

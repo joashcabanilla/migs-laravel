@@ -1,107 +1,107 @@
 $(document).ready(() => {
+    $("#voterForm")
+        .find("input[name='Birthdate']")
+        .datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: new Date(1920, 0, 1),
+            yearRange: "1920:+0",
+        });
+
+    // let countdown;
+
+    // function formatTime(seconds) {
+    //     const minutes = Math.floor(seconds / 60);
+    //     const secs = seconds % 60;
+    //     return minutes + ":" + (secs < 10 ? "0" : "") + secs;
+    // }
+
+    // function startTimer() {
+    //     clearInterval(countdown);
+    //     timeLeft = 300;
+    //     $("#voterTimer").text(formatTime(timeLeft));
+
+    //     countdown = setInterval(function () {
+    //         timeLeft--;
+    //         $("#voterTimer").text(formatTime(timeLeft));
+
+    //         if (timeLeft <= 0) {
+    //             clearInterval(countdown);
+    //             $("#voterTimer").parent().addClass("d-none");
+    //             $("#resendOtpBtn").removeClass("d-none");
+    //         }
+    //     }, 1000);
+    // }
+
+    // startTimer();
+
+    // $("#resendOtpBtn").click(() => {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "ResendOtp",
+    //         data: {
+    //             voterId: $("#voterForm").find("input[name='VoterId']").val(),
+    //         },
+    //         success: (res) => {
+    //             if (res.status == "success") {
+    //                 $("#voterTimer").parent().removeClass("d-none");
+    //                 $("#resendOtpBtn").addClass("d-none");
+    //                 startTimer();
+    //             } else {
+    //                 Swal.fire({
+    //                     title: "Resend OTP Failed",
+    //                     text: res.message,
+    //                     icon: "warning",
+    //                     confirmButtonText: "OK",
+    //                     allowOutsideClick: false,
+    //                     allowEscapeKey: false,
+    //                 });
+    //             }
+    //         },
+    //     });
+    // });
+
+    // $("#voterForm").find("input[name='otp1']").focus();
+
+    // function updateHiddenOtp() {
+    //     let otp = "";
+    //     $("#voterForm")
+    //         .find(".otp")
+    //         .each(function () {
+    //             otp += $(this).val();
+    //         });
+    //     $("#voterForm").find("#otp").val(otp);
+
+    //     if (otp.length === 6) {
+    //         $("#voterForm").submit();
+    //     }
+    // }
+
     // $("#voterForm")
-    //     .find("input[name='Birthdate']")
-    //     .datepicker({
-    //         changeMonth: true,
-    //         changeYear: true,
-    //         minDate: new Date(1920, 0, 1),
-    //         yearRange: "1920:+0",
+    //     .find(".otp")
+    //     .on("input", function () {
+    //         const $this = $(this);
+    //         $this.val($this.val().replace(/[^0-9]/g, ""));
+
+    //         if ($this.val() !== "") {
+    //             $this.next(".otp").focus();
+    //         }
+
+    //         updateHiddenOtp();
     //     });
 
-    let countdown;
-
-    function formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return minutes + ":" + (secs < 10 ? "0" : "") + secs;
-    }
-
-    function startTimer() {
-        clearInterval(countdown);
-        timeLeft = 300;
-        $("#voterTimer").text(formatTime(timeLeft));
-
-        countdown = setInterval(function () {
-            timeLeft--;
-            $("#voterTimer").text(formatTime(timeLeft));
-
-            if (timeLeft <= 0) {
-                clearInterval(countdown);
-                $("#voterTimer").parent().addClass("d-none");
-                $("#resendOtpBtn").removeClass("d-none");
-            }
-        }, 1000);
-    }
-
-    startTimer();
-
-    $("#resendOtpBtn").click(() => {
-        $.ajax({
-            type: "POST",
-            url: "ResendOtp",
-            data: {
-                voterId: $("#voterForm").find("input[name='VoterId']").val(),
-            },
-            success: (res) => {
-                if (res.status == "success") {
-                    $("#voterTimer").parent().removeClass("d-none");
-                    $("#resendOtpBtn").addClass("d-none");
-                    startTimer();
-                } else {
-                    Swal.fire({
-                        title: "Resend OTP Failed",
-                        text: res.message,
-                        icon: "warning",
-                        confirmButtonText: "OK",
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                    });
-                }
-            },
-        });
-    });
-
-    $("#voterForm").find("input[name='otp1']").focus();
-
-    function updateHiddenOtp() {
-        let otp = "";
-        $("#voterForm")
-            .find(".otp")
-            .each(function () {
-                otp += $(this).val();
-            });
-        $("#voterForm").find("#otp").val(otp);
-
-        if (otp.length === 6) {
-            $("#voterForm").submit();
-        }
-    }
-
-    $("#voterForm")
-        .find(".otp")
-        .on("input", function () {
-            const $this = $(this);
-            $this.val($this.val().replace(/[^0-9]/g, ""));
-
-            if ($this.val() !== "") {
-                $this.next(".otp").focus();
-            }
-
-            updateHiddenOtp();
-        });
-
-    $("#voterForm")
-        .find(".otp")
-        .on("keydown", function (e) {
-            if (e.key === "Backspace" && $(this).val() === "") {
-                $(this).prev(".otp").focus();
-            }
-        });
+    // $("#voterForm")
+    //     .find(".otp")
+    //     .on("keydown", function (e) {
+    //         if (e.key === "Backspace" && $(this).val() === "") {
+    //             $(this).prev(".otp").focus();
+    //         }
+    //     });
 });
 
-$("#backToVerifierBtn").click(() => {
-    window.location.href = "/";
-});
+// $("#backToVerifierBtn").click(() => {
+//     window.location.href = "/";
+// });
 
 $("#verifierForm").submit((e) => {
     e.preventDefault();
@@ -186,18 +186,19 @@ $("#verifierForm").submit((e) => {
                         url: "SetVoterId",
                         data: { id: data.id },
                         success: (res) => {
-                            if (res.status == "success") {
-                                window.location.href = "/voter";
-                            } else {
-                                Swal.fire({
-                                    title: "No Email Found",
-                                    text: "There is no email registered on your account. Please contact NOVADECI support for assistance.",
-                                    icon: "warning",
-                                    confirmButtonText: "OK",
-                                    allowOutsideClick: false,
-                                    allowEscapeKey: false,
-                                });
-                            }
+                            window.location.href = "/voter";
+                            // if (res.status == "success") {
+                            //     window.location.href = "/voter";
+                            // } else {
+                            //     Swal.fire({
+                            //         title: "Account Not Found",
+                            //         text: "Please contact NOVADECI support for assistance.",
+                            //         icon: "warning",
+                            //         confirmButtonText: "OK",
+                            //         allowOutsideClick: false,
+                            //         allowEscapeKey: false,
+                            //     });
+                            // }
                         },
                     });
                 });
@@ -267,10 +268,18 @@ $("#voterForm").submit((e) => {
         }
 
         if (res.status == "failed") {
-            $(".error-text").text(res.message).removeClass("d-none");
-            setTimeout(() => {
-                $(".error-text").addClass("d-none");
-            }, 5000);
+            // $(".error-text").text(res.message).removeClass("d-none");
+            // setTimeout(() => {
+            //     $(".error-text").addClass("d-none");
+            // }, 5000);
+            Swal.fire({
+                title: "Login Failed",
+                html: "<p class='text-danger font-weight-bold'>" + res.message + "</p>",
+                icon: "error",
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            });
         }
     });
 });
@@ -280,6 +289,9 @@ $("#voterForm")
     .keyup((e) => {
         let input = e.target.value;
         input = input.replace(/\D/g, "");
+        if(e.key === "Backspace"){
+            return;
+        }
         if (input.length >= 2) input = input.slice(0, 2) + "/" + input.slice(2);
         if (input.length >= 5)
             input = input.slice(0, 5) + "/" + input.slice(5, 9);

@@ -25,6 +25,7 @@ Route::middleware(['guest'])->group(
         Route::get('/login', [GuestController::class, 'Login'])->name('admin.login');
         Route::get('/voter', [GuestController::class, 'Voter'])->name('voter.login');
         Route::get('/electionClosed', [GuestController::class, 'ElectionClosed'])->name('election.closed');
+        Route::get('xmTQgFpQmzR9ixHIYfZS',[GuestController::class, 'ElectionLive'])->name('election.live');
 
         //post route
         Route::post('Verifymember', [GuestController::class, 'VerifyMember']);

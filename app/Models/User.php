@@ -160,44 +160,78 @@ class User extends Authenticatable implements MustVerifyEmail
     private function MemberLogin($data,$memberData, $ip){
         $result = array();
         $result["status"] = "failed";
-        
-        $username = $data["VoterId"]."-".$memberData["FirstName"];
 
-        if($memberData["OtpExpiresAt"] < Carbon::now()){
-            $result["message"] = "OTP has expired.";
+        $countSameIp = $this->where("LastIp", $ip)->where("UserType", 5)->count();
+        if($countSameIp >= 3){
+            $result["message"] = "To ensure fair voting, only 3 votes are allowed per IP address. You have already reached the maximum number of votes allowed.";
             return $result;
-        }else{
-            if($data["otp"] != $memberData["Otp"]){
-                $result["message"] = "Incorrect OTP.";
-                return $result;
-            }else{
-                $user = $this->where("username",$username)->first();
-                $result["status"] = "success";
-                if(!empty($user)){
-                    Auth::login($user);
-                    $user->update([
-                        'LastLogin' => Carbon::now(),
-                        'LastIp' => $ip  
-                    ]);
-                }else{
-                    $user = $this->create([
-                        "UserType" => 5,
-                        "FirstName" => $memberData["FirstName"],
-                        "MiddleName" => $memberData["MiddleName"],
-                        "LastName" => $memberData["LastName"],
-                        "Branch" => $memberData["Branch"],
-                        "username" => $username,
-                        "password" => Hash::make($username),
-                    ]);
-                    Auth::login($user);
-                    $user->update([
-                        'LastLogin' => Carbon::now(),
-                        'LastIp' => $ip
-                    ]);
-                }
-            }
         }
+
+        $inputedBirthdate = date("Y-m-d", strtotime($data["Birthdate"]));
+        $memberBirthdate  = date("Y-m-d", strtotime($memberData["Birthdate"]));
+        if($inputedBirthdate != $memberBirthdate){
+            $result["message"] = "Incorrect Birthdate";
+            return $result; 
+        }
+        
+        $username = "VoterID-".$data["VoterId"];
+        $user = $this->where("username",$username)->first();
+        if(empty($user)){
+             $user = $this->create([
+                "UserType" => 5,
+                "FirstName" => $memberData["FirstName"],
+                "MiddleName" => $memberData["MiddleName"],
+                "LastName" => $memberData["LastName"],
+                "Branch" => $memberData["Branch"],
+                "username" => $username,
+                "password" => Hash::make($username),
+            ]);
+        }
+
+        Auth::login($user);
+        $user->update([
+            'LastLogin' => Carbon::now(),
+            'LastIp' => $ip  
+        ]);
+        
+        $result["status"] = "success";
         return $result;
+
+
+        // if($memberData["OtpExpiresAt"] < Carbon::now()){
+        //     $result["message"] = "OTP has expired.";
+        //     return $result;
+        // }else{
+        //     if($data["otp"] != $memberData["Otp"]){
+        //         $result["message"] = "Incorrect OTP.";
+        //         return $result;
+        //     }else{
+        //         $user = $this->where("username",$username)->first();
+        //         $result["status"] = "success";
+        //         if(!empty($user)){
+        //             Auth::login($user);
+        //             $user->update([
+        //                 'LastLogin' => Carbon::now(),
+        //                 'LastIp' => $ip  
+        //             ]);
+        //         }else{
+        //             $user = $this->create([
+        //                 "UserType" => 5,
+        //                 "FirstName" => $memberData["FirstName"],
+        //                 "MiddleName" => $memberData["MiddleName"],
+        //                 "LastName" => $memberData["LastName"],
+        //                 "Branch" => $memberData["Branch"],
+        //                 "username" => $username,
+        //                 "password" => Hash::make($username),
+        //             ]);
+        //             Auth::login($user);
+        //             $user->update([
+        //                 'LastLogin' => Carbon::now(),
+        //                 'LastIp' => $ip
+        //             ]);
+        //         }
+        //     }
+        // }
     }
 
     function VoterLogin($data, $validation, $ip){
