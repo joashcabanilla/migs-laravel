@@ -48,7 +48,7 @@
                             <div class="col-12 mt-3">
                                 <h4 class="text-warning"><i class="text-light">Example format for</i> PB number "001234" no Dash(-), kapag may letra naman "N001234" <br /><i class="text-light">at kung</i> Member ID "0010000000123456",<br /><i class="text-light"> ang i lalagay lang ang</i> 123456</h4>
 
-						        <h5 class="text-light font-weight-bold">Note:Priority ang Old Passbook sa pag verify</h5>
+						        <h5 class="text-light font-weight-bold">Note: Priority ang Old Passbook sa pag verify</h5>
                             </div>
                         </div>
                     </form>
