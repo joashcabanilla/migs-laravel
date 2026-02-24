@@ -18,16 +18,16 @@
                     <h6 class="font-weight-bold text-warning m-0 mr-2 mt-1">MIGS CUT OFF DATE:</h6>
                     <h6 class="font-weight-bold m-0 bg-info rounded p-1">NOVEMBER 29, 2025</h6>
                 </div>
-                <div class="col-12 mt-4">
+                <div class="col-12 mt-4 d-none">
                     <h5 class="font-weight-bold text-warning">PAALALA:</h5>
                     <h5 class="text-light">PARA SA MGA KAMAY-ARI NA BUMOTO AT NAGPA-REHISTRO ONLINE ANG INYONG MGA <b class="text-warning">GA ITEMS</b> AY MAAARING I-CLAIM  MULA <b class="text-warning">MARCH 9, 2026</b> HANGGANG <b class="text-warning">MARCH 14, 2026</b> LAMANG.</h5>
                     {{-- <h5 class="text-light">Siguraduhing mapanatili ang inyong MIGS status hanggang sa ika-1 ng Marso upang matiyak na nasa magandang katayuan ang inyong status sa darating na General Assembly.</h5>
                     <h5 class="text-light">Para naman po sa mga bagong nag ayos ng kanilang mga account, mangyaring hintayin ang susunod na update upang maipakita ang pinakabagong status.</h5> --}}
                 </div>
                 <div class="col-12 mt-2">
-                    <h5 class="text-light">PARA NAMAN SA MGA KASAPI NA NASA IBANG LUGAR O HINDI MAKAKAPUNTA, MAAARING IPAKUHA ANG INYONG MGA <b class="text-warning">GA ITEMS.</b> MAGDALA LAMANG NG <b class="text-warning">AUTHORIZATION LETTER</b> AT <b class="text-warning">PHOTO COPY</b> NG INYONG VALID ID. MAAARI DIN I-CLAIM HANGGANG <b class="text-warning">MARCH 14, 2025</b> LAMANG.</h5>
+                    {{-- <h5 class="text-light">PARA NAMAN SA MGA KASAPI NA NASA IBANG LUGAR O HINDI MAKAKAPUNTA, MAAARING IPAKUHA ANG INYONG MGA <b class="text-warning">GA ITEMS.</b> MAGDALA LAMANG NG <b class="text-warning">AUTHORIZATION LETTER</b> AT <b class="text-warning">PHOTO COPY</b> NG INYONG VALID ID. MAAARI DIN I-CLAIM HANGGANG <b class="text-warning">MARCH 14, 2025</b> LAMANG.</h5> --}}
 
-                    <h5 class="text-warning font-weight-bold mb-0 d-none">MIGS verifier records as of November 29, 2025.</h5>
+                    <h5 class="text-warning font-weight-bold mb-0 mt-4">MIGS verifier records as of February 18, 2026.</h5>
                 </div>
                 <div class="col-12">
                     <hr class="bg-light" />

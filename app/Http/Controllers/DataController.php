@@ -34,14 +34,15 @@ class DataController extends Controller
                 $member =  (array) str_getcsv($data);
                 try {
                     $insertData[] = [
-                        "MemberId" => $member[0],
-                        "Pbno" => $member[1],
+                        "Pbno" => $member[0],
+                        "MemberId" => $member[1],
                         "FirstName" => $member[2],
                         "MiddleName" => $member[3],
                         "LastName" => $member[4],
-                        "Branch" => $member[5],
-                        "Status" => $member[6],
-                        "MembershipDate" => $this->isValidDate($member[7]) ? date("Y-m-d", strtotime($member[7])) : Carbon::now()->format('Y-m-d'),
+                        "Birthdate" => $this->isValidDate($member[5]) ? date("Y-m-d", strtotime($member[5])) : Carbon::now()->format('Y-m-d'),
+                        "MembershipDate" => $this->isValidDate($member[6]) ? date("Y-m-d", strtotime($member[6])) : Carbon::now()->format('Y-m-d'),
+                        "Status" => $member[7],
+                        "Branch" => $member[8],
                         "created_at" => Carbon::now()
                     ];
                     $totalRecords++;

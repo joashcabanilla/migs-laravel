@@ -29,7 +29,6 @@ Route::middleware(['guest'])->group(
 
         //post route
         Route::post('Verifymember', [GuestController::class, 'VerifyMember']);
-        Route::post('Verifymember', [GuestController::class, 'VerifyMember']);
         Route::post('Nonmigschangestatus', [GuestController::class, 'Nonmigschangestatus']);
         Route::post('Login', [GuestController::class, 'PostLogin']);
         Route::post('SetVoterId', [GuestController::class, 'SetVoterId']);
