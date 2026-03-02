@@ -10,7 +10,8 @@ class HelperClass
 {
     function BranchContactList(){
         return [
-            "0933-8673-769 / 0917-8766-796 (Tsora Office)",
+            // "0933-8673-769 / 0917-8766-796 (Tsora Office)",
+            "0917-8766-796 (Tsora Office)"
             "0917-6219-412 / (2)7115041 (Bulacan Office)",
             "0917-6233-640 / 0917-8766-794 (Fairview Office)",
             "0917-8350-689 / 0933-8673-779 (Kiko Office)",
