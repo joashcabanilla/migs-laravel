@@ -1617,8 +1617,8 @@ const F2fElection = () => {
                             allowOutsideClick: false,
                             allowEscapeKey: false
                         }).then((result) => {
-                            // $(".tabLink.active").trigger("click");
-                            $("#logout").trigger("click");
+                            $(".tabLink.active").trigger("click");
+                            // $("#logout").trigger("click");
                         });
                     }
                 });

@@ -84,7 +84,7 @@
     </head>
 
     <body>
-        <div class="wrapper">  
+        <div class="container-fluid p-0 m-0">  
             @yield('content')
         </div>
     </body>
@@ -137,6 +137,8 @@
         fontawesomeColor: "#343a40",
         image: "",
         });   
+        
+        var intervalId = {};
     </script>
     
     {{--script for page --}}

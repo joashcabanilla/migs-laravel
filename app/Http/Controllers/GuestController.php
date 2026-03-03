@@ -195,7 +195,11 @@ class GuestController extends Controller
     function ElectionLive(){
         $data = array();
         $data["TitlePage"] = "NOVADECI | Election Live";
-        
+        $data["result"] = $this->votesModel->GetElectionLiveResults();
         return view('Components.Guest.ElectionLive', $data);
+    }
+
+    function DashboardLive(){
+        return redirect()->route('election.live');
     }
 }

@@ -218,4 +218,64 @@ class VotesModel extends Model
                         ->groupBy("VoterId","VoteF2F","StaffName")->get();
         return number_format(count($countVote));
     }
+
+    function GetElectionLiveResults(){
+        $result = $positions = $votes = $voteTally = $totalVotePerPosition = array();
+        
+        $positionList = DB::table("positions")->get();
+        foreach($positionList as $position){
+            $description = $position->Description;
+            switch($description){
+                case "BOARD OF DIRECTORS":
+                    $code = "BOD";
+                break;
+                case "AUDIT COMMITTEE":
+                    $code = "AC";
+                break;
+                case "ELECTION COMMITTEE":
+                    $code = "EC";
+                break;
+            }
+
+            $positions[$position->Id] = [
+                "description" => $description,
+                "code" => $code
+            ];
+        }
+
+        $voteList = $this->select("Candidate", DB::raw("COUNT(*) as totalVotes"))->groupBy("Candidate")->get();
+        foreach($voteList as $vote){
+            $votes[$vote->Candidate] = $vote->totalVotes;
+        }
+
+        $candidateList = DB::table("candidates")->get();
+        foreach($candidateList as $candidate){
+            if(!isset($voteTally[$candidate->Position])){
+                $candidateCtr = 0;
+            }
+            $candidateCtr++;
+
+            $totalVote = isset($votes[$candidate->Id]) ? $votes[$candidate->Id] : 0;
+            $voteTally[$candidate->Position][$candidate->Id] = [
+                    "name" => $candidate->FirstName." ".$candidate->MiddleName." ".$candidate->LastName,
+                    "codeName" => $positions[$candidate->Position]["code"]."".$candidateCtr,
+                    "vote" => $totalVote, 
+            ];
+
+            $totalVotePerPosition[$candidate->Position] = isset($totalVotePerPosition[$candidate->Position]) ? $totalVotePerPosition[$candidate->Position] + $totalVote : $totalVote;
+        }
+        
+        foreach($voteTally as &$votePerPosition){
+            usort($votePerPosition, function($first, $second){
+               return $second['vote'] <=> $first['vote'];
+            });
+        }
+        unset($votePerPosition);
+        
+        $result["voteTally"] = $voteTally;    
+        $result["positions"] = $positions;
+        $result["totalVotePerPosition"] = $totalVotePerPosition;
+
+        return $result;
+    }
 }
