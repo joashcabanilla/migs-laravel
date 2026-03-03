@@ -28,7 +28,7 @@
                             <td class="p-2 align-middle">
                                 <div class="progress rounded-pill {{$percentage > 0 ?: 'position-relative'}}" style="height: 40px;">
                                     <div class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100">
-                                        <h5 class="font-weight-bold m-0 p-1 {{$percentage > 0 ?: 'position-absolute w-100 text-center text-dark'}}">{{$percentage}}%</h5>
+                                        <h5 class="font-weight-bold m-0 p-1 {{$percentage > 0 ?: 'position-absolute w-100 text-center text-dark'}}">{{$percentage > 0 ? $percentage . '%' : '0%'}}</h5>
                                     </div>
                                 </div>
                             </td>
