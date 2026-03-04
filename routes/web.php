@@ -36,6 +36,7 @@ Route::middleware(['guest'])->group(
         Route::post('VoterLogin', [GuestController::class, 'VoterLogin']);
         Route::post('ElectionAuthentication', [GuestController::class, 'ElectionAuthentication']);
         Route::post('ResendOtp', [GuestController::class, 'ResendOtp']);
+        Route::post('ElectionLiveData', [GuestController::class, 'ElectionLiveData']);
     }
 );
 

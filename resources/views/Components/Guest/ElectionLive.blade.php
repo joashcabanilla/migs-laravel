@@ -8,7 +8,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-6">
+                <div class="col-12 col-md-12 col-lg-6 cardBOD">
                     {{-- BOD TABLE --}}
                     @include("Components.Guest.ElectionLiveCard", [
                         "positionDescription" => $result["positions"][1]["description"],
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-12 col-md-12 col-lg-6">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 cardAC">
                             {{-- AC TABLE --}}
                             @include("Components.Guest.ElectionLiveCard", [
                                 "positionDescription" => $result["positions"][2]["description"],
@@ -26,7 +26,7 @@
                                 "result" => $result
                             ])
                         </div>
-                        <div class="col-12 mt-2">
+                        <div class="col-12 mt-2 cardEC">
                             {{-- EC TABLE --}}
                             @include("Components.Guest.ElectionLiveCard", [
                                 "positionDescription" => $result["positions"][3]["description"],

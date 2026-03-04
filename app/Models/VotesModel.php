@@ -265,6 +265,14 @@ class VotesModel extends Model
             $totalVotePerPosition[$candidate->Position] = isset($totalVotePerPosition[$candidate->Position]) ? $totalVotePerPosition[$candidate->Position] + $totalVote : $totalVote;
         }
         
+        foreach($voteTally as $positionId => $candidates){
+            foreach($candidates as $candidateId => $candidate){
+                $percentage = $totalVotePerPosition[$positionId] > 0 ? number_format($candidate["vote"] / $totalVotePerPosition[$positionId] * 100, 2) : 0;
+                $voteTally[$positionId][$candidateId]["percentage"] = $percentage;
+            }
+        }
+
+        //sorting candidates per position based on votes in descending order
         foreach($voteTally as &$votePerPosition){
             usort($votePerPosition, function($first, $second){
                return $second['vote'] <=> $first['vote'];
@@ -274,8 +282,6 @@ class VotesModel extends Model
         
         $result["voteTally"] = $voteTally;    
         $result["positions"] = $positions;
-        $result["totalVotePerPosition"] = $totalVotePerPosition;
-
         return $result;
     }
 }

@@ -4,7 +4,7 @@
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table id="bodTable" class="table m-0">
+            <table class="table m-0">
                 <thead>
                     <tr>
                         <th class="p-2 text-center align-middle" style="width: 30%;">
@@ -17,18 +17,15 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($result["voteTally"][$positionId] as $candidate)
-                        @php
-                            $percentage = $result["totalVotePerPosition"][$positionId] > 0 ? number_format($candidate["vote"] / $result["totalVotePerPosition"][$positionId] * 100, 2) : 0;
-                        @endphp
+                    @foreach ($result["voteTally"][$positionId] as $key => $candidate)
                         <tr>
                             <td class="p-2 text-center align-middle">
-                                <h4 class="font-weight-bold m-0 p-0">{{$candidate["codeName"]}}</h4>
+                                <h4 class="font-weight-bold m-0 p-0 candidateCodeName{{$key}}">{{$candidate["codeName"]}}</h4>
                             </td>
                             <td class="p-2 align-middle">
-                                <div class="progress rounded-pill {{$percentage > 0 ?: 'position-relative'}}" style="height: 40px;">
-                                    <div class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{$percentage}}%" aria-valuenow="{{$percentage}}" aria-valuemin="0" aria-valuemax="100">
-                                        <h5 class="font-weight-bold m-0 p-1 {{$percentage > 0 ?: 'position-absolute w-100 text-center text-dark'}}">{{$percentage > 0 ? $percentage . '%' : '0%'}}</h5>
+                                <div class="progress rounded-pill {{(float)$candidate["percentage"] > 0 ?: 'position-relative'}}" style="height: 40px;">
+                                    <div class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:{{$candidate["percentage"]}}%" aria-valuenow="{{$candidate["percentage"]}}" aria-valuemin="0" aria-valuemax="100">
+                                        <h5 class="candidatePercentage{{$key}} font-weight-bold m-0 p-1 {{(float)$candidate["percentage"] > 0 ?: 'position-absolute w-100 text-center text-dark'}}">{{(float)$candidate["percentage"] > 0 ? $candidate["percentage"] . '%' : '0%'}}</h5>
                                     </div>
                                 </div>
                             </td>

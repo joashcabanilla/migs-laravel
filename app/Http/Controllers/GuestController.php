@@ -202,4 +202,8 @@ class GuestController extends Controller
     function DashboardLive(){
         return redirect()->route('election.live');
     }
+
+    function ElectionLiveData(){
+        return $this->votesModel->GetElectionLiveResults();
+    }
 }
