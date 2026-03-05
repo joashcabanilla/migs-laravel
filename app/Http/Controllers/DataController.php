@@ -39,7 +39,7 @@ class DataController extends Controller
                         "FirstName" => $member[2],
                         "MiddleName" => $member[3],
                         "LastName" => $member[4],
-                        "Birthdate" => $this->isValidDate($member[5]) ? date("Y-m-d", strtotime($member[5])) : Carbon::now()->format('Y-m-d'),
+                        "Birthdate" => $this->isValidDate($member[5]) ? date("Y-m-d", strtotime($member[5])) : null,
                         "MembershipDate" => $this->isValidDate($member[6]) ? date("Y-m-d", strtotime($member[6])) : Carbon::now()->format('Y-m-d'),
                         "Status" => $member[7],
                         "Branch" => $member[8],
