@@ -169,7 +169,6 @@ $("#verifierForm").submit((e) => {
                 }
 
                 if (res.settingStatus.election == "CLOSED") {
-                    membercard.find(".voteBtn").next().remove();
                     membercard.find(".voteBtn").remove();
                 }
 
