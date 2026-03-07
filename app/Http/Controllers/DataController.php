@@ -28,23 +28,36 @@ class DataController extends Controller
         $parseData = preg_split('/\r\n|\n|\r/', $csvData);
         $totalRecords = 0;
 
+        $tableData = array();
+        $tableList = DB::table($request->tablename)->get();
+        foreach($tableList as $dbData){
+            $tableData[] = $dbData->Pbno . "-" . $dbData->MemberId . "-" . $dbData->Branch . "-" . date("Y-m-d", strtotime($dbData->MembershipDate));
+        }
+
         logger("Starting CSV file parsing.");
         foreach ($parseData as $rowNumber => $data) {
            if($rowNumber > 0){
                 $member =  (array) str_getcsv($data);
                 try {
-                    $insertData[] = [
-                        "Pbno" => $member[0],
-                        "MemberId" => $member[1],
-                        "FirstName" => $member[2],
-                        "MiddleName" => $member[3],
-                        "LastName" => $member[4],
-                        "Birthdate" => $this->isValidDate($member[5]) ? date("Y-m-d", strtotime($member[5])) : null,
-                        "MembershipDate" => $this->isValidDate($member[6]) ? date("Y-m-d", strtotime($member[6])) : Carbon::now()->format('Y-m-d'),
-                        "Status" => $member[7],
-                        "Branch" => $member[8],
-                        "created_at" => Carbon::now()
-                    ];
+                    $membershipDate = $this->isValidDate($member[6]) ? date("Y-m-d", strtotime($member[6])) : Carbon::now()->format('Y-m-d');
+                    
+                    $tableDataKey = $member[0] . "-" . $member[1] . "-" . $member[8] . "-" . $membershipDate;
+                    
+                    if(!in_array($tableDataKey, $tableData)){
+                        $insertData[] = [
+                            "Pbno" => $member[0],
+                            "MemberId" => $member[1],
+                            "FirstName" => $member[2],
+                            "MiddleName" => $member[3],
+                            "LastName" => $member[4],
+                            "Birthdate" => $this->isValidDate($member[5]) ? date("Y-m-d", strtotime($member[5])) : null,
+                            "MembershipDate" => $membershipDate,
+                            "Status" => $member[7],
+                            "Branch" => $member[8],
+                            "created_at" => Carbon::now()
+                        ];
+                    }
+                    
                     $totalRecords++;
                 } catch (\Exception $e) {
                     logger("Skipping invalid row #{$rowNumber}: " . json_encode($member));
