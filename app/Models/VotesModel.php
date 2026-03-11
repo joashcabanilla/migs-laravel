@@ -248,17 +248,12 @@ class VotesModel extends Model
             $votes[$vote->Candidate] = $vote->totalVotes;
         }
 
-        $candidateList = DB::table("candidates")->get();
-        foreach($candidateList as $candidate){
-            if(!isset($voteTally[$candidate->Position])){
-                $candidateCtr = 0;
-            }
-            $candidateCtr++;
-
+        $candidateList = DB::table("candidates")->inRandomOrder()->get();
+        foreach($candidateList as $candidateKey => $candidate){
             $totalVote = isset($votes[$candidate->Id]) ? $votes[$candidate->Id] : 0;
             $voteTally[$candidate->Position][$candidate->Id] = [
                     "name" => $candidate->FirstName." ".$candidate->MiddleName." ".$candidate->LastName,
-                    "codeName" => $positions[$candidate->Position]["code"]."".$candidateCtr,
+                    "codeName" => $positions[$candidate->Position]["code"]."". ($candidateKey + 1),
                     "vote" => $totalVote, 
             ];
 

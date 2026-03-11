@@ -20,7 +20,7 @@
                     @foreach ($result["voteTally"][$positionId] as $key => $candidate)
                         <tr>
                             <td class="p-2 text-center align-middle">
-                                <h4 class="font-weight-bold m-0 p-0 candidateCodeName{{$key}}">{{$candidate["codeName"]}}</h4>
+                                <h4 class="font-weight-bold m-0 p-0 candidateCodeName{{$key}}"><i class="fas fa-user-circle fa-2x text-success"></i></h4>
                             </td>
                             <td class="p-2 align-middle">
                                 <div class="progress rounded-pill {{(float)$candidate["percentage"] > 0 ?: 'position-relative'}}" style="height: 40px;">

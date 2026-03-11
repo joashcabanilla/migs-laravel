@@ -14,9 +14,9 @@ $(document).ready(() => {
                 Object.entries(positions).forEach(([positionId, position]) => {
                     let tableBody = $(".card" + position.code).find("tbody");
                     voteTally[positionId].forEach((candidate, key) => {
-                        tableBody
-                            .find(".candidateCodeName" + key)
-                            .text(candidate.codeName);
+                        // tableBody
+                        //     .find(".candidateCodeName" + key)
+                        //     .text(candidate.codeName);
 
                         let percentageElement = tableBody.find(
                             ".candidatePercentage" + key,
