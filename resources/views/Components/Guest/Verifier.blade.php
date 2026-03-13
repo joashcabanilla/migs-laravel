@@ -69,7 +69,7 @@
 
                 </div>
                 <h3 class=" text-center font-weight-bold status"></h3>
-                <h3 class='text-center font-weight-bold voteBtn d-none'>>>> Click here to view your TICKET & ZOOM CREDENTIALS <<<</h3>  
+                <h3 class='text-center font-weight-bold voteBtn d-none'>>>> VIEW YOUR TICKET & ZOOM CREDENTIALS <<<</h3>  
                 <div class="d-none justify-content-center">
                     <h5 class="font-weight-bold mr-2">Makipag ugnayan sa inyong account officer(AO)</h5>
                     <h5 class="font-weight-bold nonMigs">>> Please click here <<</h5>
