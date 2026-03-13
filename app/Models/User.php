@@ -157,12 +157,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->where("UserType", "!=", "5")->get();
     }
 
-    private function MemberLogin($data,$memberData, $ip){
+    private function MemberLogin($data,$memberData, $ip, $voted = false){
         $result = array();
         $result["status"] = "failed";
 
         $countSameIp = $this->where("LastIp", $ip)->where("UserType", 5)->count();
-        if($countSameIp >= 3){
+        if($countSameIp >= 3 && !$voted){
             $result["message"] = "To ensure fair voting, only 3 votes are allowed per IP address. You have already reached the maximum number of votes allowed.";
             return $result;
         }
@@ -242,7 +242,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $gaDate = date("Y-m-d", strtotime($validation["settingStatus"]["gaDate"]));
 
         if($validation["voteData"] > 0){
-            return $this->MemberLogin($data,$validation["memberData"],$ip);
+            return $this->MemberLogin($data,$validation["memberData"],$ip, true);
         }
 
         if($validation["settingStatus"]["election"] == "OPEN" && $dateToday != $gaDate){
